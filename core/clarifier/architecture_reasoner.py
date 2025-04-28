@@ -706,38 +706,42 @@ class ArchitectureReasoner:
     def _check_global_circular_dependencies(self) -> List[str]:
         """检查全局循环依赖"""
         cycles = []
-        graph = self.arch_manager.index.dependency_graph
+        all_modules = list(self.arch_manager.index.dependency_graph.keys())
         
         # 构建依赖图
         dependency_map = {}
-        for module, info in graph.items():
-            dependency_map[module] = list(info["depends_on"])
+        for module, info in self.arch_manager.index.dependency_graph.items():
+            dependency_map[module] = list(info.get("depends_on", []))
         
-        # 使用DFS检测循环
-        def dfs(node, path, visited):
-            if node in path:
-                cycle_start = path.index(node)
-                cycles.append(" -> ".join(path[cycle_start:] + [node]))
+        visited = {}  # 0: 未访问，1: 正在访问，2: 已访问
+        path = []
+        
+        def dfs(current: str) -> bool:
+            if current in visited and visited[current] == 1:
+                cycle_start = path.index(current)
+                cycle = path[cycle_start:] + [current]
+                cycles.append(" -> ".join(cycle))
                 return True
             
-            if node in visited:
+            if current in visited and visited[current] == 2:
                 return False
                 
-            visited.add(node)
-            path.append(node)
+            visited[current] = 1
+            path.append(current)
             
-            for dep in dependency_map.get(node, []):
-                if dep in dependency_map and dfs(dep, path, visited):
-                    return True
-                    
+            has_cycle = False
+            for dep in dependency_map.get(current, []):
+                if dep in dependency_map and dfs(dep):
+                    has_cycle = True
+            
             path.pop()
-            return False
+            visited[current] = 2
+            return has_cycle
         
-        # 检查每个节点
-        visited = set()
-        for module in dependency_map:
+        for module in all_modules:
             if module not in visited:
-                dfs(module, [], visited)
+                visited[module] = 0
+                dfs(module)
                 
         return cycles
 
@@ -1019,4 +1023,4 @@ class ArchitectureReasoner:
         5. 监控和维护
         """
         
-        return await self._get_llm_response(prompt) 
+        return await self._get_llm_response(prompt)  
