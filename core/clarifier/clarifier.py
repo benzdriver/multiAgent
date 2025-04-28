@@ -348,22 +348,27 @@ class Clarifier:
         
         return {"reasoning_result": result}
     
-    async def _read_all_markdown_files(self) -> Dict[str, str]:
+    async def _read_all_markdown_files(self, input_path: str = None) -> Dict[str, str]:
         """读取输入文件夹中的所有Markdown文件
         
+        Args:
+            input_path: 可选的输入文件目录路径，如果未提供则使用self.input_dir
+            
         Returns:
             包含所有文档内容的字典，键为文件名，值为文件内容
         """
         documents = {}
         
+        input_dir = Path(input_path) if input_path else self.input_dir
+        
         # 获取所有Markdown文件
-        md_files = list(self.input_dir.glob('**/*.md'))
+        md_files = list(input_dir.glob('**/*.md'))
         
         for file_path in md_files:
             try:
                 content = file_path.read_text(encoding='utf-8')
                 # 使用相对路径作为文档名
-                relative_path = file_path.relative_to(self.input_dir)
+                relative_path = file_path.relative_to(input_dir)
                 documents[str(relative_path)] = content
                 self.logger.log(f"- 已读取文档：{relative_path}", role="system")
             except Exception as e:
