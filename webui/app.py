@@ -20,6 +20,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # 更新导入路径，使用services层的服务
 from services.clarifier_service import ClarifierService
 
+from webui.api import clarifier_api, validator_api, fixer_api, generator_api
+
 # 使用新的core路径
 from core.clarifier.clarifier import Clarifier
 from core.clarifier.architecture_manager import ArchitectureManager
@@ -35,6 +37,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(clarifier_api.router, prefix="/api/clarifier", tags=["clarifier"])
+app.include_router(validator_api.router, prefix="/api/validator", tags=["validator"])
+app.include_router(fixer_api.router, prefix="/api/fixer", tags=["fixer"])
+app.include_router(generator_api.router, prefix="/api/generator", tags=["generator"])
 
 # 创建一个全局的服务实例
 clarifier_service = ClarifierService()
@@ -1123,4 +1130,4 @@ def extract_json_from_response(response: str) -> Dict[str, Any]:
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True) 
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)    

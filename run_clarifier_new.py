@@ -4,7 +4,7 @@
 """
 import asyncio
 from core.clarifier.clarifier import Clarifier
-from llm.chat_openai import chat as openai_chat
+from core.llm.chat_openai import chat as openai_chat
 
 async def main():
     # 创建Clarifier实例，传入LLM调用函数
@@ -14,4 +14,4 @@ async def main():
     await clarifier.start()
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())  
