@@ -1,0 +1,46 @@
+{
+  "architecture_conventions": {
+    "presentation_layer": {
+      "suffixes": [
+        "Controller",
+        "Page",
+        "View"
+      ],
+      "responsibilities": "\u5904\u7406HTTP\u8bf7\u6c42/\u54cd\u5e94\uff0cUI\u6e32\u67d3",
+      "api_format": "HTTP\u8def\u5f84 (\u5982 'GET /api/users')"
+    },
+    "business_layer": {
+      "suffixes": [
+        "Service"
+      ],
+      "responsibilities": "\u5b9e\u73b0\u4e1a\u52a1\u903b\u8f91",
+      "api_format": "\u65b9\u6cd5\u540d (\u5982 'getUserById(id)')"
+    },
+    "data_access_layer": {
+      "suffixes": [
+        "Repository",
+        "DAO"
+      ],
+      "responsibilities": "\u6570\u636e\u5e93\u4ea4\u4e92",
+      "api_format": "\u6570\u636e\u64cd\u4f5c\u65b9\u6cd5 (\u5982 'findById(id)')"
+    },
+    "model_layer": {
+      "suffixes": [
+        "Model",
+        "Entity",
+        "Schema"
+      ],
+      "responsibilities": "\u5b9a\u4e49\u6570\u636e\u7ed3\u6784",
+      "api_format": "\u5c5e\u6027\u548c\u65b9\u6cd5 (\u5982 'user.getFullName()')"
+    },
+    "utility_layer": {
+      "suffixes": [
+        "Util",
+        "Helper",
+        "Client"
+      ],
+      "responsibilities": "\u63d0\u4f9b\u901a\u7528\u529f\u80fd",
+      "api_format": "\u5de5\u5177\u65b9\u6cd5 (\u5982 'formatDate(date)')"
+    }
+  }
+}

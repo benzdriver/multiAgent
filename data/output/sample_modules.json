@@ -1,0 +1,171 @@
+{
+  "modules": {
+    "document_manager": {
+      "id": "module_1",
+      "name": "文档管理模块",
+      "description": "处理文档上传、存储、分析和验证的核心模块",
+      "responsibilities": [
+        "文档上传和存储",
+        "文档内容提取",
+        "文档有效性验证",
+        "文档版本管理"
+      ],
+      "dependencies": ["storage_module", "ai_engine"],
+      "technologies": ["Node.js", "AWS S3", "OpenAI Document Models"]
+    },
+    "form_generator": {
+      "id": "module_2",
+      "name": "表格生成模块",
+      "description": "根据用户信息自动生成和填充各种移民表格",
+      "responsibilities": [
+        "表格模板管理",
+        "智能表格填充",
+        "表格验证和纠错",
+        "PDF生成和导出"
+      ],
+      "dependencies": ["user_profile_module", "ai_engine"],
+      "technologies": ["PDF.js", "React Hook Form", "OpenAI Completion API"]
+    },
+    "consultant_matching": {
+      "id": "module_3",
+      "name": "顾问匹配模块",
+      "description": "为用户匹配适合的移民顾问并促进交流",
+      "responsibilities": [
+        "顾问搜索和筛选",
+        "匹配算法实现",
+        "预约管理",
+        "消息传递"
+      ],
+      "dependencies": ["user_profile_module", "notification_module"],
+      "technologies": ["Socket.io", "MongoDB Atlas", "Calendar API"]
+    },
+    "workspace_manager": {
+      "id": "module_4",
+      "name": "用户工作区模块",
+      "description": "提供集中式工作区管理用户的移民申请流程",
+      "responsibilities": [
+        "任务跟踪",
+        "进度可视化",
+        "消息管理",
+        "文件组织"
+      ],
+      "dependencies": ["document_manager", "form_generator", "notification_module"],
+      "technologies": ["React", "Redux", "D3.js", "Socket.io"]
+    },
+    "data_collector": {
+      "id": "module_5",
+      "name": "数据收集模块",
+      "description": "通过对话式交互收集用户信息",
+      "responsibilities": [
+        "对话流程管理",
+        "数据提取和验证",
+        "上下文管理",
+        "多语言支持"
+      ],
+      "dependencies": ["ai_engine", "user_profile_module"],
+      "technologies": ["OpenAI Chat API", "NLP Processing", "i18n"]
+    },
+    "ai_engine": {
+      "id": "module_6",
+      "name": "AI引擎模块",
+      "description": "管理所有AI相关操作的集中式服务",
+      "responsibilities": [
+        "API客户端管理",
+        "提示模板系统",
+        "LLM响应解析",
+        "向量数据库集成"
+      ],
+      "dependencies": [],
+      "technologies": ["OpenAI API", "LangChain", "Vector Database", "Embeddings"]
+    },
+    "user_profile_module": {
+      "id": "module_7",
+      "name": "用户资料模块",
+      "description": "管理用户个人信息和偏好设置",
+      "responsibilities": [
+        "用户资料存储",
+        "数据加密",
+        "偏好设置管理",
+        "数据导出和备份"
+      ],
+      "dependencies": ["storage_module"],
+      "technologies": ["MongoDB", "Encryption Libraries", "Data Validation"]
+    },
+    "notification_module": {
+      "id": "module_8",
+      "name": "通知模块",
+      "description": "处理系统内部和外部通知",
+      "responsibilities": [
+        "电子邮件通知",
+        "短信通知",
+        "应用内通知",
+        "通知偏好管理"
+      ],
+      "dependencies": ["user_profile_module"],
+      "technologies": ["SendGrid", "Twilio", "WebSockets", "Push Notifications"]
+    },
+    "storage_module": {
+      "id": "module_9",
+      "name": "存储模块",
+      "description": "提供统一的数据存储服务",
+      "responsibilities": [
+        "文件存储",
+        "数据库交互",
+        "缓存管理",
+        "数据备份"
+      ],
+      "dependencies": [],
+      "technologies": ["AWS S3", "MongoDB", "Redis", "Backblaze B2"]
+    }
+  },
+  "requirements": {
+    "req_1": {
+      "id": "req_1",
+      "name": "文档管理功能",
+      "description": "用户需要能够上传、管理和分析与移民申请相关的文档",
+      "priority": "高",
+      "source": "产品需求"
+    },
+    "req_2": {
+      "id": "req_2",
+      "name": "表格生成功能",
+      "description": "系统需要能够智能生成和填充各种移民申请表格",
+      "priority": "高",
+      "source": "产品需求"
+    },
+    "req_3": {
+      "id": "req_3",
+      "name": "顾问匹配功能",
+      "description": "为用户匹配适合的移民顾问并促进交流",
+      "priority": "中",
+      "source": "产品需求"
+    },
+    "req_4": {
+      "id": "req_4",
+      "name": "用户工作区功能",
+      "description": "提供集中式工作区管理用户的移民申请流程",
+      "priority": "中",
+      "source": "产品需求"
+    },
+    "req_5": {
+      "id": "req_5",
+      "name": "数据收集功能",
+      "description": "通过对话式交互收集用户信息",
+      "priority": "高",
+      "source": "产品需求"
+    }
+  },
+  "requirement_module_index": {
+    "req_1": ["document_manager", "storage_module"],
+    "req_2": ["form_generator", "ai_engine"],
+    "req_3": ["consultant_matching", "notification_module"],
+    "req_4": ["workspace_manager", "document_manager", "form_generator"],
+    "req_5": ["data_collector", "ai_engine", "user_profile_module"]
+  },
+  "technology_stack": {
+    "frontend": ["React", "Redux", "Ant Design", "Chart.js"],
+    "backend": ["Node.js", "Express", "FastAPI", "WebSockets"],
+    "database": ["MongoDB", "Redis", "Vector Database"],
+    "devops": ["Docker", "AWS", "CI/CD", "Monitoring"]
+  }
+} 
