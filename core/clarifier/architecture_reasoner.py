@@ -1,7 +1,8 @@
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Tuple, Optional
 from pathlib import Path
 import json
 import asyncio
+import re
 from datetime import datetime
 from .architecture_manager import ArchitectureManager
 from llm.llm_executor import run_prompt
@@ -1023,4 +1024,341 @@ class ArchitectureReasoner:
         5. 监控和维护
         """
         
-        return await self._get_llm_response(prompt)  
+        return await self._get_llm_response(prompt)   
+        
+    def _check_naming_inconsistencies(self) -> List[str]:
+        """检查命名不一致性
+        
+        检查模块命名是否遵循一致的命名约定，包括：
+        1. 命名风格一致性（驼峰、下划线等）
+        2. 命名前缀/后缀一致性
+        3. 命名与职责的匹配度
+        
+        Returns:
+            命名不一致性问题列表
+        """
+        issues = []
+        
+        all_modules = list(self.arch_manager.index.dependency_graph.keys())
+        if not all_modules:
+            return issues
+            
+        camel_case_pattern = re.compile(r'^[a-z][a-zA-Z0-9]*$')  # 驼峰命名法
+        pascal_case_pattern = re.compile(r'^[A-Z][a-zA-Z0-9]*$')  # 帕斯卡命名法
+        snake_case_pattern = re.compile(r'^[a-z][a-z0-9_]*$')     # 下划线命名法
+        
+        naming_styles = {
+            "camel_case": 0,
+            "pascal_case": 0,
+            "snake_case": 0,
+            "other": 0
+        }
+        
+        for module in all_modules:
+            module_name = module.split('.')[-1]  # 获取最后一部分作为模块名
+            
+            if camel_case_pattern.match(module_name):
+                naming_styles["camel_case"] += 1
+            elif pascal_case_pattern.match(module_name):
+                naming_styles["pascal_case"] += 1
+            elif snake_case_pattern.match(module_name):
+                naming_styles["snake_case"] += 1
+            else:
+                naming_styles["other"] += 1
+        
+        dominant_style = max(naming_styles, key=naming_styles.get)
+        if dominant_style == "other" or naming_styles[dominant_style] < len(all_modules) * 0.7:
+            issues.append("模块命名风格不一致，建议统一使用同一种命名风格")
+        
+        if dominant_style != "other":
+            for module in all_modules:
+                module_name = module.split('.')[-1]
+                
+                if dominant_style == "camel_case" and not camel_case_pattern.match(module_name):
+                    issues.append(f"模块 '{module}' 不符合驼峰命名法")
+                elif dominant_style == "pascal_case" and not pascal_case_pattern.match(module_name):
+                    issues.append(f"模块 '{module}' 不符合帕斯卡命名法")
+                elif dominant_style == "snake_case" and not snake_case_pattern.match(module_name):
+                    issues.append(f"模块 '{module}' 不符合下划线命名法")
+        
+        layer_prefixes = {}
+        for module, info in self.arch_manager.index.dependency_graph.items():
+            layer = info.get("layer", "")
+            if not layer:
+                continue
+                
+            module_name = module.split('.')[-1]
+            prefix = module_name[:3] if len(module_name) > 3 else module_name
+            
+            if layer not in layer_prefixes:
+                layer_prefixes[layer] = {}
+                
+            if prefix not in layer_prefixes[layer]:
+                layer_prefixes[layer][prefix] = 0
+                
+            layer_prefixes[layer][prefix] += 1
+        
+        for layer, prefixes in layer_prefixes.items():
+            if len(prefixes) > 3:  # 如果一个层级有超过3种不同的前缀
+                most_common_prefix = max(prefixes, key=prefixes.get)
+                if prefixes[most_common_prefix] < sum(prefixes.values()) * 0.5:
+                    issues.append(f"层级 '{layer}' 的模块命名前缀不一致")
+        
+        for module, info in self.arch_manager.index.dependency_graph.items():
+            module_name = module.split('.')[-1].lower()
+            responsibilities = [r.lower() for r in info.get("responsibilities", [])]
+            
+            if responsibilities:
+                matched = False
+                for resp in responsibilities:
+                    keywords = [word for word in re.findall(r'\b\w+\b', resp) if len(word) > 3]
+                    for keyword in keywords:
+                        if keyword.lower() in module_name:
+                            matched = True
+                            break
+                    if matched:
+                        break
+                        
+                if not matched:
+                    issues.append(f"模块 '{module}' 的命名可能不能充分反映其职责")
+        
+        return issues
+        
+    def _check_layer_violations(self) -> List[str]:
+        """检查层级违规
+        
+        检查模块是否违反了架构的层级规则，包括：
+        1. 层级依赖方向是否正确
+        2. 是否存在跨层级依赖
+        3. 是否存在不符合架构模式的依赖
+        
+        Returns:
+            层级违规问题列表
+        """
+        issues = []
+        
+        for pattern_name, pattern_info in self.arch_manager.index.architecture_patterns.items():
+            layer_dependencies = pattern_info.get("dependencies", {})
+            
+            for module, info in self.arch_manager.index.dependency_graph.items():
+                if info.get("pattern") != pattern_name:
+                    continue
+                    
+                module_layer = info.get("layer")
+                if not module_layer:
+                    continue
+                    
+                allowed_dependencies = layer_dependencies.get(module_layer, [])
+                
+                for dep in info.get("depends_on", []):
+                    if dep not in self.arch_manager.index.dependency_graph:
+                        continue  # 跳过不存在的依赖
+                        
+                    dep_info = self.arch_manager.index.dependency_graph[dep]
+                    dep_pattern = dep_info.get("pattern")
+                    dep_layer = dep_info.get("layer")
+                    
+                    if dep_pattern != pattern_name:
+                        issues.append(f"模块 '{module}' 依赖了不同架构模式的模块 '{dep}'")
+                        continue
+                        
+                    if dep_layer not in allowed_dependencies and dep_layer != module_layer:
+                        issues.append(f"模块 '{module}' ({module_layer}) 依赖了不允许的层级 '{dep_layer}' 中的模块 '{dep}'")
+        
+        return issues
+        
+    def _check_responsibility_overlaps(self) -> List[str]:
+        """检查职责重叠
+        
+        检查不同模块之间是否存在职责重叠，包括：
+        1. 完全相同的职责
+        2. 高度相似的职责
+        3. 职责范围重叠
+        
+        Returns:
+            职责重叠问题列表
+        """
+        issues = []
+        
+        responsibility_map = {}
+        for module, info in self.arch_manager.index.dependency_graph.items():
+            for resp in info.get("responsibilities", []):
+                resp_lower = resp.lower()
+                if resp_lower not in responsibility_map:
+                    responsibility_map[resp_lower] = []
+                responsibility_map[resp_lower].append(module)
+        
+        for resp, modules in responsibility_map.items():
+            if len(modules) > 1:
+                issues.append(f"职责 '{resp}' 在多个模块中重复: {', '.join(modules)}")
+        
+        all_responsibilities = list(responsibility_map.keys())
+        for i in range(len(all_responsibilities)):
+            for j in range(i+1, len(all_responsibilities)):
+                resp1 = all_responsibilities[i]
+                resp2 = all_responsibilities[j]
+                
+                words1 = set(resp1.split())
+                words2 = set(resp2.split())
+                
+                if not words1 or not words2:
+                    continue
+                    
+                common_words = words1.intersection(words2)
+                similarity = len(common_words) / min(len(words1), len(words2))
+                
+                if similarity > 0.7:  # 如果相似度超过70%
+                    modules1 = responsibility_map[resp1]
+                    modules2 = responsibility_map[resp2]
+                    
+                    if set(modules1) != set(modules2):
+                        issues.append(f"职责 '{resp1}' 和 '{resp2}' 高度相似，但分别属于不同模块: {', '.join(set(modules1))} 和 {', '.join(set(modules2))}")
+        
+        return issues
+        
+    async def check_all_issues(self) -> Dict[str, List[str]]:
+        """检查所有架构问题
+        
+        执行全面的架构检查，包括：
+        1. 循环依赖检查
+        2. 命名不一致性检查
+        3. 层级违规检查
+        4. 职责重叠检查
+        5. 整体一致性检查
+        
+        Returns:
+            包含各类问题的字典
+        """
+        if self.logger:
+            self.logger.log("\n🔍 执行全面架构检查...", role="system")
+            
+        issues = {
+            "circular_dependencies": [],
+            "naming_inconsistencies": [],
+            "layer_violations": [],
+            "responsibility_overlaps": [],
+            "consistency_issues": []
+        }
+        
+        issues["circular_dependencies"] = self._check_global_circular_dependencies()
+        if self.logger:
+            if issues["circular_dependencies"]:
+                self.logger.log(f"⚠️ 检测到 {len(issues['circular_dependencies'])} 个循环依赖问题", role="error")
+            else:
+                self.logger.log("✅ 未检测到循环依赖", role="system")
+        
+        issues["naming_inconsistencies"] = self._check_naming_inconsistencies()
+        if self.logger:
+            if issues["naming_inconsistencies"]:
+                self.logger.log(f"⚠️ 检测到 {len(issues['naming_inconsistencies'])} 个命名不一致问题", role="error")
+            else:
+                self.logger.log("✅ 未检测到命名不一致问题", role="system")
+        
+        issues["layer_violations"] = self._check_layer_violations()
+        if self.logger:
+            if issues["layer_violations"]:
+                self.logger.log(f"⚠️ 检测到 {len(issues['layer_violations'])} 个层级违规问题", role="error")
+            else:
+                self.logger.log("✅ 未检测到层级违规", role="system")
+        
+        issues["responsibility_overlaps"] = self._check_responsibility_overlaps()
+        if self.logger:
+            if issues["responsibility_overlaps"]:
+                self.logger.log(f"⚠️ 检测到 {len(issues['responsibility_overlaps'])} 个职责重叠问题", role="error")
+            else:
+                self.logger.log("✅ 未检测到职责重叠", role="system")
+        
+        issues["consistency_issues"] = self._check_overall_consistency()
+        if self.logger:
+            if issues["consistency_issues"]:
+                self.logger.log(f"⚠️ 检测到 {len(issues['consistency_issues'])} 个一致性问题", role="error")
+            else:
+                self.logger.log("✅ 未检测到一致性问题", role="system")
+        
+        total_issues = sum(len(issue_list) for issue_list in issues.values())
+        if self.logger:
+            if total_issues > 0:
+                self.logger.log(f"\n⚠️ 总计检测到 {total_issues} 个架构问题", role="error")
+            else:
+                self.logger.log("\n✅ 架构检查通过，未发现问题", role="system")
+        
+        return issues
+        
+    async def check_module_issues(self, module_name: str) -> Dict[str, List[str]]:
+        """检查单个模块的架构问题
+        
+        对新添加的模块执行架构检查，包括：
+        1. 循环依赖检查
+        2. 命名不一致性检查
+        3. 层级违规检查
+        4. 职责重叠检查
+        
+        Args:
+            module_name: 要检查的模块名称
+            
+        Returns:
+            包含各类问题的字典
+        """
+        if self.logger:
+            self.logger.log(f"\n🔍 检查模块 '{module_name}' 的架构问题...", role="system")
+            
+        issues = {
+            "circular_dependencies": [],
+            "naming_inconsistencies": [],
+            "layer_violations": [],
+            "responsibility_overlaps": []
+        }
+        
+        if module_name not in self.arch_manager.index.dependency_graph:
+            if self.logger:
+                self.logger.log(f"❌ 模块 '{module_name}' 不存在", role="error")
+            return issues
+        
+        all_cycles = self._check_global_circular_dependencies()
+        module_cycles = [cycle for cycle in all_cycles if module_name in cycle]
+        issues["circular_dependencies"] = module_cycles
+        
+        if self.logger:
+            if module_cycles:
+                self.logger.log(f"⚠️ 模块 '{module_name}' 参与了 {len(module_cycles)} 个循环依赖", role="error")
+            else:
+                self.logger.log(f"✅ 模块 '{module_name}' 未参与循环依赖", role="system")
+        
+        all_naming_issues = self._check_naming_inconsistencies()
+        module_naming_issues = [issue for issue in all_naming_issues if module_name in issue]
+        issues["naming_inconsistencies"] = module_naming_issues
+        
+        if self.logger:
+            if module_naming_issues:
+                self.logger.log(f"⚠️ 模块 '{module_name}' 存在 {len(module_naming_issues)} 个命名问题", role="error")
+            else:
+                self.logger.log(f"✅ 模块 '{module_name}' 命名符合规范", role="system")
+        
+        all_layer_issues = self._check_layer_violations()
+        module_layer_issues = [issue for issue in all_layer_issues if module_name in issue]
+        issues["layer_violations"] = module_layer_issues
+        
+        if self.logger:
+            if module_layer_issues:
+                self.logger.log(f"⚠️ 模块 '{module_name}' 存在 {len(module_layer_issues)} 个层级违规", role="error")
+            else:
+                self.logger.log(f"✅ 模块 '{module_name}' 未违反层级规则", role="system")
+        
+        all_resp_issues = self._check_responsibility_overlaps()
+        module_resp_issues = [issue for issue in all_resp_issues if module_name in issue]
+        issues["responsibility_overlaps"] = module_resp_issues
+        
+        if self.logger:
+            if module_resp_issues:
+                self.logger.log(f"⚠️ 模块 '{module_name}' 存在 {len(module_resp_issues)} 个职责重叠", role="error")
+            else:
+                self.logger.log(f"✅ 模块 '{module_name}' 职责明确，无重叠", role="system")
+        
+        total_issues = sum(len(issue_list) for issue_list in issues.values())
+        if self.logger:
+            if total_issues > 0:
+                self.logger.log(f"\n⚠️ 模块 '{module_name}' 总计存在 {total_issues} 个架构问题", role="error")
+            else:
+                self.logger.log(f"\n✅ 模块 '{module_name}' 架构检查通过，未发现问题", role="system")
+        
+        return issues    
