@@ -1,4 +1,5 @@
-from validator.validator import run_validator
+from core.validator.validator import run_validator
+import asyncio
 
 if __name__ == "__main__":
-    run_validator()
+    asyncio.run(run_validator())
