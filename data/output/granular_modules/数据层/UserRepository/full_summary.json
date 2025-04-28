@@ -1,0 +1,19 @@
+{
+  "module_name": "UserRepository",
+  "module_type": "仓储",
+  "responsibilities": [
+    "用户数据的持久化和查询"
+  ],
+  "layer": "数据层",
+  "domain": "用户管理",
+  "dependencies": [
+    "MongoDB"
+  ],
+  "requirements": [
+    "用户数据存储和检索"
+  ],
+  "technology_stack": [
+    "MongoDB",
+    "Mongoose"
+  ]
+}

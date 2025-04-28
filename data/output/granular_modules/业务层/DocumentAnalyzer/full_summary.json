@@ -1,0 +1,20 @@
+{
+  "module_name": "DocumentAnalyzer",
+  "module_type": "服务",
+  "responsibilities": [
+    "分析上传的文档",
+    "提取文档信息"
+  ],
+  "layer": "业务层",
+  "domain": "文档管理",
+  "dependencies": [
+    "OpenAIClient"
+  ],
+  "requirements": [
+    "用户可以上传并分析文档"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "OpenAI API"
+  ]
+}

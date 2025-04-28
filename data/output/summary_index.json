@@ -1,0 +1,351 @@
+{
+  "modules": {
+    "frontend_module": {
+      "name": "Frontend Module",
+      "responsibilities": [
+        "Develop and maintain the user interface using Next.js and React",
+        "Ensure responsive design with Tailwind CSS",
+        "Implement state management using React Query, Context API, and Zustand",
+        "Handle form validation and submission using React Hook Form and Zod",
+        "Provide internationalization support with next-i18next",
+        "Ensure consistency in design through a defined design system"
+      ],
+      "layer": "Presentation",
+      "domain": "Frontend",
+      "dependencies": [
+        "Next.js 13+",
+        "React 18+",
+        "Tailwind CSS",
+        "React Query",
+        "Context API",
+        "Zustand",
+        "React Hook Form",
+        "Zod",
+        "next-i18next"
+      ],
+      "requirements": [
+        "Implement user authentication pages (login, register, reset password)",
+        "Develop user and consultant dashboards",
+        "Create pages for assessment, document management, and profile settings",
+        "Design and implement a seamless mode switch component for data collection",
+        "Ensure accessibility and performance optimization",
+        "Provide a consistent user experience across different devices"
+      ],
+      "target_path": "src/frontend"
+    },
+    "authentication_module": {
+      "name": "Authentication Module",
+      "responsibilities": [
+        "Handle user authentication and authorization",
+        "Manage user sessions and tokens",
+        "Implement secure password storage and validation",
+        "Provide OAuth integration for social login",
+        "Implement two-factor authentication",
+        "Handle password reset and account recovery"
+      ],
+      "layer": "Business",
+      "domain": "Security",
+      "dependencies": [
+        "JWT",
+        "bcrypt",
+        "Passport.js",
+        "OAuth providers",
+        "Email service"
+      ],
+      "requirements": [
+        "Support email/password authentication",
+        "Implement social login (Google, LinkedIn)",
+        "Provide secure token management",
+        "Support password reset via email",
+        "Implement account locking after failed attempts",
+        "Support role-based access control"
+      ],
+      "target_path": "src/auth"
+    },
+    "backend_authentication_module": {
+      "name": "Backend Authentication Module",
+      "responsibilities": [
+        "Implement authentication API endpoints",
+        "Validate user credentials",
+        "Generate and verify JWT tokens",
+        "Manage user sessions",
+        "Implement middleware for protected routes",
+        "Handle authentication errors"
+      ],
+      "layer": "Business",
+      "domain": "Security",
+      "dependencies": [
+        "Express.js",
+        "JWT",
+        "bcrypt",
+        "Redis (for session storage)",
+        "MongoDB (user data)"
+      ],
+      "requirements": [
+        "Create RESTful API endpoints for authentication",
+        "Implement secure password hashing",
+        "Generate and validate JWT tokens",
+        "Implement middleware for route protection",
+        "Handle authentication failures gracefully",
+        "Support token refresh mechanism"
+      ],
+      "target_path": "src/backend/auth"
+    },
+    "assessment_module": {
+      "name": "Assessment Module",
+      "responsibilities": [
+        "Manage assessment creation and configuration",
+        "Handle assessment submission and scoring",
+        "Generate assessment reports",
+        "Track assessment progress",
+        "Provide assessment analytics",
+        "Support different assessment types"
+      ],
+      "layer": "Business",
+      "domain": "Assessment",
+      "dependencies": [
+        "MongoDB",
+        "Express.js",
+        "PDF generation library",
+        "Analytics library",
+        "Authentication Module"
+      ],
+      "requirements": [
+        "Support multiple assessment types (questionnaires, forms)",
+        "Allow customization of assessment parameters",
+        "Generate detailed reports based on submissions",
+        "Track completion status of assessments",
+        "Provide analytics on assessment results",
+        "Support assessment versioning"
+      ],
+      "target_path": "src/assessment"
+    },
+    "forms_management": {
+      "name": "Forms Management",
+      "responsibilities": [
+        "Create and manage dynamic forms",
+        "Handle form validation and submission",
+        "Store form data securely",
+        "Support form versioning",
+        "Generate form templates",
+        "Export form data in various formats"
+      ],
+      "layer": "Business",
+      "domain": "Forms",
+      "dependencies": [
+        "MongoDB",
+        "Express.js",
+        "JSON Schema",
+        "PDF generation library",
+        "Excel export library"
+      ],
+      "requirements": [
+        "Support dynamic form creation with various field types",
+        "Implement form validation rules",
+        "Store submitted form data securely",
+        "Support form versioning and templates",
+        "Allow export of form data to PDF and Excel",
+        "Implement form submission workflow"
+      ],
+      "target_path": "src/forms"
+    },
+    "profile_management": {
+      "name": "Profile Management",
+      "responsibilities": [
+        "Manage user profiles and preferences",
+        "Handle profile updates and verification",
+        "Store profile data securely",
+        "Support profile image upload",
+        "Manage user settings",
+        "Track profile completion status"
+      ],
+      "layer": "Business",
+      "domain": "Profile",
+      "dependencies": [
+        "MongoDB",
+        "Express.js",
+        "Image processing library",
+        "Authentication Module",
+        "Storage service"
+      ],
+      "requirements": [
+        "Support comprehensive user profiles",
+        "Allow profile image upload and management",
+        "Implement profile verification process",
+        "Track profile completion status",
+        "Support user preferences and settings",
+        "Ensure secure storage of profile data"
+      ],
+      "target_path": "src/profile"
+    },
+    "documents": {
+      "name": "Documents",
+      "responsibilities": [
+        "Manage document upload and storage",
+        "Handle document versioning",
+        "Implement document access control",
+        "Support document search and filtering",
+        "Generate document previews",
+        "Track document usage and analytics"
+      ],
+      "layer": "Business",
+      "domain": "Documents",
+      "dependencies": [
+        "MongoDB",
+        "Express.js",
+        "S3 or equivalent storage",
+        "PDF processing library",
+        "Full-text search engine",
+        "Authentication Module"
+      ],
+      "requirements": [
+        "Support upload of various document types",
+        "Implement secure document storage",
+        "Support document versioning and history",
+        "Implement access control for documents",
+        "Provide document search and filtering",
+        "Generate document previews for common formats"
+      ],
+      "target_path": "src/documents"
+    },
+    "consultants_module": {
+      "name": "Consultants Module",
+      "responsibilities": [
+        "Manage consultant profiles and expertise",
+        "Handle consultant availability and scheduling",
+        "Track consultant assignments and workload",
+        "Support consultant ratings and reviews",
+        "Manage consultant compensation",
+        "Generate consultant performance reports"
+      ],
+      "layer": "Business",
+      "domain": "Consultants",
+      "dependencies": [
+        "MongoDB",
+        "Express.js",
+        "Calendar/scheduling library",
+        "Authentication Module",
+        "Profile Management"
+      ],
+      "requirements": [
+        "Support detailed consultant profiles with expertise areas",
+        "Implement availability management and scheduling",
+        "Track consultant assignments and workload",
+        "Support client ratings and reviews for consultants",
+        "Manage consultant compensation and billing",
+        "Generate performance reports for consultants"
+      ],
+      "target_path": "src/consultants"
+    },
+    "dashboard": {
+      "name": "Dashboard",
+      "responsibilities": [
+        "Provide overview of key metrics and activities",
+        "Display personalized content based on user role",
+        "Visualize data using charts and graphs",
+        "Support customizable dashboard widgets",
+        "Implement real-time updates for dashboard data",
+        "Generate exportable dashboard reports"
+      ],
+      "layer": "Presentation",
+      "domain": "Dashboard",
+      "dependencies": [
+        "React",
+        "Chart.js or D3.js",
+        "WebSockets for real-time updates",
+        "Authentication Module",
+        "Various business modules for data"
+      ],
+      "requirements": [
+        "Create role-specific dashboards (user, consultant, admin)",
+        "Implement data visualization with charts and graphs",
+        "Support customizable dashboard widgets",
+        "Provide real-time updates for critical metrics",
+        "Allow export of dashboard data and reports",
+        "Ensure responsive design for all device sizes"
+      ],
+      "target_path": "src/dashboard"
+    },
+    "workspace": {
+      "name": "Workspace",
+      "responsibilities": [
+        "Provide collaborative workspace for users and consultants",
+        "Manage workspace resources and tools",
+        "Support document sharing and collaboration",
+        "Implement communication tools within workspace",
+        "Track workspace activities and history",
+        "Manage workspace access control"
+      ],
+      "layer": "Business",
+      "domain": "Workspace",
+      "dependencies": [
+        "MongoDB",
+        "Express.js",
+        "WebSockets",
+        "Authentication Module",
+        "Documents Module",
+        "Real-time collaboration tools"
+      ],
+      "requirements": [
+        "Create shared workspaces for collaboration",
+        "Support document sharing and co-editing",
+        "Implement communication tools (chat, comments)",
+        "Track workspace activities and history",
+        "Manage workspace access and permissions",
+        "Support resource management within workspaces"
+      ],
+      "target_path": "src/workspace"
+    }
+  },
+  "requirement_module_index": {
+    "req_1": {
+      "name": "User Authentication",
+      "modules": ["frontend_module", "authentication_module", "backend_authentication_module"]
+    },
+    "req_2": {
+      "name": "Profile Management",
+      "modules": ["profile_management", "frontend_module"]
+    },
+    "req_3": {
+      "name": "Assessment System",
+      "modules": ["assessment_module", "forms_management", "frontend_module"]
+    },
+    "req_4": {
+      "name": "Document Management",
+      "modules": ["documents", "workspace", "frontend_module"]
+    },
+    "req_5": {
+      "name": "Consultant Management",
+      "modules": ["consultants_module", "dashboard", "workspace"]
+    },
+    "req_6": {
+      "name": "Dashboard and Reporting",
+      "modules": ["dashboard", "assessment_module", "consultants_module"]
+    }
+  },
+  "responsibility_index": {
+    "User Interface Development": ["frontend_module"],
+    "Authentication and Authorization": ["authentication_module", "backend_authentication_module"],
+    "Document Management": ["documents", "workspace"],
+    "Form Processing": ["forms_management", "assessment_module"],
+    "Profile Management": ["profile_management"],
+    "Consultant Management": ["consultants_module"],
+    "Dashboard and Reporting": ["dashboard"],
+    "Collaborative Workspace": ["workspace"]
+  },
+  "layer_index": {
+    "Presentation": ["frontend_module", "dashboard"],
+    "Business": ["authentication_module", "backend_authentication_module", "assessment_module", "forms_management", "profile_management", "documents", "consultants_module", "workspace"]
+  },
+  "domain_index": {
+    "Frontend": ["frontend_module"],
+    "Security": ["authentication_module", "backend_authentication_module"],
+    "Assessment": ["assessment_module"],
+    "Forms": ["forms_management"],
+    "Profile": ["profile_management"],
+    "Documents": ["documents"],
+    "Consultants": ["consultants_module"],
+    "Dashboard": ["dashboard"],
+    "Workspace": ["workspace"]
+  }
+}

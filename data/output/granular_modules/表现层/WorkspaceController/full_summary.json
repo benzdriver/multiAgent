@@ -1,0 +1,23 @@
+{
+  "module_name": "WorkspaceController",
+  "module_type": "控制器",
+  "responsibilities": [
+    "管理用户工作区",
+    "消息发送和接收",
+    "任务管理"
+  ],
+  "layer": "表现层",
+  "domain": "协作",
+  "dependencies": [
+    "WorkspaceService"
+  ],
+  "requirements": [
+    "GET /workspaces",
+    "POST /workspaces/{id}/messages",
+    "POST /workspaces/{id}/tasks"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "Express"
+  ]
+}
