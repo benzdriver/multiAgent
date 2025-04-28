@@ -219,6 +219,23 @@ class ArchitectureValidator:
             
         dfs(module_name)
         return cycles
+        
+    def _check_layer_violations(self, module: Dict) -> List[str]:
+        """检查层级违规"""
+        violations = []
+        pattern = module.get('pattern', '')
+        layer = module.get('layer', '')
+        
+        if pattern in self.index.architecture_patterns:
+            allowed_deps = self.index.get_allowed_dependencies(pattern, layer)
+            for dep in module.get('dependencies', []):
+                dep_info = self.index.dependency_graph.get(dep, {})
+                dep_layer = dep_info.get('layer', '')
+                
+                if dep_layer and dep_layer not in allowed_deps:
+                    violations.append(f"依赖 '{dep}' 违反了 '{pattern}' 架构中 '{layer}' 层级的依赖规则")
+        
+        return violations
 
 class ArchitectureManager:
     def __init__(self):
@@ -372,4 +389,4 @@ class ArchitectureManager:
         
         state_file = self.output_path / "architecture_state.json"
         with open(state_file, 'w', encoding='utf-8') as f:
-            json.dump(state, f, ensure_ascii=False, indent=2) 
+            json.dump(state, f, ensure_ascii=False, indent=2)  

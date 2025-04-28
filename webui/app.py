@@ -936,6 +936,45 @@ async def deep_reasoning():
         })
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/check_dependencies")
+async def check_dependencies():
+    """检查模块依赖和循环依赖"""
+    global clarifier, global_state
+    
+    if not clarifier:
+        raise HTTPException(status_code=400, detail="Clarifier尚未初始化")
+    
+    try:
+        if hasattr(clarifier, 'architecture_manager'):
+            arch_manager = clarifier.architecture_manager
+            
+            from core.clarifier.architecture_reasoner import ArchitectureReasoner
+            reasoner = ArchitectureReasoner(architecture_manager=arch_manager)
+            
+            cycles = reasoner._check_global_circular_dependencies()
+            
+            validation_issues = {}
+            if hasattr(arch_manager, 'get_validation_issues'):
+                validation_issues = arch_manager.get_validation_issues()
+            
+            # 更新全局状态
+            global_state["validation_issues"] = {
+                "circular_dependencies": cycles,
+                "module_issues": validation_issues
+            }
+            
+            return {
+                "status": "success",
+                "circular_dependencies": cycles,
+                "validation_issues": validation_issues
+            }
+        else:
+            raise HTTPException(status_code=400, detail="架构管理器不可用")
+    except Exception as e:
+        print(f"❌ 检查依赖时出错: {str(e)}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"检查依赖时出错: {str(e)}")
+
 # 更新全局状态的函数
 def update_global_state_from_json(data: Dict[str, Any]) -> None:
     """从JSON数据更新全局状态，并使用现有架构管理器执行验证"""
@@ -979,13 +1018,48 @@ def update_global_state_from_json(data: Dict[str, Any]) -> None:
         print(f"✅ 更新了技术栈")
     
     if "requirement_module_index" in data and isinstance(data["requirement_module_index"], dict):
-        # 确保索引结构是 {req_id: [module_id1, module_id2, ...]}
-        global_state["requirement_module_index"] = data["requirement_module_index"]
-        print(f"✅ 更新了需求-模块索引")
+        requirement_module_map = {}
+        for req_id, modules in data["requirement_module_index"].items():
+            req_name = data.get("requirements", {}).get(req_id, {}).get("name", "未知需求")
+            requirement_module_map[req_id] = {
+                "name": req_name,
+                "modules": modules
+            }
+        
+        global_state["requirement_module_index"] = requirement_module_map
+        print(f"✅ 已更新需求-模块映射关系")
     
     if "architecture_pattern" in data and isinstance(data["architecture_pattern"], dict):
         global_state["architecture_pattern"] = data["architecture_pattern"]
         print(f"✅ 更新了架构模式")
+    
+    if "modules" in data and isinstance(data["modules"], dict):
+        modules_data = data["modules"]
+        
+        responsibility_index = {}
+        layer_index = {}
+        domain_index = {}
+        
+        for module_id, module_info in modules_data.items():
+            for resp in module_info.get("responsibilities", []):
+                if resp not in responsibility_index:
+                    responsibility_index[resp] = []
+                responsibility_index[resp].append(module_id)
+            
+            layer = module_info.get("layer", "unknown")
+            if layer not in layer_index:
+                layer_index[layer] = []
+            layer_index[layer].append(module_id)
+            
+            domain = module_info.get("domain", "unknown")
+            if domain not in domain_index:
+                domain_index[domain] = []
+            domain_index[domain].append(module_id)
+        
+        global_state["responsibility_index"] = responsibility_index
+        global_state["layer_index"] = layer_index
+        global_state["domain_index"] = domain_index
+        print(f"✅ 已更新多维度模块索引")
     
     # 尝试生成依赖图和索引文件
     try:
@@ -1130,4 +1204,4 @@ def extract_json_from_response(response: str) -> Dict[str, Any]:
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)    
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                        

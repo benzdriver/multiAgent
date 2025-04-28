@@ -471,6 +471,42 @@
             background-color: rgba(0,0,0,0.03);
         }
         
+        /* 多维度索引子标签样式 */
+        .sub-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .sub-tab-button {
+            padding: 6px 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #555;
+            border-bottom: 2px solid transparent;
+            font-size: 14px;
+        }
+        
+        .sub-tab-button.active {
+            color: #2c88ff;
+            border-bottom: 2px solid #2c88ff;
+        }
+        
+        .sub-tab-button:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+        
+        .sub-tab-content {
+            display: none;
+            padding: 10px 0;
+        }
+        
+        .sub-tab-content.active {
+            display: block;
+        }
+        
         h1, h2, h3, h4, h5 {
             color: #333;
             margin-top: 0;
@@ -706,6 +742,7 @@
                 <button class="tab-button" data-tab="modules">模块信息</button>
                 <button class="tab-button" data-tab="techstack">技术栈</button>
                 <button class="tab-button" data-tab="index">需求-模块索引</button>
+                <button class="tab-button" data-tab="multi-index">多维度索引</button>
                 <button class="tab-button" data-tab="validation">验证结果</button>
             </div>
             
@@ -731,7 +768,28 @@
             
             <div class="tab-content" id="validation-tab">
                 <h3>验证结果</h3>
-                <div id="validation-display">加载中...</div>
+                <div class="action-bar">
+                    <button id="checkDependenciesBtn" class="action-button">检查依赖关系</button>
+                </div>
+                <div id="validation-display">点击"检查依赖关系"按钮开始验证</div>
+            </div>
+            
+            <div class="tab-content" id="multi-index-tab">
+                <h3>多维度模块索引</h3>
+                <div class="sub-tabs">
+                    <button class="sub-tab-button active" data-subtab="responsibility">职责索引</button>
+                    <button class="sub-tab-button" data-subtab="layer">层级索引</button>
+                    <button class="sub-tab-button" data-subtab="domain">领域索引</button>
+                </div>
+                <div class="sub-tab-content active" id="responsibility-tab">
+                    <div id="responsibility-display">加载中...</div>
+                </div>
+                <div class="sub-tab-content" id="layer-tab">
+                    <div id="layer-display">加载中...</div>
+                </div>
+                <div class="sub-tab-content" id="domain-tab">
+                    <div id="domain-display">加载中...</div>
+                </div>
             </div>
         </div>
         
@@ -918,6 +976,14 @@
             
             // 渲染需求列表
             renderRequirementsList();
+            
+            // 渲染需求-模块映射关系
+            renderRequirementModuleIndex();
+            
+            // 渲染多维度索引
+            renderResponsibilityIndex();
+            renderLayerIndex();
+            renderDomainIndex();
         }
         
         // 渲染概览区域
@@ -986,6 +1052,131 @@
                     }
                 });
             }
+        }
+        
+        // 渲染需求-模块映射关系
+        function renderRequirementModuleIndex() {
+            const indexDisplay = document.getElementById('index-display');
+            indexDisplay.innerHTML = '';
+            
+            const reqModuleIndex = globalState.requirement_module_index || {};
+            
+            if (Object.keys(reqModuleIndex).length === 0) {
+                indexDisplay.innerHTML = '<div class="info-card">暂无需求-模块映射数据</div>';
+                return;
+            }
+            
+            let html = '<div class="table-responsive"><table class="info-table">';
+            html += '<thead><tr><th>需求ID</th><th>需求名称</th><th>关联模块</th></tr></thead><tbody>';
+            
+            for (const [reqId, info] of Object.entries(reqModuleIndex)) {
+                const modulesHtml = info.modules.map(moduleId => {
+                    const moduleName = globalState.modules[moduleId]?.name || moduleId;
+                    return `<span class="tag">${moduleName}</span>`;
+                }).join(' ');
+                
+                html += `<tr>
+                    <td>${reqId}</td>
+                    <td>${info.name}</td>
+                    <td>${modulesHtml}</td>
+                </tr>`;
+            }
+            
+            html += '</tbody></table></div>';
+            indexDisplay.innerHTML = html;
+        }
+        
+        // 渲染职责索引
+        function renderResponsibilityIndex() {
+            const display = document.getElementById('responsibility-display');
+            display.innerHTML = '';
+            
+            const responsibilityIndex = globalState.responsibility_index || {};
+            
+            if (Object.keys(responsibilityIndex).length === 0) {
+                display.innerHTML = '<div class="info-card">暂无职责索引数据</div>';
+                return;
+            }
+            
+            let html = '<div class="table-responsive"><table class="info-table">';
+            html += '<thead><tr><th>职责</th><th>相关模块</th></tr></thead><tbody>';
+            
+            for (const [responsibility, moduleIds] of Object.entries(responsibilityIndex)) {
+                const modulesHtml = moduleIds.map(moduleId => {
+                    const moduleName = globalState.modules[moduleId]?.name || moduleId;
+                    return `<span class="tag">${moduleName}</span>`;
+                }).join(' ');
+                
+                html += `<tr>
+                    <td>${responsibility}</td>
+                    <td>${modulesHtml}</td>
+                </tr>`;
+            }
+            
+            html += '</tbody></table></div>';
+            display.innerHTML = html;
+        }
+        
+        // 渲染层级索引
+        function renderLayerIndex() {
+            const display = document.getElementById('layer-display');
+            display.innerHTML = '';
+            
+            const layerIndex = globalState.layer_index || {};
+            
+            if (Object.keys(layerIndex).length === 0) {
+                display.innerHTML = '<div class="info-card">暂无层级索引数据</div>';
+                return;
+            }
+            
+            let html = '<div class="table-responsive"><table class="info-table">';
+            html += '<thead><tr><th>层级</th><th>相关模块</th></tr></thead><tbody>';
+            
+            for (const [layer, moduleIds] of Object.entries(layerIndex)) {
+                const modulesHtml = moduleIds.map(moduleId => {
+                    const moduleName = globalState.modules[moduleId]?.name || moduleId;
+                    return `<span class="tag">${moduleName}</span>`;
+                }).join(' ');
+                
+                html += `<tr>
+                    <td>${layer}</td>
+                    <td>${modulesHtml}</td>
+                </tr>`;
+            }
+            
+            html += '</tbody></table></div>';
+            display.innerHTML = html;
+        }
+        
+        // 渲染领域索引
+        function renderDomainIndex() {
+            const display = document.getElementById('domain-display');
+            display.innerHTML = '';
+            
+            const domainIndex = globalState.domain_index || {};
+            
+            if (Object.keys(domainIndex).length === 0) {
+                display.innerHTML = '<div class="info-card">暂无领域索引数据</div>';
+                return;
+            }
+            
+            let html = '<div class="table-responsive"><table class="info-table">';
+            html += '<thead><tr><th>领域</th><th>相关模块</th></tr></thead><tbody>';
+            
+            for (const [domain, moduleIds] of Object.entries(domainIndex)) {
+                const modulesHtml = moduleIds.map(moduleId => {
+                    const moduleName = globalState.modules[moduleId]?.name || moduleId;
+                    return `<span class="tag">${moduleName}</span>`;
+                }).join(' ');
+                
+                html += `<tr>
+                    <td>${domain}</td>
+                    <td>${modulesHtml}</td>
+                </tr>`;
+            }
+            
+            html += '</tbody></table></div>';
+            display.innerHTML = html;
         }
         
         // 渲染需求列表
@@ -1336,6 +1527,17 @@
                 });
             });
             
+            // 多维度索引子标签切换事件
+            document.querySelectorAll('.sub-tab-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.sub-tab-button').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.sub-tab-content').forEach(tab => tab.classList.remove('active'));
+                    
+                    button.classList.add('active');
+                    document.getElementById(`${button.dataset.subtab}-tab`).classList.add('active');
+                });
+            });
+            
             // 深度推理按钮事件
             const deepReasoningBtn = document.getElementById('deepReasoningBtn');
             if (deepReasoningBtn) {
@@ -1346,6 +1548,12 @@
             const deepClarificationBtn = document.getElementById('deepClarificationBtn');
             if (deepClarificationBtn) {
                 deepClarificationBtn.addEventListener('click', startDeepClarification);
+            }
+            
+            // 依赖检查按钮事件
+            const checkDependenciesBtn = document.getElementById('checkDependenciesBtn');
+            if (checkDependenciesBtn) {
+                checkDependenciesBtn.addEventListener('click', checkDependencies);
             }
         }
         
@@ -1409,8 +1617,91 @@
             }
         }
 
+        // 检查依赖关系函数
+        async function checkDependencies() {
+            const validationDisplay = document.getElementById('validation-display');
+            const checkBtn = document.getElementById('checkDependenciesBtn');
+            
+            try {
+                checkBtn.disabled = true;
+                checkBtn.innerText = '检查中...';
+                validationDisplay.innerHTML = '<div class="info-card">正在检查依赖关系...</div>';
+                
+                const response = await fetch('/api/check_dependencies');
+                
+                if (!response.ok) {
+                    throw new Error(`服务器返回错误: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                let html = '';
+                
+                // 显示循环依赖
+                html += '<h4>循环依赖检查</h4>';
+                if (data.circular_dependencies && data.circular_dependencies.length > 0) {
+                    html += '<div class="alert-card alert-danger">';
+                    html += '<p>发现循环依赖:</p>';
+                    html += '<ul class="issue-list">';
+                    data.circular_dependencies.forEach(cycle => {
+                        html += `<li>${cycle}</li>`;
+                    });
+                    html += '</ul>';
+                    html += '</div>';
+                } else {
+                    html += '<div class="alert-card alert-success">未发现循环依赖</div>';
+                }
+                
+                // 显示模块验证问题
+                html += '<h4 class="mt-4">模块验证问题</h4>';
+                if (data.validation_issues && Object.keys(data.validation_issues).length > 0) {
+                    html += '<div class="alert-card alert-warning">';
+                    html += '<p>发现验证问题:</p>';
+                    html += '<div class="table-responsive"><table class="info-table">';
+                    html += '<thead><tr><th>模块</th><th>问题类型</th><th>问题详情</th></tr></thead><tbody>';
+                    
+                    for (const [module, issues] of Object.entries(data.validation_issues)) {
+                        let hasIssues = false;
+                        for (const [issueType, issueDetails] of Object.entries(issues)) {
+                            if (issueDetails && issueDetails.length > 0) {
+                                hasIssues = true;
+                                html += `<tr>
+                                    <td>${module}</td>
+                                    <td>${issueType}</td>
+                                    <td>${Array.isArray(issueDetails) ? issueDetails.join('<br>') : issueDetails}</td>
+                                </tr>`;
+                            }
+                        }
+                        
+                        if (!hasIssues) {
+                            html += `<tr>
+                                <td>${module}</td>
+                                <td colspan="2">无验证问题</td>
+                            </tr>`;
+                        }
+                    }
+                    
+                    html += '</tbody></table></div>';
+                    html += '</div>';
+                } else {
+                    html += '<div class="alert-card alert-success">未发现模块验证问题</div>';
+                }
+                
+                validationDisplay.innerHTML = html;
+                
+                // 更新全局状态以反映最新的验证结果
+                fetchState();
+                
+            } catch (error) {
+                console.error('依赖检查出错:', error);
+                validationDisplay.innerHTML = `<div class="alert-card alert-danger">检查依赖时出错: ${error.message}</div>`;
+            } finally {
+                checkBtn.disabled = false;
+                checkBtn.innerText = '检查依赖关系';
+            }
+        }
+
         // 初始化应用
         window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
-</html> 
+</html>                      

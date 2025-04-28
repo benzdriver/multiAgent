@@ -416,6 +416,67 @@ class Clarifier:
                 "message": "LLM调用失败，请稍后重试"
             }
 
+    async def integrate_legacy_modules(self, input_path: str = "data/input", output_path: str = "data/output"):
+        """集成legacy clarifier的功能，处理模块
+        
+        Args:
+            input_path: 输入文件目录
+            output_path: 输出目录
+        """
+        from pathlib import Path
+        import json
+        
+        self.logger.log("\n🔄 开始集成legacy模块...", role="system")
+        
+        if not hasattr(self, 'architecture_manager'):
+            self.architecture_manager = ArchitectureManager()
+            self.logger.log("✅ 已创建架构管理器", role="system")
+        
+        output_modules_path = Path(output_path) / "modules"
+        output_modules_path.mkdir(parents=True, exist_ok=True)
+        
+        modules_count = 0
+        for module_dir in output_modules_path.iterdir():
+            if not module_dir.is_dir():
+                continue
+                
+            summary_path = module_dir / "full_summary.json"
+            if not summary_path.exists():
+                continue
+                
+            try:
+                with open(summary_path, "r", encoding="utf-8") as f:
+                    module_data = json.load(f)
+                    
+                module_name = module_data.get('module_name', 'unknown')
+                self.logger.log(f"🔍 集成模块: {module_name}", role="system")
+                
+                await self.architecture_manager.process_new_module(
+                    module_data, 
+                    module_data.get("requirements", [])
+                )
+                modules_count += 1
+            except Exception as e:
+                self.logger.log(f"⚠️ 处理模块 {module_dir.name} 时出错: {str(e)}", role="system")
+        
+        self.logger.log(f"✅ 集成legacy模块完成，共处理 {modules_count} 个模块", role="system")
+        
+        from .architecture_reasoner import ArchitectureReasoner
+        reasoner = ArchitectureReasoner(architecture_manager=self.architecture_manager)
+        cycles = reasoner._check_global_circular_dependencies()
+        
+        if cycles:
+            self.logger.log(f"⚠️ 检测到 {len(cycles)} 个循环依赖:", role="system")
+            for cycle in cycles:
+                self.logger.log(f"  - {cycle}", role="system")
+        else:
+            self.logger.log("✅ 未检测到循环依赖", role="system")
+            
+        return {
+            "modules_count": modules_count,
+            "circular_dependencies": cycles
+        }
+    
     def continue_from_user(self):
         if self.waiting_for_user:
             self.waiting_for_user.set()
