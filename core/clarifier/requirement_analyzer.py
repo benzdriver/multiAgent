@@ -519,15 +519,35 @@ class RequirementAnalyzer:
             
             # 如果返回的是字符串，尝试解析为JSON
             if isinstance(result, str):
-                try:
-                    result = json.loads(result)
-                except json.JSONDecodeError:
-                    if self.logger:
-                        self.logger.log("⚠️ LLM返回的结果不是有效的JSON格式", role="error")
-                    else:
-                        print("⚠️ LLM返回的结果不是有效的JSON格式")
-                    # 创建一个基本的结构
-                    result = []
+                import re
+                json_array_match = re.search(r'\[\s*{.*}\s*\]', result, re.DOTALL)
+                
+                if json_array_match:
+                    json_str = json_array_match.group(0)
+                    try:
+                        result = json.loads(json_str)
+                    except json.JSONDecodeError:
+                        try:
+                            result = json.loads(result)
+                        except json.JSONDecodeError:
+                            if self.logger:
+                                self.logger.log("⚠️ LLM返回的结果不是有效的JSON格式", role="error")
+                                self.logger.log(f"尝试解析的内容: {result[:200]}...", role="debug")
+                            else:
+                                print("⚠️ LLM返回的结果不是有效的JSON格式")
+                            # 创建一个基本的结构
+                            result = []
+                else:
+                    try:
+                        result = json.loads(result)
+                    except json.JSONDecodeError:
+                        if self.logger:
+                            self.logger.log("⚠️ LLM返回的结果不是有效的JSON格式", role="error")
+                            self.logger.log(f"尝试解析的内容: {result[:200]}...", role="debug")
+                        else:
+                            print("⚠️ LLM返回的结果不是有效的JSON格式")
+                        # 创建一个基本的结构
+                        result = []
             
             if not isinstance(result, list):
                 if self.logger:
@@ -610,4 +630,4 @@ class RequirementAnalyzer:
             if self.logger:
                 self.logger.log(f"❌ 保存细粒度模块时出错: {str(e)}", role="error")
             else:
-                print(f"❌ 保存细粒度模块时出错: {str(e)}")  
+                print(f"❌ 保存细粒度模块时出错: {str(e)}")      
