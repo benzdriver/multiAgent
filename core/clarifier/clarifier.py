@@ -553,9 +553,13 @@ class Clarifier:
                 continue
                 
             try:
+                module_copy = module.copy()
+                if "module_name" in module_copy and "name" not in module_copy:
+                    module_copy["name"] = module_copy["module_name"]
+                
                 await self.architecture_manager.process_new_module(
-                    module, 
-                    module.get("requirements", [])
+                    module_copy, 
+                    module_copy.get("requirements", [])
                 )
                 modules_count += 1
                 self.logger.log(f"✅ 处理模块: {module_name}", role="system")
