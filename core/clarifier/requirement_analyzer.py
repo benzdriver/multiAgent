@@ -2,8 +2,8 @@ import os
 import json
 from pathlib import Path
 from typing import Dict, Any, Callable, Awaitable
-from llm.llm_executor import run_prompt
-from llm.prompt_cleaner import clean_code_output
+from core.llm.llm_executor import run_prompt
+from core.llm.prompt_cleaner import clean_code_output
 
 
 class RequirementAnalyzer:
@@ -438,4 +438,4 @@ class RequirementAnalyzer:
 """
         doc += "".join([f"- {item}\\n" for item in priority.get("could_have", [])])
         
-        return doc 
+        return doc  
