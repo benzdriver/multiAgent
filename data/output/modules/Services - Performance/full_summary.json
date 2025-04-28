@@ -1,0 +1,27 @@
+{
+  "module_name": "Services - Performance",
+  "responsibilities": [
+    "实现服务性能监控机制，确保服务响应时间符合预期",
+    "优化Serverless函数的执行效率，减少冷启动时间",
+    "应用缓存策略以提高数据检索速度，降低延迟",
+    "分析和优化数据库查询性能，减少读写操作时间",
+    "确保API网关的吞吐量和延迟在可接受的范围内",
+    "监控和管理服务的资源使用情况，以避免超出配额"
+  ],
+  "layer": "Business",
+  "domain": "Performance",
+  "dependencies": [
+    "Infrastructure - Logging and Monitoring",
+    "Infrastructure - Caching",
+    "Data - Database Access Layer",
+    "Infrastructure - API Gateway"
+  ],
+  "requirements": [
+    "服务响应时间不超过200ms",
+    "数据库查询平均响应时间不超过100ms",
+    "API网关的可用性达到99.9%",
+    "缓存命中率达到90%以上",
+    "支持实时性能指标监控和报告"
+  ],
+  "target_path": "src/business/services/performance"
+}

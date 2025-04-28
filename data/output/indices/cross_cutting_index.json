@@ -1,0 +1,40 @@
+{
+  "Internationalization": [
+    "UI Components - Authentication"
+  ],
+  "Authentication": [
+    "Layout Components - Consultants",
+    "UI Components - Authentication",
+    "Controllers - Dashboard",
+    "Views - Profile",
+    "Layout Components - Workspace",
+    "UI Components - Assessment",
+    "Views - Workspace",
+    "UI Components - Dashboard",
+    "Views - Assessment",
+    "Views - Dashboard",
+    "Views - Authentication",
+    "UI Components - Documents"
+  ],
+  "Logging": [
+    "Controllers - Reliability",
+    "Controllers - Security",
+    "Services - Reliability",
+    "Services - Security",
+    "Services - Performance"
+  ],
+  "Caching": [
+    "UI Components - Performance",
+    "Pages - Scalability",
+    "Services - Performance",
+    "Controllers - Scalability",
+    "Pages - Consultants"
+  ],
+  "ErrorHandling": [],
+  "Security": [
+    "Services - Workspace"
+  ],
+  "Responsive": [
+    "Pages - Scalability"
+  ]
+}

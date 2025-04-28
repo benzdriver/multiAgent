@@ -1,0 +1,23 @@
+{
+  "module_name": "UI Components - Accessibility",
+  "responsibilities": [
+    "确保UI组件符合WCAG标准，提升可访问性",
+    "为视障用户提供替代文本和语音支持",
+    "确保组件在键盘导航时的可操作性",
+    "设计符合无障碍标准的颜色对比度",
+    "实施可调整的字体大小和样式以支持低视力用户"
+  ],
+  "layer": "Presentation",
+  "domain": "Accessibility",
+  "dependencies": [
+    "React组件库",
+    "Tailwind CSS"
+  ],
+  "requirements": [
+    "UI组件必须支持屏幕阅读器",
+    "提供可配置的无障碍选项，如高对比度模式",
+    "确保所有交互元素具有键盘可达性",
+    "为多语言支持提供无障碍文本"
+  ],
+  "target_path": "src/components/accessibility"
+}

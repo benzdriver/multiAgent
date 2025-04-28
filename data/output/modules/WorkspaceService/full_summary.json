@@ -1,0 +1,23 @@
+{
+  "module_name": "WorkspaceService",
+  "module_type": "服务",
+  "responsibilities": [
+    "管理工作区",
+    "处理工作区消息和任务"
+  ],
+  "layer": "业务层",
+  "domain": "协作",
+  "dependencies": [
+    "WorkspaceRepository",
+    "MessageService"
+  ],
+  "requirements": [
+    "用户可以创建和管理工作区",
+    "用户可以发送消息和任务"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "name": "WorkspaceService"
+}

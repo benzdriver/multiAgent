@@ -1,0 +1,24 @@
+{
+  "module_name": "UI Components - Profile",
+  "responsibilities": [
+    "提供用户资料查看和编辑的界面",
+    "实现对话式和表单式资料收集的UI组件",
+    "支持用户在对话式和表单式模式间切换的交互",
+    "展示用户资料完整度和验证结果"
+  ],
+  "layer": "Presentation",
+  "domain": "Profile",
+  "dependencies": [
+    "Profile Service API for fetching and updating user data",
+    "AI Conversations API for interactive data collection",
+    "Form Validation Library for client-side validation",
+    "State Management (React Query, Context API)"
+  ],
+  "requirements": [
+    "用户可以查看和编辑个人资料",
+    "支持通过对话与表单两种模式收集资料",
+    "提供用户资料完整性和验证反馈",
+    "用户界面应与设计系统一致"
+  ],
+  "target_path": "src/components/ui/profile"
+}

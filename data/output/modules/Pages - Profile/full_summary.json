@@ -1,0 +1,24 @@
+{
+  "module_name": "Pages - Profile",
+  "responsibilities": [
+    "提供用户个人资料的查看和编辑界面",
+    "集成对话式和表单式资料收集功能",
+    "管理用户资料的完整性和更新确认",
+    "允许在对话式和表单式数据收集模式之间无缝切换"
+  ],
+  "layer": "Presentation",
+  "domain": "Profile",
+  "dependencies": [
+    "Profile Service (业务层)",
+    "UI组件库 (如: 按钮、输入框等)",
+    "状态管理库 (React Query, Context API)",
+    "认证服务 (Cognito/Auth0)"
+  ],
+  "requirements": [
+    "用户可以查看和编辑个人资料",
+    "支持通过AI对话和表单两种方式收集用户资料",
+    "确保用户资料的完整性检查和更新反馈",
+    "实现模式切换功能以提高用户体验"
+  ],
+  "target_path": "src/pages/profile"
+}

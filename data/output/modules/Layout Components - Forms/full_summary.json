@@ -1,0 +1,22 @@
+{
+  "module_name": "Layout Components - Forms",
+  "responsibilities": [
+    "提供表格页面的布局和导航结构",
+    "实现表格生成和预览页面的一致用户界面",
+    "支持表格页面的响应式设计，以适应不同设备",
+    "集成共享的UI元素，如页眉、页脚和侧边栏"
+  ],
+  "layer": "Presentation",
+  "domain": "Forms",
+  "dependencies": [
+    "UI组件库（如按钮、输入框）",
+    "路由模块（用于页面导航）",
+    "业务层服务（通过API获取表格数据）"
+  ],
+  "requirements": [
+    "提供流畅的用户体验，通过直观的导航和布局",
+    "确保表格生成和预览页面的统一性和一致性",
+    "支持多语言，通过国际化组件实现语言切换"
+  ],
+  "target_path": "src/components/layouts/forms"
+}

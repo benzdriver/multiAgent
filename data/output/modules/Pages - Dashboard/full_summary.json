@@ -1,0 +1,25 @@
+{
+  "module_name": "Pages - Dashboard",
+  "responsibilities": [
+    "提供客户仪表盘界面",
+    "展示用户个人资料完整度",
+    "显示评估状态和进度",
+    "呈现待办任务和通知",
+    "整合用户交互体验和展示逻辑"
+  ],
+  "layer": "Presentation",
+  "domain": "Dashboard",
+  "dependencies": [
+    "API Gateway",
+    "Auth Service (Cognito/Auth0)",
+    "Serverless Functions - dashboard/getUserDashboard",
+    "State management tools (React Query, Context API)"
+  ],
+  "requirements": [
+    "用户能够查看其仪表盘并获取最新信息",
+    "快速加载和响应用户操作",
+    "支持动态更新和实时通知显示",
+    "确保用户数据的安全和私密性"
+  ],
+  "target_path": "src/pages/dashboard/index.js"
+}

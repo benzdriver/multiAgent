@@ -1,0 +1,23 @@
+{
+  "module_name": "Controllers - Security",
+  "responsibilities": [
+    "管理用户身份验证和授权请求",
+    "协调与认证服务（如Cognito/Auth0）的交互",
+    "确保安全策略在API调用中的实施",
+    "处理安全事件的响应和日志记录"
+  ],
+  "layer": "Business",
+  "domain": "Security",
+  "dependencies": [
+    "Auth0/Cognito服务",
+    "UserRepository",
+    "Infrastructure层的Logging服务"
+  ],
+  "requirements": [
+    "确保用户请求的身份验证和授权",
+    "实现和维护访问控制策略",
+    "提供安全事件的监控和日志记录",
+    "支持多因素认证（MFA）集成"
+  ],
+  "target_path": "Business/Controllers/Security"
+}

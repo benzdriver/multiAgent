@@ -1,0 +1,25 @@
+{
+  "module_name": "Layout Components - Accessibility",
+  "responsibilities": [
+    "提供无障碍的用户界面布局组件",
+    "实现导航栏、侧边栏和页脚的无障碍功能",
+    "确保组件符合Web内容无障碍指南（WCAG）",
+    "支持键盘导航和屏幕阅读器",
+    "为不同设备和屏幕尺寸提供响应式设计"
+  ],
+  "layer": "Presentation",
+  "domain": "Accessibility",
+  "dependencies": [
+    "React组件库",
+    "Tailwind CSS",
+    "Next.js框架"
+  ],
+  "requirements": [
+    "符合WCAG 2.1 AA级别标准",
+    "所有交互元素可使用键盘操作",
+    "为屏幕阅读器提供有意义的ARIA标签",
+    "确保颜色对比度符合无障碍标准",
+    "提供文本替代和可视反馈"
+  ],
+  "target_path": "src/components/layout/accessibility"
+}

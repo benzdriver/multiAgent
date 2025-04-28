@@ -1,0 +1,22 @@
+{
+  "module_name": "Views - Usability",
+  "responsibilities": [
+    "提供用户友好的界面和直观的交互体验",
+    "保证应用在不同设备和屏幕尺寸上的响应性",
+    "实现无缝的页面导航和用户流"
+  ],
+  "layer": "Presentation",
+  "domain": "Usability",
+  "dependencies": [
+    "React组件库",
+    "Tailwind CSS",
+    "Next.js路由",
+    "API Gateway"
+  ],
+  "requirements": [
+    "支持多语言和本地化需求",
+    "优化页面加载时间和性能",
+    "提供清晰的用户反馈和错误处理机制"
+  ],
+  "target_path": "src/presentation/views/usability"
+}

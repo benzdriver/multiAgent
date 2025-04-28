@@ -1,0 +1,150 @@
+{
+  "Consultants": [
+    "Controllers - Consultants",
+    "Services - Consultants",
+    "Layout Components - Consultants",
+    "Views - Consultants",
+    "Pages - Consultants",
+    "UI Components - Consultants"
+  ],
+  "Accessibility": [
+    "Services - Accessibility",
+    "Pages - Accessibility",
+    "UI Components - Accessibility",
+    "Layout Components - Accessibility",
+    "Views - Accessibility"
+  ],
+  "Scalability": [
+    "Views - Scalability",
+    "Pages - Scalability",
+    "Services - Scalability",
+    "UI Components - Scalability",
+    "Controllers - Scalability",
+    "Layout Components - Scalability"
+  ],
+  "Forms": [
+    "Controllers - Forms",
+    "Views - Forms",
+    "Pages - Forms",
+    "Layout Components - Forms",
+    "UI Components - Forms",
+    "Services - Forms"
+  ],
+  "Assessment": [
+    "Pages - Assessment",
+    "Services - Assessment",
+    "UI Components - Assessment",
+    "Views - Assessment",
+    "Layout Components - Assessment",
+    "Controllers - Assessment"
+  ],
+  "Workspace": [
+    "Controllers - Workspace",
+    "Layout Components - Workspace",
+    "Pages - Workspace",
+    "UI Components - Workspace",
+    "Services - Workspace",
+    "Views - Workspace"
+  ],
+  "Reliability": [
+    "Controllers - Reliability",
+    "UI Components - Reliability",
+    "Services - Reliability",
+    "Layout Components - Reliability",
+    "Views - Reliability"
+  ],
+  "评估": [
+    "AssessmentService"
+  ],
+  "Documents": [
+    "Controllers - Documents",
+    "Layout Components - Documents",
+    "Pages - Documents",
+    "Services - Documents",
+    "UI Components - Documents",
+    "Views - Documents"
+  ],
+  "Profile": [
+    "Controllers - Profile",
+    "Pages - Profile",
+    "Views - Profile",
+    "Services - Profile",
+    "Layout Components - Profile",
+    "UI Components - Profile"
+  ],
+  "Performance": [
+    "UI Components - Performance",
+    "Pages - Performance",
+    "Controllers - Performance",
+    "Layout Components - Performance",
+    "Services - Performance",
+    "Views - Performance"
+  ],
+  "Authentication": [
+    "UI Components - Authentication",
+    "Controllers - Authentication",
+    "Pages - Authentication",
+    "Layout Components - Authentication",
+    "Services - Authentication",
+    "Views - Authentication"
+  ],
+  "文档管理": [
+    "DocumentAnalyzer"
+  ],
+  "人工智能集成": [
+    "OpenAIClient"
+  ],
+  "Dashboard": [
+    "Controllers - Dashboard",
+    "Services - Dashboard",
+    "UI Components - Dashboard",
+    "Pages - Dashboard",
+    "Views - Dashboard",
+    "Layout Components - Dashboard"
+  ],
+  "Security": [
+    "Pages - Security",
+    "Controllers - Security",
+    "UI Components - Security",
+    "Views - Security",
+    "Services - Security",
+    "Layout Components - Security"
+  ],
+  "Maintainability": [
+    "Layout Components - Maintainability",
+    "Controllers - Maintainability",
+    "Pages - Maintainability",
+    "UI Components - Maintainability",
+    "Services - Maintainability",
+    "Views - Maintainability"
+  ],
+  "Usability": [
+    "Views - Usability",
+    "Pages - Usability",
+    "UI Components - Usability",
+    "Layout Components - Usability",
+    "Services - Usability",
+    "Controllers - Usability"
+  ],
+  "协作": [
+    "WorkspaceService"
+  ],
+  "预约管理": [
+    "AppointmentService"
+  ],
+  "认证": [
+    "AuthenticationController"
+  ],
+  "管理员功能": [
+    "AdminService"
+  ],
+  "表格管理": [
+    "FormTemplateRepository"
+  ],
+  "用户管理": [
+    "UserProfileService"
+  ],
+  "仪表盘": [
+    "DashboardController"
+  ]
+}

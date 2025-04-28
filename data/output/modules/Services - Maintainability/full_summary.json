@@ -1,0 +1,26 @@
+{
+  "module_name": "Services - Maintainability",
+  "responsibilities": [
+    "实现和维护业务逻辑的服务类",
+    "处理复杂的业务规则和逻辑",
+    "提供清晰且可扩展的接口供其他层调用",
+    "确保业务逻辑的可测试性和可维护性",
+    "协调数据流并调用Data层提供的数据访问功能"
+  ],
+  "layer": "Business",
+  "domain": "Maintainability",
+  "dependencies": [
+    "Data层中的UserRepository",
+    "Data层中的ConsultantRepository",
+    "Data层中的AssessmentRepository",
+    "Infrastructure层中的OpenAI API",
+    "Infrastructure层中的S3/Blob存储"
+  ],
+  "requirements": [
+    "通过明确的接口实现业务逻辑的分离，促进代码的可维护性",
+    "保证每个服务类的职责单一，易于理解和修改",
+    "允许通过单元测试对业务逻辑进行验证",
+    "支持业务逻辑的快速迭代和扩展"
+  ],
+  "target_path": "src/business/services/maintainability"
+}

@@ -1,0 +1,24 @@
+{
+  "module_name": "Controllers - Workspace",
+  "responsibilities": [
+    "处理协作空间相关的HTTP请求",
+    "协调获取和更新协作空间数据",
+    "管理客户和顾问之间的协作会话",
+    "处理协作空间内的任务和消息流"
+  ],
+  "layer": "Business",
+  "domain": "Workspace",
+  "dependencies": [
+    "WorkspaceService",
+    "UserRepository",
+    "DocumentRepository",
+    "MessageService"
+  ],
+  "requirements": [
+    "支持客户和顾问之间的实时协作",
+    "确保协作空间内的消息和文档的安全性",
+    "提供任务管理和跟踪功能",
+    "支持跨平台的无缝集成"
+  ],
+  "target_path": "src/business/controllers/workspace"
+}

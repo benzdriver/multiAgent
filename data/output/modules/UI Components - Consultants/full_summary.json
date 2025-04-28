@@ -1,0 +1,24 @@
+{
+  "module_name": "UI Components - Consultants",
+  "responsibilities": [
+    "展示顾问匹配结果，包括顾问姓名、专长、评分及可用性",
+    "提供预约顾问的用户界面，允许用户选择日期、时间及咨询类型",
+    "显示顾问的详细信息和专业背景",
+    "管理用户和顾问之间的互动界面，如消息和文档共享"
+  ],
+  "layer": "Presentation",
+  "domain": "Consultants",
+  "dependencies": [
+    "API Gateway - consultants/matchConsultants",
+    "API Gateway - consultants/bookAppointment",
+    "React组件库",
+    "Tailwind CSS"
+  ],
+  "requirements": [
+    "用户可以查看和选择匹配的顾问",
+    "用户可以预约顾问咨询并查看确认信息",
+    "用户界面需具备响应式设计，以适应不同设备",
+    "提供无缝的用户体验，确保界面易于导航和使用"
+  ],
+  "target_path": "src/components/Consultants"
+}

@@ -1,0 +1,22 @@
+{
+  "module_name": "Layout Components - Reliability",
+  "responsibilities": [
+    "提供一致的用户界面布局，包括导航栏、侧边栏、页脚等",
+    "确保布局组件在不同页面和设备上的稳定性和一致性",
+    "通过合理的组件设计提升用户的交互体验"
+  ],
+  "layer": "Presentation",
+  "domain": "Reliability",
+  "dependencies": [
+    "Next.js框架",
+    "React组件库",
+    "Tailwind CSS",
+    "Business层的服务"
+  ],
+  "requirements": [
+    "确保组件的高可用性和快速响应时间",
+    "支持无缝的用户导航和交互",
+    "兼容多种浏览器和设备"
+  ],
+  "target_path": "src/components/layout"
+}

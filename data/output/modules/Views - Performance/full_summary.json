@@ -1,0 +1,25 @@
+{
+  "module_name": "Views - Performance",
+  "responsibilities": [
+    "优化用户界面交互性能",
+    "实现动态加载以提高页面响应速度",
+    "监控和分析用户界面的性能指标",
+    "提供高效的视图渲染策略"
+  ],
+  "layer": "Presentation",
+  "domain": "Performance",
+  "dependencies": [
+    "React组件库",
+    "Next.js框架",
+    "Tailwind CSS",
+    "React Query（用于数据获取）",
+    "Context API（用于应用状态管理）"
+  ],
+  "requirements": [
+    "提升用户界面的加载速度",
+    "确保视图组件在不同设备上的一致性能",
+    "降低初始页面加载时间",
+    "提供即时反馈和无缝用户体验"
+  ],
+  "target_path": "src/views/performance"
+}

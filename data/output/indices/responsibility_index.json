@@ -1,0 +1,1216 @@
+{
+  "处理与顾问相关的HTTP请求": [
+    "Controllers - Consultants"
+  ],
+  "协调匹配顾问的业务逻辑": [
+    "Controllers - Consultants"
+  ],
+  "管理顾问预约的创建和确认流程": [
+    "Controllers - Consultants"
+  ],
+  "确保顾问匹配和预约相关数据的正确性和完整性": [
+    "Controllers - Consultants"
+  ],
+  "与Data层交互以获取和更新顾问相关数据": [
+    "Controllers - Consultants"
+  ],
+  "与Infrastructure层交互以处理身份验证和授权": [
+    "Controllers - Consultants"
+  ],
+  "实现无障碍访问功能的业务逻辑和规则": [
+    "Services - Accessibility"
+  ],
+  "确保系统内所有功能和页面可以被不同能力的用户访问": [
+    "Services - Accessibility"
+  ],
+  "协调与无障碍相关的数据流，包括用户界面的更新和反馈机制": [
+    "Services - Accessibility"
+  ],
+  "提供顾问匹配服务，根据用户情况推荐合适的顾问": [
+    "Services - Consultants"
+  ],
+  "管理顾问预约流程，包括创建和查看预约详情": [
+    "Services - Consultants"
+  ],
+  "协调顾问与用户之间的沟通和协作": [
+    "Services - Consultants"
+  ],
+  "实现复杂的业务逻辑，例如根据不同参数计算顾问匹配度": [
+    "Services - Consultants"
+  ],
+  "提供无障碍访问的用户界面，以确保各种用户（包括有特殊需求的用户）的可用性": [
+    "Pages - Accessibility"
+  ],
+  "整合多种UI组件和视图，以确保无障碍功能的易于访问": [
+    "Pages - Accessibility"
+  ],
+  "实现Web内容无障碍指南（WCAG）标准，例如键盘导航、文本替代和屏幕阅读器支持": [
+    "Pages - Accessibility"
+  ],
+  "与用户进行无障碍相关的交互体验设计，包括颜色对比度和文本可读性": [
+    "Pages - Accessibility"
+  ],
+  "确保UI组件符合WCAG标准，提升可访问性": [
+    "UI Components - Accessibility"
+  ],
+  "为视障用户提供替代文本和语音支持": [
+    "UI Components - Accessibility"
+  ],
+  "确保组件在键盘导航时的可操作性": [
+    "UI Components - Accessibility"
+  ],
+  "设计符合无障碍标准的颜色对比度": [
+    "UI Components - Accessibility"
+  ],
+  "实施可调整的字体大小和样式以支持低视力用户": [
+    "UI Components - Accessibility"
+  ],
+  "提供顾问相关页面的统一布局结构": [
+    "Layout Components - Consultants"
+  ],
+  "管理导航栏、侧边栏和页脚等布局组件以提高用户体验": [
+    "Layout Components - Consultants"
+  ],
+  "确保顾问匹配和预约页面之间的导航一致性": [
+    "Layout Components - Consultants"
+  ],
+  "维护顾问域内页面的视觉和交互一致性": [
+    "Layout Components - Consultants"
+  ],
+  "提供可扩展的用户界面设计，以适应不同设备和屏幕尺寸": [
+    "Views - Scalability"
+  ],
+  "确保视图组件的高效加载和渲染，以提高用户体验": [
+    "Views - Scalability"
+  ],
+  "实现动态组件加载，以减少初始加载时间": [
+    "Views - Scalability"
+  ],
+  "支持国际化和本地化，以适应多语言环境": [
+    "Views - Scalability"
+  ],
+  "处理表格生成请求并协调相关服务调用": [
+    "Controllers - Forms"
+  ],
+  "确保表格数据的准确性和完整性": [
+    "Controllers - Forms"
+  ],
+  "管理用户请求的表格生成工作流": [
+    "Controllers - Forms"
+  ],
+  "从Forms域中获取和更新表格数据": [
+    "Controllers - Forms"
+  ],
+  "与前端交互，处理表格预览和下载请求": [
+    "Controllers - Forms"
+  ],
+  "提供用户开始评估的界面和流程": [
+    "Pages - Assessment"
+  ],
+  "管理评估步骤的用户交互和显示": [
+    "Pages - Assessment"
+  ],
+  "展示评估结果和建议路径": [
+    "Pages - Assessment"
+  ],
+  "引导用户通过评估流程并提供实时反馈": [
+    "Pages - Assessment"
+  ],
+  "处理协作空间相关的HTTP请求": [
+    "Controllers - Workspace"
+  ],
+  "协调获取和更新协作空间数据": [
+    "Controllers - Workspace"
+  ],
+  "管理客户和顾问之间的协作会话": [
+    "Controllers - Workspace"
+  ],
+  "处理协作空间内的任务和消息流": [
+    "Controllers - Workspace"
+  ],
+  "展示顾问匹配结果": [
+    "Views - Consultants"
+  ],
+  "提供顾问预约界面": [
+    "Views - Consultants"
+  ],
+  "允许用户浏览和选择顾问": [
+    "Views - Consultants"
+  ],
+  "在用户界面中显示顾问的详细信息，如专长、评分和可用性": [
+    "Views - Consultants"
+  ],
+  "实现业务逻辑以确保服务的高可用性和稳定性": [
+    "Controllers - Reliability"
+  ],
+  "监控系统性能并在必要时触发报警": [
+    "Controllers - Reliability"
+  ],
+  "协调服务间的故障恢复和回退机制": [
+    "Controllers - Reliability"
+  ],
+  "管理和执行健康检查以确保组件的正常运行": [
+    "Controllers - Reliability"
+  ],
+  "处理服务降级策略和流量控制以防止过载": [
+    "Controllers - Reliability"
+  ],
+  "提供无障碍的用户界面布局组件": [
+    "Layout Components - Accessibility"
+  ],
+  "实现导航栏、侧边栏和页脚的无障碍功能": [
+    "Layout Components - Accessibility"
+  ],
+  "确保组件符合Web内容无障碍指南（WCAG）": [
+    "Layout Components - Accessibility"
+  ],
+  "支持键盘导航和屏幕阅读器": [
+    "Layout Components - Accessibility"
+  ],
+  "为不同设备和屏幕尺寸提供响应式设计": [
+    "Layout Components - Accessibility"
+  ],
+  "设计和实现用户界面组件以确保应用的高可靠性": [
+    "UI Components - Reliability"
+  ],
+  "使用React组件库创建可重用和一致的UI元素，如按钮、表单和卡片": [
+    "UI Components - Reliability"
+  ],
+  "集成Tailwind CSS以保持样式的简洁性和一致性": [
+    "UI Components - Reliability"
+  ],
+  "与业务层服务集成以确保数据的即时和准确展示": [
+    "UI Components - Reliability"
+  ],
+  "提供用户友好的错误处理和反馈机制以提高用户体验": [
+    "UI Components - Reliability"
+  ],
+  "确保UI组件在异常情况下的稳定性和响应能力": [
+    "UI Components - Reliability"
+  ],
+  "创建评估": [
+    "AssessmentService"
+  ],
+  "提交评估步骤": [
+    "AssessmentService"
+  ],
+  "获取评估结果": [
+    "AssessmentService"
+  ],
+  "处理文档上传请求，确保文件的存储和分类": [
+    "Controllers - Documents"
+  ],
+  "获取用户上传的所有文档并返回给客户端": [
+    "Controllers - Documents"
+  ],
+  "触发文档的深度分析并返回分析结果": [
+    "Controllers - Documents"
+  ],
+  "协调与文档相关的业务逻辑和规则": [
+    "Controllers - Documents"
+  ],
+  "管理文档相关的用户请求和响应": [
+    "Controllers - Documents"
+  ],
+  "处理用户资料相关的请求和响应": [
+    "Controllers - Profile"
+  ],
+  "协调用户资料的获取和更新操作": [
+    "Controllers - Profile"
+  ],
+  "调用对话式和表单式资料收集功能": [
+    "Controllers - Profile"
+  ],
+  "管理用户资料收集模式的切换": [
+    "Controllers - Profile"
+  ],
+  "确保用户资料数据的完整性和一致性": [
+    "Controllers - Profile"
+  ],
+  "优化UI组件的加载和渲染速度": [
+    "UI Components - Performance"
+  ],
+  "实现高效的状态管理以减少不必要的重新渲染": [
+    "UI Components - Performance"
+  ],
+  "使用异步数据获取和缓存机制提升用户体验": [
+    "UI Components - Performance"
+  ],
+  "使用懒加载技术优化页面初始加载时间": [
+    "UI Components - Performance"
+  ],
+  "监控和分析UI组件的性能指标": [
+    "UI Components - Performance"
+  ],
+  "优化页面加载速度和响应时间": [
+    "Pages - Performance"
+  ],
+  "实现和管理页面缓存策略": [
+    "Pages - Performance"
+  ],
+  "监控和分析页面性能指标": [
+    "Pages - Performance"
+  ],
+  "确保页面在不同设备和网络条件下的性能一致性": [
+    "Pages - Performance"
+  ],
+  "提供用户登录界面，包括输入邮箱和密码的表单": [
+    "UI Components - Authentication"
+  ],
+  "实现用户注册界面，支持角色选择（申请人/顾问）": [
+    "UI Components - Authentication"
+  ],
+  "提供密码重置界面，支持请求重置和实际重置流程": [
+    "UI Components - Authentication",
+    "Views - Authentication"
+  ],
+  "支持社交登录与身份验证的UI集成": [
+    "UI Components - Authentication"
+  ],
+  "确保UI组件的响应性和无障碍设计": [
+    "UI Components - Authentication"
+  ],
+  "分析上传的文档": [
+    "DocumentAnalyzer"
+  ],
+  "提取文档信息": [
+    "DocumentAnalyzer"
+  ],
+  "处理与性能监控相关的请求和响应": [
+    "Controllers - Performance"
+  ],
+  "协调与性能相关的数据收集和分析服务": [
+    "Controllers - Performance"
+  ],
+  "确保系统性能指标的获取和报告": [
+    "Controllers - Performance"
+  ],
+  "管理性能相关的警报和通知机制": [
+    "Controllers - Performance"
+  ],
+  "展示表格生成页面，提供用户友好的界面以选择和生成官方表格": [
+    "Views - Forms"
+  ],
+  "展示表格预览页面，支持用户预览和下载生成的表格": [
+    "Views - Forms"
+  ],
+  "提供交互式UI组件以收集用户输入的数据": [
+    "Views - Forms"
+  ],
+  "实现表单验证，确保用户输入的准确性和完整性": [
+    "Views - Forms"
+  ],
+  "支持用户在表单生成和预览过程中的导航和交互": [
+    "Views - Forms"
+  ],
+  "与OpenAI API集成": [
+    "OpenAIClient"
+  ],
+  "生成AI模型的响应": [
+    "OpenAIClient"
+  ],
+  "处理客户仪表盘请求": [
+    "Controllers - Dashboard"
+  ],
+  "协调用户数据和仪表盘数据的获取和展示": [
+    "Controllers - Dashboard"
+  ],
+  "管理和协调与用户仪表盘相关的后端功能调用": [
+    "Controllers - Dashboard"
+  ],
+  "确保仪表盘数据的安全性和正确性": [
+    "Controllers - Dashboard"
+  ],
+  "提供用户认证和授权的界面": [
+    "Pages - Security"
+  ],
+  "支持用户登录、注册和密码重置的交互": [
+    "Pages - Security"
+  ],
+  "确保通过UI组件实现安全的用户信息输入和展示": [
+    "Pages - Security"
+  ],
+  "管理用户身份验证和授权请求": [
+    "Controllers - Security"
+  ],
+  "协调与认证服务（如Cognito/Auth0）的交互": [
+    "Controllers - Security"
+  ],
+  "确保安全策略在API调用中的实施": [
+    "Controllers - Security"
+  ],
+  "处理安全事件的响应和日志记录": [
+    "Controllers - Security"
+  ],
+  "提供一致的页面布局结构，包括导航栏、侧边栏和页脚": [
+    "Layout Components - Maintainability"
+  ],
+  "确保布局组件的可重用性和可扩展性": [
+    "Layout Components - Maintainability"
+  ],
+  "支持响应式设计，适应不同设备和屏幕尺寸": [
+    "Layout Components - Maintainability"
+  ],
+  "实现跨页面的一致用户体验": [
+    "Layout Components - Maintainability"
+  ],
+  "通过清晰的接口与业务逻辑层交互": [
+    "Layout Components - Maintainability"
+  ],
+  "提供用户个人资料的查看和编辑界面": [
+    "Pages - Profile"
+  ],
+  "集成对话式和表单式资料收集功能": [
+    "Pages - Profile"
+  ],
+  "管理用户资料的完整性和更新确认": [
+    "Pages - Profile"
+  ],
+  "允许在对话式和表单式数据收集模式之间无缝切换": [
+    "Pages - Profile"
+  ],
+  "提供用户友好的界面和直观的交互体验": [
+    "Views - Usability"
+  ],
+  "保证应用在不同设备和屏幕尺寸上的响应性": [
+    "Views - Usability"
+  ],
+  "实现无缝的页面导航和用户流": [
+    "Views - Usability"
+  ],
+  "提供动态加载和渲染页面的能力以支持高流量": [
+    "Pages - Scalability"
+  ],
+  "优化页面组件以最大化性能和响应速度": [
+    "Pages - Scalability"
+  ],
+  "实现客户端缓存和数据预取策略以提高用户体验": [
+    "Pages - Scalability"
+  ],
+  "确保页面组件在不同设备和浏览器上的兼容性": [
+    "Pages - Scalability"
+  ],
+  "处理用户登录请求并颁发JWT令牌": [
+    "Controllers - Authentication"
+  ],
+  "处理用户注册请求并创建新用户账户": [
+    "Controllers - Authentication"
+  ],
+  "管理密码重置流程，包括请求和执行": [
+    "Controllers - Authentication"
+  ],
+  "协调与Cognito/Auth0的通信以进行身份验证操作": [
+    "Controllers - Authentication"
+  ],
+  "管理API请求的认证数据流，确保安全性和正确性": [
+    "Controllers - Authentication"
+  ],
+  "监控服务的健康状态": [
+    "Services - Reliability"
+  ],
+  "处理服务的错误和异常": [
+    "Services - Reliability"
+  ],
+  "实施重试和回退机制以提高服务的可靠性": [
+    "Services - Reliability"
+  ],
+  "记录服务的性能指标和事件日志": [
+    "Services - Reliability"
+  ],
+  "协调与基础设施层的交互以支持高可用性": [
+    "Services - Reliability"
+  ],
+  "提供用户个人资料的可视化展示": [
+    "Views - Profile"
+  ],
+  "实现用户资料的查看和编辑界面": [
+    "Views - Profile"
+  ],
+  "支持用户资料的表单式和对话式收集模式切换": [
+    "Views - Profile"
+  ],
+  "确保用户交互体验的一致性和流畅性": [
+    "Views - Profile"
+  ],
+  "在用户界面中展示表格生成和预览功能": [
+    "Pages - Forms"
+  ],
+  "处理用户与表格生成和预览相关的交互": [
+    "Pages - Forms"
+  ],
+  "从业务层获取表格数据并在界面上呈现": [
+    "Pages - Forms"
+  ],
+  "提供用户友好的表格生成选项和反馈": [
+    "Pages - Forms"
+  ],
+  "支持表格字段的更新和验证反馈": [
+    "Pages - Forms"
+  ],
+  "提供文档相关页面的导航和布局结构": [
+    "Layout Components - Documents"
+  ],
+  "管理和渲染文档上传和管理页面的布局组件": [
+    "Layout Components - Documents"
+  ],
+  "确保用户在文档上传和管理过程中的一致性和易用性": [
+    "Layout Components - Documents"
+  ],
+  "提供响应式设计以适配不同设备和屏幕尺寸": [
+    "Layout Components - Documents"
+  ],
+  "提供用户登录、注册和密码重置的UI界面": [
+    "UI Components - Security"
+  ],
+  "确保UI组件的安全性，防止常见的UI漏洞，如XSS": [
+    "UI Components - Security"
+  ],
+  "集成并展示身份验证的反馈信息（如错误提示和成功消息）": [
+    "UI Components - Security"
+  ],
+  "在UI中处理身份验证状态的显示和用户角色的管理": [
+    "UI Components - Security"
+  ],
+  "提供无障碍访问功能的用户界面": [
+    "Views - Accessibility"
+  ],
+  "确保视图组件在不同设备和屏幕阅读器上的兼容性": [
+    "Views - Accessibility"
+  ],
+  "支持键盘导航和语音控制": [
+    "Views - Accessibility"
+  ],
+  "提供高对比度的视觉选项": [
+    "Views - Accessibility"
+  ],
+  "实现无障碍相关的ARIA属性和标签": [
+    "Views - Accessibility"
+  ],
+  "提供一致的用户界面布局，用于客户和顾问之间的协作空间": [
+    "Layout Components - Workspace"
+  ],
+  "管理工作区页面的导航结构，包括导航栏和侧边栏": [
+    "Layout Components - Workspace"
+  ],
+  "确保工作区页面中的内容布局符合设计系统的规范": [
+    "Layout Components - Workspace"
+  ],
+  "提供页脚以显示标准应用信息及链接": [
+    "Layout Components - Workspace"
+  ],
+  "实现动态扩展业务逻辑，以适应高负载和高流量场景": [
+    "Services - Scalability"
+  ],
+  "管理和优化资源分配，确保无服务器架构下的高效运行": [
+    "Services - Scalability"
+  ],
+  "监控业务服务的性能和可用性，并自动扩展或缩减资源": [
+    "Services - Scalability"
+  ],
+  "提供业务层的缓存策略以提高响应速度和降低延迟": [
+    "Services - Scalability"
+  ],
+  "处理用户仪表盘的数据聚合和业务逻辑": [
+    "Services - Dashboard"
+  ],
+  "协调从多个数据源获取数据以生成仪表盘视图": [
+    "Services - Dashboard"
+  ],
+  "实现用户仪表盘的进度追踪和通知逻辑": [
+    "Services - Dashboard"
+  ],
+  "管理用户仪表盘中的待办事项和通知规则": [
+    "Services - Dashboard"
+  ],
+  "管理工作区": [
+    "WorkspaceService"
+  ],
+  "处理工作区消息和任务": [
+    "WorkspaceService"
+  ],
+  "提供客户和顾问之间的协作界面": [
+    "Pages - Workspace",
+    "Views - Workspace"
+  ],
+  "展示共享文档": [
+    "Pages - Workspace"
+  ],
+  "显示消息历史": [
+    "Pages - Workspace"
+  ],
+  "管理任务列表的展示与更新": [
+    "Pages - Workspace"
+  ],
+  "集成用户交互和界面的UI组件": [
+    "Pages - Workspace"
+  ],
+  "管理评估流程的业务逻辑": [
+    "Services - Assessment"
+  ],
+  "启动新的评估会话": [
+    "Services - Assessment"
+  ],
+  "处理评估步骤并维护评估状态": [
+    "Services - Assessment"
+  ],
+  "获取已完成评估的结果和分析": [
+    "Services - Assessment"
+  ],
+  "提供用户登录界面，包括输入邮箱和密码的表单，以及社交登录选项": [
+    "Pages - Authentication"
+  ],
+  "提供用户注册界面，支持角色选择（申请人/顾问）": [
+    "Pages - Authentication"
+  ],
+  "提供密码重置界面，处理重置请求和新密码设置": [
+    "Pages - Authentication"
+  ],
+  "管理用户身份验证相关的页面逻辑和UI交互": [
+    "Pages - Authentication"
+  ],
+  "与后端认证服务进行交互以完成登录、注册和密码重置功能": [
+    "Pages - Authentication"
+  ],
+  "提供用户友好的界面以展示客户和顾问在协作空间中的互动": [
+    "UI Components - Workspace"
+  ],
+  "实现消息历史的显示和更新": [
+    "UI Components - Workspace"
+  ],
+  "支持任务列表的展示和交互": [
+    "UI Components - Workspace"
+  ],
+  "展示和管理共享文档的上传和查看功能": [
+    "UI Components - Workspace"
+  ],
+  "提供切换视图或模式的功能，方便用户在不同界面之间切换": [
+    "UI Components - Workspace"
+  ],
+  "提供用户认证界面的视觉组件": [
+    "Views - Security"
+  ],
+  "实现用户登录、注册和密码重置的交互体验": [
+    "Views - Security"
+  ],
+  "确保用户界面与安全认证流程的无缝集成": [
+    "Views - Security"
+  ],
+  "创建和管理预约": [
+    "AppointmentService"
+  ],
+  "处理预约状态": [
+    "AppointmentService"
+  ],
+  "管理用户资料的获取和更新": [
+    "Services - Profile"
+  ],
+  "协调对话式和表单式资料收集的流程": [
+    "Services - Profile"
+  ],
+  "处理用户资料的完整性和验证": [
+    "Services - Profile"
+  ],
+  "维护资料收集模式切换的业务逻辑": [
+    "Services - Profile"
+  ],
+  "用户登录": [
+    "AuthenticationController"
+  ],
+  "用户注册": [
+    "AuthenticationController"
+  ],
+  "令牌刷新": [
+    "AuthenticationController"
+  ],
+  "密码重置": [
+    "AuthenticationController"
+  ],
+  "管理客户-顾问协作环境中的业务逻辑": [
+    "Services - Workspace"
+  ],
+  "协调共享文档的访问和更新": [
+    "Services - Workspace"
+  ],
+  "处理消息历史的检索和存储": [
+    "Services - Workspace"
+  ],
+  "管理协作任务列表的创建和更新": [
+    "Services - Workspace"
+  ],
+  "确保协作空间内的权限和安全性": [
+    "Services - Workspace"
+  ],
+  "提供表格页面的布局和导航结构": [
+    "Layout Components - Forms"
+  ],
+  "实现表格生成和预览页面的一致用户界面": [
+    "Layout Components - Forms"
+  ],
+  "支持表格页面的响应式设计，以适应不同设备": [
+    "Layout Components - Forms"
+  ],
+  "集成共享的UI元素，如页眉、页脚和侧边栏": [
+    "Layout Components - Forms"
+  ],
+  "渲染评估启动页面，让用户能够轻松开始评估流程": [
+    "UI Components - Assessment"
+  ],
+  "提供多步骤评估界面，支持用户逐步完成评估": [
+    "UI Components - Assessment"
+  ],
+  "展示评估结果，包含对用户的移民路径建议": [
+    "UI Components - Assessment"
+  ],
+  "管理用户界面的交互体验，确保流畅的用户体验": [
+    "UI Components - Assessment"
+  ],
+  "提供切换和导航功能，帮助用户在评估步骤间移动": [
+    "UI Components - Assessment"
+  ],
+  "提供用户友好的布局组件，用于展示和管理用户个人资料页面": [
+    "Layout Components - Profile"
+  ],
+  "实现响应式设计，确保在不同设备上的良好显示效果": [
+    "Layout Components - Profile"
+  ],
+  "整合导航栏、页脚和其他公共组件，提供一致的用户体验": [
+    "Layout Components - Profile"
+  ],
+  "支持主题和样式的切换，以适应用户偏好和品牌需求": [
+    "Layout Components - Profile"
+  ],
+  "处理HTTP请求并将其路由到适当的业务逻辑": [
+    "Controllers - Maintainability"
+  ],
+  "确保业务逻辑与API请求之间的解耦": [
+    "Controllers - Maintainability"
+  ],
+  "协调各个服务来满足请求并返回响应": [
+    "Controllers - Maintainability"
+  ],
+  "处理异常并返回适当的错误消息": [
+    "Controllers - Maintainability"
+  ],
+  "执行输入验证和认证检查": [
+    "Controllers - Maintainability"
+  ],
+  "展示共享文档和消息历史": [
+    "Views - Workspace"
+  ],
+  "显示任务列表和协作进度": [
+    "Views - Workspace"
+  ],
+  "支持用户友好的交互体验": [
+    "Views - Workspace"
+  ],
+  "展示用户的概览信息，包括个人资料完整度、评估状态、待办任务和通知": [
+    "UI Components - Dashboard"
+  ],
+  "提供用户与系统交互的入口，例如查看详细信息、操作待办任务和接收通知": [
+    "UI Components - Dashboard"
+  ],
+  "渲染动态数据，确保信息的实时更新": [
+    "UI Components - Dashboard"
+  ],
+  "统一的UI风格和一致的用户体验": [
+    "UI Components - Dashboard"
+  ],
+  "提供用户资料查看和编辑的界面": [
+    "UI Components - Profile"
+  ],
+  "实现对话式和表单式资料收集的UI组件": [
+    "UI Components - Profile"
+  ],
+  "支持用户在对话式和表单式模式间切换的交互": [
+    "UI Components - Profile"
+  ],
+  "展示用户资料完整度和验证结果": [
+    "UI Components - Profile"
+  ],
+  "优化页面加载时间，确保布局组件快速渲染": [
+    "Layout Components - Performance"
+  ],
+  "通过懒加载技术优化大型组件的加载": [
+    "Layout Components - Performance"
+  ],
+  "确保跨页面的一致性和响应式设计": [
+    "Layout Components - Performance"
+  ],
+  "管理全局状态以减少不必要的重新渲染": [
+    "Layout Components - Performance"
+  ],
+  "实现导航栏、侧边栏和页脚等组件的性能优化": [
+    "Layout Components - Performance"
+  ],
+  "提供用户文档上传界面": [
+    "Pages - Documents"
+  ],
+  "展示用户已上传文档的管理界面": [
+    "Pages - Documents"
+  ],
+  "实现用户与文档相关操作的交互体验": [
+    "Pages - Documents"
+  ],
+  "支持用户执行文档预览和初步分析功能": [
+    "Pages - Documents"
+  ],
+  "提供用户友好的界面，确保用户可以轻松导航和操作": [
+    "Pages - Usability"
+  ],
+  "集成多种UI组件以实现完整的页面功能": [
+    "Pages - Usability"
+  ],
+  "确保页面的响应速度和交互性能，以提高用户满意度": [
+    "Pages - Usability"
+  ],
+  "实现页面的国际化和本地化支持，提供多语言界面": [
+    "Pages - Usability"
+  ],
+  "提供一致、直观的用户界面体验": [
+    "UI Components - Usability"
+  ],
+  "创建可重用的UI组件以提高开发效率": [
+    "UI Components - Usability"
+  ],
+  "确保UI组件的响应性和兼容性": [
+    "UI Components - Usability"
+  ],
+  "通过直观的交互设计提升用户的操作便捷性": [
+    "UI Components - Usability"
+  ],
+  "提供用户友好的界面以开始评估流程": [
+    "Views - Assessment"
+  ],
+  "支持多步骤评估流程的导航和数据输入": [
+    "Views - Assessment"
+  ],
+  "显示评估结果和推荐的移民路径": [
+    "Views - Assessment"
+  ],
+  "实现对话式和表单式用户信息收集的模式切换": [
+    "Views - Assessment"
+  ],
+  "提供用户认证相关页面的布局组件": [
+    "Layout Components - Authentication"
+  ],
+  "确保登录、注册和密码重置页面的统一导航和样式": [
+    "Layout Components - Authentication"
+  ],
+  "通过页面布局组件提升用户交互体验": [
+    "Layout Components - Authentication"
+  ],
+  "提供一致的导航栏、页脚和辅助导航组件": [
+    "Layout Components - Authentication"
+  ],
+  "管理用户": [
+    "AdminService"
+  ],
+  "更新系统设置": [
+    "AdminService"
+  ],
+  "提供用户友好的表单界面以收集用户信息": [
+    "UI Components - Forms"
+  ],
+  "使用React Hook Form和Zod进行表单验证和处理": [
+    "UI Components - Forms"
+  ],
+  "支持多种表单布局和样式以适应不同的数据收集需求": [
+    "UI Components - Forms"
+  ],
+  "提供表单元素的可重用组件，如输入框、选择器、按钮等": [
+    "UI Components - Forms"
+  ],
+  "与业务层交互以提交和接收表单数据的验证结果": [
+    "UI Components - Forms"
+  ],
+  "提供可重用的UI组件，如按钮、表单和卡片，以支持不同页面和功能的构建": [
+    "UI Components - Scalability"
+  ],
+  "确保UI组件在不同设备和屏幕尺寸上具有响应性和适应性": [
+    "UI Components - Scalability"
+  ],
+  "通过使用Next.js和React优化UI组件的性能，支持动态加载和代码拆分": [
+    "UI Components - Scalability"
+  ],
+  "与业务层的服务交互以获取和展示数据，同时保持组件的独立性和可测试性": [
+    "UI Components - Scalability"
+  ],
+  "提供Assessment相关页面的一致布局，包括导航栏、侧边栏和页脚": [
+    "Layout Components - Assessment"
+  ],
+  "确保评估过程中的页面导航顺畅": [
+    "Layout Components - Assessment"
+  ],
+  "提供视觉和交互一致性，以增强用户体验": [
+    "Layout Components - Assessment"
+  ],
+  "支持不同评估页面（如初始评估页、评估步骤页、评估结果页）的通用布局": [
+    "Layout Components - Assessment"
+  ],
+  "实施和管理用户身份验证和授权流程": [
+    "Services - Security"
+  ],
+  "确保数据传输和存储的安全性": [
+    "Services - Security"
+  ],
+  "管理和验证安全令牌和会话": [
+    "Services - Security"
+  ],
+  "监控和响应安全事件": [
+    "Services - Security"
+  ],
+  "执行安全策略和合规要求": [
+    "Services - Security"
+  ],
+  "实现服务性能监控机制，确保服务响应时间符合预期": [
+    "Services - Performance"
+  ],
+  "优化Serverless函数的执行效率，减少冷启动时间": [
+    "Services - Performance"
+  ],
+  "应用缓存策略以提高数据检索速度，降低延迟": [
+    "Services - Performance"
+  ],
+  "分析和优化数据库查询性能，减少读写操作时间": [
+    "Services - Performance"
+  ],
+  "确保API网关的吞吐量和延迟在可接受的范围内": [
+    "Services - Performance"
+  ],
+  "监控和管理服务的资源使用情况，以避免超出配额": [
+    "Services - Performance"
+  ],
+  "处理评估相关的API请求": [
+    "Controllers - Assessment"
+  ],
+  "协调评估流程的业务逻辑": [
+    "Controllers - Assessment"
+  ],
+  "调用Assessment域的Serverless函数": [
+    "Controllers - Assessment"
+  ],
+  "管理评估数据的流动和处理": [
+    "Controllers - Assessment"
+  ],
+  "根据需求转换和返回响应数据": [
+    "Controllers - Assessment"
+  ],
+  "设计和实现全局导航栏，包括菜单项和用户操作快捷方式": [
+    "Layout Components - Usability"
+  ],
+  "实现响应式侧边栏，适应不同设备屏幕尺寸": [
+    "Layout Components - Usability"
+  ],
+  "设计和实现页脚，提供版权信息和快速导航链接": [
+    "Layout Components - Usability"
+  ],
+  "提供一致的页面布局模板以实现统一的用户体验": [
+    "Layout Components - Usability"
+  ],
+  "确保所有布局组件的可访问性和易用性，支持键盘导航和屏幕阅读器": [
+    "Layout Components - Usability"
+  ],
+  "存储和检索表格模板": [
+    "FormTemplateRepository"
+  ],
+  "提供一致的用户界面布局，包括导航栏、侧边栏、页脚等": [
+    "Layout Components - Reliability"
+  ],
+  "确保布局组件在不同页面和设备上的稳定性和一致性": [
+    "Layout Components - Reliability"
+  ],
+  "通过合理的组件设计提升用户的交互体验": [
+    "Layout Components - Reliability"
+  ],
+  "提供用户界面和交互体验，确保页面组件的易用性和一致性": [
+    "Pages - Maintainability"
+  ],
+  "整合多个UI组件和视图，确保页面的模块化和可维护性": [
+    "Pages - Maintainability"
+  ],
+  "实现设计系统和用户体验的一致性，遵循设计规范": [
+    "Pages - Maintainability"
+  ],
+  "获取用户资料": [
+    "UserProfileService"
+  ],
+  "更新用户资料": [
+    "UserProfileService"
+  ],
+  "计算资料完整度": [
+    "UserProfileService"
+  ],
+  "提供可重用的UI组件以提高开发效率": [
+    "UI Components - Maintainability"
+  ],
+  "确保UI组件的可维护性和可扩展性": [
+    "UI Components - Maintainability"
+  ],
+  "实现一致的设计系统以保持UI一致性": [
+    "UI Components - Maintainability"
+  ],
+  "支持响应式设计以适应不同设备": [
+    "UI Components - Maintainability"
+  ],
+  "集成状态管理以简化数据流管理": [
+    "UI Components - Maintainability"
+  ],
+  "处理上传文档的业务逻辑，包括验证和保存": [
+    "Services - Documents"
+  ],
+  "管理用户文档的分类和标签化": [
+    "Services - Documents"
+  ],
+  "协调文档分析请求并处理结果": [
+    "Services - Documents"
+  ],
+  "确保文档存储的安全性和访问控制": [
+    "Services - Documents"
+  ],
+  "与用户资料和分析结果集成，提供文档相关的业务功能": [
+    "Services - Documents"
+  ],
+  "提供客户仪表盘界面": [
+    "Pages - Dashboard"
+  ],
+  "展示用户个人资料完整度": [
+    "Pages - Dashboard"
+  ],
+  "显示评估状态和进度": [
+    "Pages - Dashboard"
+  ],
+  "呈现待办任务和通知": [
+    "Pages - Dashboard"
+  ],
+  "整合用户交互体验和展示逻辑": [
+    "Pages - Dashboard"
+  ],
+  "处理用户身份验证请求，包括登录、注册和密码重置": [
+    "Services - Authentication"
+  ],
+  "协调AWS Cognito/Auth0进行身份验证和授权": [
+    "Services - Authentication"
+  ],
+  "实现业务逻辑以确保用户身份验证过程的安全性和有效性": [
+    "Services - Authentication"
+  ],
+  "管理用户身份验证会话，生成和验证JWT令牌": [
+    "Services - Authentication"
+  ],
+  "根据用户资料和需求生成官方表格": [
+    "Services - Forms"
+  ],
+  "管理和更新生成表格的具体字段": [
+    "Services - Forms"
+  ],
+  "验证表格数据的完整性和正确性": [
+    "Services - Forms"
+  ],
+  "提供表格生成状态和错误警告": [
+    "Services - Forms"
+  ],
+  "实现和维护业务逻辑的服务类": [
+    "Services - Maintainability"
+  ],
+  "处理复杂的业务规则和逻辑": [
+    "Services - Maintainability"
+  ],
+  "提供清晰且可扩展的接口供其他层调用": [
+    "Services - Maintainability"
+  ],
+  "确保业务逻辑的可测试性和可维护性": [
+    "Services - Maintainability"
+  ],
+  "协调数据流并调用Data层提供的数据访问功能": [
+    "Services - Maintainability"
+  ],
+  "提供用户身份验证状态的可视化反馈": [
+    "Layout Components - Security"
+  ],
+  "管理基于角色的导航和访问控制": [
+    "Layout Components - Security"
+  ],
+  "集成安全相关的UI元素（如登录/登出按钮、用户信息显示）": [
+    "Layout Components - Security"
+  ],
+  "确保安全组件在用户界面中的一致性和可用性": [
+    "Layout Components - Security"
+  ],
+  "提升用户体验，通过优化服务交互流程和界面来提高用户的操作效率和满意度": [
+    "Services - Usability"
+  ],
+  "实现业务逻辑的封装，确保在用户交互过程中提供一致且高效的服务": [
+    "Services - Usability"
+  ],
+  "提供用户行为分析和反馈机制，以便不断改进和优化系统的可用性": [
+    "Services - Usability"
+  ],
+  "处理用户界面交互请求，确保用户体验顺畅": [
+    "Controllers - Usability"
+  ],
+  "协调与Profile、Assessment和Documents模块的交互，提供一致的用户信息更新和获取": [
+    "Controllers - Usability"
+  ],
+  "实现用户反馈机制，收集用户体验数据以便于后续优化": [
+    "Controllers - Usability"
+  ],
+  "确保在服务器无状态和事件驱动的架构中，支持无缝的用户体验": [
+    "Controllers - Usability"
+  ],
+  "提供可靠性相关信息的用户界面": [
+    "Views - Reliability"
+  ],
+  "实现用户界面的可用性和稳定性": [
+    "Views - Reliability"
+  ],
+  "确保界面的响应一致性和错误处理": [
+    "Views - Reliability"
+  ],
+  "展示用户操作的实时反馈": [
+    "Views - Reliability"
+  ],
+  "优化用户界面交互性能": [
+    "Views - Performance"
+  ],
+  "实现动态加载以提高页面响应速度": [
+    "Views - Performance"
+  ],
+  "监控和分析用户界面的性能指标": [
+    "Views - Performance"
+  ],
+  "提供高效的视图渲染策略": [
+    "Views - Performance"
+  ],
+  "协调不同服务之间的请求和响应以确保系统的可扩展性": [
+    "Controllers - Scalability"
+  ],
+  "实现负载均衡策略以处理高并发请求": [
+    "Controllers - Scalability"
+  ],
+  "管理和优化API网关和Serverless函数的调用以提高吞吐量": [
+    "Controllers - Scalability"
+  ],
+  "监控和调整系统的性能以应对动态工作负载": [
+    "Controllers - Scalability"
+  ],
+  "显示顾问匹配列表": [
+    "Pages - Consultants"
+  ],
+  "支持用户选择和预约顾问": [
+    "Pages - Consultants"
+  ],
+  "展示顾问的详细信息和评价": [
+    "Pages - Consultants"
+  ],
+  "提供预约确认和支付链接": [
+    "Pages - Consultants"
+  ],
+  "与用户交互以收集匹配偏好和预约信息": [
+    "Pages - Consultants"
+  ],
+  "展示用户仪表盘": [
+    "DashboardController"
+  ],
+  "提供统计数据": [
+    "DashboardController"
+  ],
+  "提供用户仪表盘的视觉呈现": [
+    "Views - Dashboard"
+  ],
+  "展示用户的概览信息，如进度追踪和通知": [
+    "Views - Dashboard"
+  ],
+  "实现用户与仪表盘的交互逻辑": [
+    "Views - Dashboard"
+  ],
+  "响应用户操作并更新展示内容": [
+    "Views - Dashboard"
+  ],
+  "提供可维护的用户界面组件": [
+    "Views - Maintainability"
+  ],
+  "确保每个视图组件的职责单一且清晰": [
+    "Views - Maintainability"
+  ],
+  "支持易于理解和修改的代码结构": [
+    "Views - Maintainability"
+  ],
+  "促进组件的复用性和可测试性": [
+    "Views - Maintainability"
+  ],
+  "实现一致的UI设计和交互体验": [
+    "Views - Maintainability"
+  ],
+  "提供用户登录界面，支持邮箱和密码输入": [
+    "Views - Authentication"
+  ],
+  "提供用户注册界面，支持角色选择和基本信息输入": [
+    "Views - Authentication"
+  ],
+  "管理用户身份验证状态和界面交互体验": [
+    "Views - Authentication"
+  ],
+  "与业务层的认证服务进行交互，处理用户认证请求的响应": [
+    "Views - Authentication"
+  ],
+  "提供用户友好的界面以便上传文档": [
+    "UI Components - Documents"
+  ],
+  "支持用户浏览和管理已上传的文档": [
+    "UI Components - Documents"
+  ],
+  "展示文档的初步分析结果和状态": [
+    "UI Components - Documents"
+  ],
+  "实现文档上传和管理的交互组件，如按钮、表单和卡片": [
+    "UI Components - Documents"
+  ],
+  "确保与后端服务的无缝集成以获取和展示文档数据": [
+    "UI Components - Documents"
+  ],
+  "提供用户友好的界面用于文档的上传和管理": [
+    "Views - Documents"
+  ],
+  "展示用户已上传文档的列表及其状态": [
+    "Views - Documents"
+  ],
+  "支持用户对文档进行分类和初步分析": [
+    "Views - Documents"
+  ],
+  "提供交互式元素以提升用户体验，比如拖拽上传、预览等": [
+    "Views - Documents"
+  ],
+  "提供仪表盘页面的整体布局和结构支持": [
+    "Layout Components - Dashboard"
+  ],
+  "管理导航栏、侧边栏和页脚等通用组件的展示和交互": [
+    "Layout Components - Dashboard"
+  ],
+  "确保仪表盘页面在不同设备上的一致性和响应性": [
+    "Layout Components - Dashboard"
+  ],
+  "集成来自业务逻辑层的动态数据展示": [
+    "Layout Components - Dashboard"
+  ],
+  "提供一致的页面布局组件，如导航栏、侧边栏和页脚，以支持所有用户界面": [
+    "Layout Components - Scalability"
+  ],
+  "管理和优化前端组件的渲染性能，以确保在用户数量增加时仍然提供流畅的用户体验": [
+    "Layout Components - Scalability"
+  ],
+  "支持响应式设计以适应不同的设备和屏幕尺寸": [
+    "Layout Components - Scalability"
+  ],
+  "展示顾问匹配结果，包括顾问姓名、专长、评分及可用性": [
+    "UI Components - Consultants"
+  ],
+  "提供预约顾问的用户界面，允许用户选择日期、时间及咨询类型": [
+    "UI Components - Consultants"
+  ],
+  "显示顾问的详细信息和专业背景": [
+    "UI Components - Consultants"
+  ],
+  "管理用户和顾问之间的互动界面，如消息和文档共享": [
+    "UI Components - Consultants"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "Controllers - Forms",
+  "responsibilities": [
+    "处理表格生成请求并协调相关服务调用",
+    "确保表格数据的准确性和完整性",
+    "管理用户请求的表格生成工作流",
+    "从Forms域中获取和更新表格数据",
+    "与前端交互，处理表格预览和下载请求"
+  ],
+  "layer": "Business",
+  "domain": "Forms",
+  "dependencies": [
+    "FormRepository",
+    "UserRepository",
+    "OpenAI API",
+    "S3/Blob存储"
+  ],
+  "requirements": [
+    "能够生成用户所需的表格",
+    "提供生成表格的验证和错误处理",
+    "支持表格数据的动态更新和验证",
+    "支持表格的预览和下载功能"
+  ],
+  "target_path": "src/business/controllers/forms"
+}

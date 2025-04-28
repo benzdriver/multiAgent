@@ -1,0 +1,27 @@
+{
+  "module_name": "Controllers - Reliability",
+  "responsibilities": [
+    "实现业务逻辑以确保服务的高可用性和稳定性",
+    "监控系统性能并在必要时触发报警",
+    "协调服务间的故障恢复和回退机制",
+    "管理和执行健康检查以确保组件的正常运行",
+    "处理服务降级策略和流量控制以防止过载"
+  ],
+  "layer": "Business",
+  "domain": "Reliability",
+  "dependencies": [
+    "Infrastructure - Monitoring Services",
+    "Infrastructure - Logging Service",
+    "Data - UserRepository",
+    "Data - AssessmentRepository",
+    "Data - DocumentRepository"
+  ],
+  "requirements": [
+    "确保系统在高负载下的稳定性",
+    "提供实时性能监控和日志记录",
+    "支持自动化故障恢复和报警",
+    "确保服务组件的健康和可用性",
+    "实现服务降级和流量控制机制"
+  ],
+  "target_path": "src/business/controllers/reliability"
+}
