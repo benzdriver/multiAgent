@@ -477,6 +477,140 @@ class Clarifier:
             "circular_dependencies": cycles
         }
     
+    async def generate_granular_modules(self, input_path: str = "data/input", output_path: str = "data/output"):
+        """生成细粒度架构模块
+        
+        从输入文档中提取细粒度模块，生成多维度索引，并检查架构问题
+        
+        Args:
+            input_path: 输入文件目录
+            output_path: 输出目录
+            
+        Returns:
+            包含模块数量和问题数量的字典
+        """
+        from pathlib import Path
+        import json
+        import os
+        
+        self.logger.log("\n🔍 开始生成细粒度架构模块...", role="system")
+        
+        if not hasattr(self, 'architecture_manager'):
+            self.architecture_manager = ArchitectureManager()
+            self.logger.log("✅ 已创建架构管理器", role="system")
+        
+        self.logger.log("📂 正在加载输入文档...", role="system")
+        documents = await self._read_all_markdown_files(input_path)
+        
+        if not documents:
+            self.logger.log("❌ 未找到输入文档", role="system")
+            return {"modules_count": 0, "issues_count": 0}
+            
+        self.logger.log(f"✅ 已加载 {len(documents)} 个文档", role="system")
+        
+        # 将所有文档内容合并
+        all_content = ""
+        for doc_name, content in documents.items():
+            all_content += f"\n\n# {doc_name}\n{content}"
+        
+        self.logger.log("🧠 正在分析文档，提取细粒度模块...", role="system")
+        
+        architecture_layers = [
+            "表现层 (Presentation)",
+            "业务层 (Business)",
+            "数据层 (Data)",
+            "基础设施层 (Infrastructure)"
+        ]
+        
+        try:
+            modules = await self.requirement_analyzer.analyze_granular_modules(
+                all_content, 
+                self.run_llm,
+                architecture_layers
+            )
+            
+            if not modules:
+                self.logger.log("❌ 未能从文档中提取模块", role="system")
+                return {"modules_count": 0, "issues_count": 0}
+                
+            self.logger.log(f"✅ 从文档中提取了 {len(modules)} 个细粒度模块", role="system")
+        except Exception as e:
+            self.logger.log(f"❌ 提取模块时出错: {str(e)}", role="system")
+            return {"modules_count": 0, "issues_count": 0}
+        
+        output_dir = Path(output_path)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        modules_count = 0
+        for module in modules:
+            module_name = module.get("module_name")
+            if not module_name:
+                continue
+                
+            try:
+                await self.architecture_manager.process_new_module(
+                    module, 
+                    module.get("requirements", [])
+                )
+                modules_count += 1
+                self.logger.log(f"✅ 处理模块: {module_name}", role="system")
+            except Exception as e:
+                self.logger.log(f"❌ 处理模块 {module_name} 时出错: {str(e)}", role="system")
+        
+        self.logger.log(f"✅ 共处理了 {modules_count} 个模块", role="system")
+        
+        self.logger.log("📊 正在生成多维度索引...", role="system")
+        
+        try:
+            from .index_generator import MultiDimensionalIndexGenerator
+            
+            index_generator = MultiDimensionalIndexGenerator(
+                modules_dir=Path(output_path) / "modules",
+                output_dir=output_dir
+            )
+            indices = index_generator.generate_indices()
+            self.logger.log("✅ 已生成多维度索引", role="system")
+        except Exception as e:
+            self.logger.log(f"❌ 生成多维度索引失败: {str(e)}", role="system")
+        
+        self.logger.log("🔍 正在检查架构问题...", role="system")
+        
+        try:
+            from .architecture_reasoner import ArchitectureReasoner
+            
+            reasoner = ArchitectureReasoner(architecture_manager=self.architecture_manager, logger=self.logger)
+            issues = await reasoner.check_all_issues()
+            
+            issues_count = sum(len(issue_list) for issue_list in issues.values())
+            
+            if issues_count > 0:
+                self.logger.log(f"⚠️ 检测到 {issues_count} 个架构问题:", role="system")
+                for issue_type, issue_list in issues.items():
+                    if issue_list:
+                        self.logger.log(f"  - {issue_type}: {len(issue_list)} 个问题", role="system")
+            else:
+                self.logger.log("✅ 未检测到架构问题", role="system")
+                
+            issues_dir = output_dir / "issues"
+            issues_dir.mkdir(parents=True, exist_ok=True)
+            
+            with open(issues_dir / "architecture_issues.json", "w", encoding="utf-8") as f:
+                json.dump(issues, f, ensure_ascii=False, indent=2)
+            self.logger.log(f"✅ 已保存架构问题报告到 {issues_dir / 'architecture_issues.json'}", role="system")
+        except Exception as e:
+            self.logger.log(f"❌ 检查架构问题失败: {str(e)}", role="system")
+            issues_count = 0
+        
+        self.logger.log("\n🎉 细粒度模块生成完成！", role="system")
+        self.logger.log(f"- 共生成 {modules_count} 个模块", role="system")
+        self.logger.log(f"- 检测到 {issues_count if 'issues_count' in locals() else 0} 个架构问题", role="system")
+        self.logger.log(f"- 所有文件已保存到 {output_dir}", role="system")
+        
+        return {
+            "modules_count": modules_count,
+            "issues_count": issues_count if 'issues_count' in locals() else 0
+        }
+    
     def continue_from_user(self):
         if self.waiting_for_user:
             self.waiting_for_user.set()
