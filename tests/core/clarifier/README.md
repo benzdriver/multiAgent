@@ -23,7 +23,7 @@
 
 | 模块 | 单元测试 | 集成测试 | 完成日期 |
 |------|---------|---------|---------|
-| architecture_generator.py | 未开始 | 未开始 | - |
+| architecture_generator.py | ✅ 完成 | ✅ 完成 | 2025-04-29 |
 | architecture_manager.py | 未开始 | 未开始 | - |
 | architecture_reasoner.py | 未开始 | 未开始 | - |
 | clarifier.py | 未开始 | 未开始 | - |
