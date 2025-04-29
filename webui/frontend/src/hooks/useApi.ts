@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { ApiResponse } from '../types';
 
 export function useApi<T, P = any>(
-  apiFunction: (params?: P) => Promise<ApiResponse<T>>
+  apiFunction: (params?: P) => Promise<T>
 ) {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,15 +16,19 @@ export function useApi<T, P = any>(
       try {
         const response = await apiFunction(params);
         
-        if (response.success && response.data) {
-          setData(response.data);
-          setIsLoading(false);
-          return response.data;
-        } else {
-          setError(response.error || '请求失败');
-          setIsLoading(false);
-          return null;
+        if (response && typeof response === 'object' && ('status' in response || 'error' in response)) {
+          const apiResponse = response as unknown as ApiResponse;
+          
+          if (apiResponse.error) {
+            setError(apiResponse.error);
+            setIsLoading(false);
+            return null;
+          }
         }
+        
+        setData(response);
+        setIsLoading(false);
+        return response;
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : '未知错误';
         setError(errorMessage);

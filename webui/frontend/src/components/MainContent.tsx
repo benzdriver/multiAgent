@@ -29,14 +29,14 @@ const CircularDependencyCard = styled(Card)`
 `;
 
 const MainContent: React.FC = () => {
-  const { state, isLoading, error, startClarifier, refreshGlobalState, checkDependencies } = useGlobalStore();
+  const { state, isLoading, error, startClarifier, fetchGlobalState, checkDependencies } = useGlobalStore();
   
   const handleStartClarifier = () => {
     startClarifier();
   };
   
   const handleRefreshState = () => {
-    refreshGlobalState();
+    fetchGlobalState();
   };
   
   const handleCheckDependencies = () => {

@@ -95,7 +95,7 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
   selectedId,
   onSelectItem
 }) => {
-  const { state, getRelatedModules, getRelatedRequirements, getDeepReasoningResults } = useGlobalStore();
+  const { state, getRelatedModules, getRelatedRequirements, deepReasoning } = useGlobalStore();
   const [relatedItems, setRelatedItems] = React.useState<Requirement[] | Module[]>([]);
   const [reasoningResult, setReasoningResult] = React.useState<string>('');
   const [isLoadingRelated, setIsLoadingRelated] = React.useState<boolean>(false);
@@ -139,8 +139,8 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
     
     setIsLoadingReasoning(true);
     try {
-      const result = await getDeepReasoningResults(selectedId);
-      setReasoningResult(result);
+      await deepReasoning();
+      setReasoningResult(`已为模块 ${selectedItem?.name} 生成深度推理结果，请在全局状态中查看。`);
     } catch (error) {
       console.error('Failed to get deep reasoning results:', error);
     } finally {
