@@ -1,0 +1,24 @@
+{
+  "module_name": "Layout Components - Dashboard",
+  "responsibilities": [
+    "提供仪表盘页面的整体布局和结构支持",
+    "管理导航栏、侧边栏和页脚等通用组件的展示和交互",
+    "确保仪表盘页面在不同设备上的一致性和响应性",
+    "集成来自业务逻辑层的动态数据展示"
+  ],
+  "layer": "Presentation",
+  "domain": "Dashboard",
+  "dependencies": [
+    "Next.js框架",
+    "React组件库",
+    "Tailwind CSS",
+    "Dashboard业务逻辑服务 (通过API Gateway)"
+  ],
+  "requirements": [
+    "提供一个直观且易于使用的用户界面",
+    "确保导航的流畅性和页面加载速度",
+    "支持多语言和国际化功能",
+    "实现与Dashboard业务逻辑服务的无缝集成"
+  ],
+  "target_path": "src/components/layout/dashboard"
+}

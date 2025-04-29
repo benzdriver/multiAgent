@@ -1,0 +1,24 @@
+{
+  "module_name": "Services - Forms",
+  "responsibilities": [
+    "根据用户资料和需求生成官方表格",
+    "管理和更新生成表格的具体字段",
+    "验证表格数据的完整性和正确性",
+    "提供表格生成状态和错误警告"
+  ],
+  "layer": "Business",
+  "domain": "Forms",
+  "dependencies": [
+    "FormRepository",
+    "UserRepository",
+    "OpenAI API",
+    "S3/Blob存储"
+  ],
+  "requirements": [
+    "实现表格生成逻辑，确保根据用户数据生成准确的表格",
+    "提供表格生成过程中的数据验证和错误检测",
+    "支持对生成表格的字段进行更新和修改",
+    "集成存储服务以存储和检索已生成的表格"
+  ],
+  "target_path": "src/business/services/forms"
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "Services - Dashboard",
+  "responsibilities": [
+    "处理用户仪表盘的数据聚合和业务逻辑",
+    "协调从多个数据源获取数据以生成仪表盘视图",
+    "实现用户仪表盘的进度追踪和通知逻辑",
+    "管理用户仪表盘中的待办事项和通知规则"
+  ],
+  "layer": "Business",
+  "domain": "Dashboard",
+  "dependencies": [
+    "API Gateway",
+    "Serverless Functions (dashboard/getUserDashboard)",
+    "UserRepository",
+    "NotificationService",
+    "TaskService"
+  ],
+  "requirements": [
+    "提供用户仪表盘的实时数据视图",
+    "确保用户仪表盘数据的准确性和一致性",
+    "支持仪表盘数据的可扩展性以适应用户增长",
+    "实现与前端的无缝数据交互"
+  ],
+  "target_path": "src/services/dashboard"
+}

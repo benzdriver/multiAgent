@@ -1,0 +1,22 @@
+{
+  "module_name": "AppointmentService",
+  "module_type": "服务",
+  "responsibilities": [
+    "创建和管理预约",
+    "处理预约状态"
+  ],
+  "layer": "业务层",
+  "domain": "预约管理",
+  "dependencies": [
+    "AppointmentRepository"
+  ],
+  "requirements": [
+    "用户可以预约和管理顾问",
+    "系统处理预约状态"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "name": "AppointmentService"
+}

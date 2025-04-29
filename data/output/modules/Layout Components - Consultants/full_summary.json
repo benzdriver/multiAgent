@@ -1,0 +1,23 @@
+{
+  "module_name": "Layout Components - Consultants",
+  "responsibilities": [
+    "提供顾问相关页面的统一布局结构",
+    "管理导航栏、侧边栏和页脚等布局组件以提高用户体验",
+    "确保顾问匹配和预约页面之间的导航一致性",
+    "维护顾问域内页面的视觉和交互一致性"
+  ],
+  "layer": "Presentation",
+  "domain": "Consultants",
+  "dependencies": [
+    "API Gateway for fetching consultant data",
+    "Authentication service for user session management",
+    "Consultants domain business services for consultant matching and booking"
+  ],
+  "requirements": [
+    "提供响应式设计以支持不同设备和屏幕尺寸",
+    "支持国际化和本地化以适应多语言用户",
+    "确保与业务逻辑的有效集成以显示动态内容",
+    "提供用户友好的导航和界面元素"
+  ],
+  "target_path": "src/components/consultants/layout"
+}

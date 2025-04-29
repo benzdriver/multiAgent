@@ -1,0 +1,27 @@
+{
+  "module_name": "Views - Forms",
+  "responsibilities": [
+    "展示表格生成页面，提供用户友好的界面以选择和生成官方表格",
+    "展示表格预览页面，支持用户预览和下载生成的表格",
+    "提供交互式UI组件以收集用户输入的数据",
+    "实现表单验证，确保用户输入的准确性和完整性",
+    "支持用户在表单生成和预览过程中的导航和交互"
+  ],
+  "layer": "Presentation",
+  "domain": "Forms",
+  "dependencies": [
+    "API Gateway for accessing forms/generateForm and forms/getForm functions",
+    "React Hook Form for form handling and validation",
+    "React components for UI display",
+    "Tailwind CSS for styling",
+    "Context API or Zustand for managing form state across components"
+  ],
+  "requirements": [
+    "支持用户选择表格类型并发起生成请求",
+    "显示表格生成的进度和任何验证警告",
+    "在成功生成后，提供表格的预览和下载链接",
+    "确保用户输入的数据在提交前经过验证",
+    "支持用户在表格生成和预览页面之间无缝切换"
+  ],
+  "target_path": "src/components/views/forms"
+}

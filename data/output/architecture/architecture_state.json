@@ -1,0 +1,359 @@
+{
+  "timestamp": "2025-04-28T23:57:56.658433",
+  "requirement_module_index": {
+    "用户可以创建和查看评估": [
+      "AssessmentService"
+    ],
+    "系统提供评估结果": [
+      "AssessmentService"
+    ],
+    "用户可以上传并分析文档": [
+      "DocumentAnalyzer"
+    ],
+    "系统能够与OpenAI进行交互": [
+      "OpenAIClient"
+    ],
+    "用户可以创建和管理工作区": [
+      "WorkspaceService"
+    ],
+    "用户可以发送消息和任务": [
+      "WorkspaceService"
+    ],
+    "用户可以预约和管理顾问": [
+      "AppointmentService"
+    ],
+    "系统处理预约状态": [
+      "AppointmentService"
+    ],
+    "用户可以登录和注册": [
+      "AuthenticationController"
+    ],
+    "用户可以重置密码": [
+      "AuthenticationController"
+    ],
+    "管理员可以管理用户和系统设置": [
+      "AdminService"
+    ],
+    "系统存储和提供表格模板": [
+      "FormTemplateRepository"
+    ],
+    "用户可以查看和更新个人资料": [
+      "UserProfileService"
+    ],
+    "系统计算资料完整度": [
+      "UserProfileService"
+    ],
+    "用户可以查看仪表盘数据": [
+      "DashboardController"
+    ]
+  },
+  "responsibility_index": {
+    "创建评估": {
+      "modules": [
+        "AssessmentService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "提交评估步骤": {
+      "modules": [
+        "AssessmentService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "获取评估结果": {
+      "modules": [
+        "AssessmentService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "分析上传的文档": {
+      "modules": [
+        "DocumentAnalyzer"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "提取文档信息": {
+      "modules": [
+        "DocumentAnalyzer"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "与OpenAI API集成": {
+      "modules": [
+        "OpenAIClient"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "生成AI模型的响应": {
+      "modules": [
+        "OpenAIClient"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "管理工作区": {
+      "modules": [
+        "WorkspaceService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "处理工作区消息和任务": {
+      "modules": [
+        "WorkspaceService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "创建和管理预约": {
+      "modules": [
+        "AppointmentService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "处理预约状态": {
+      "modules": [
+        "AppointmentService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "用户登录": {
+      "modules": [
+        "AuthenticationController"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "用户注册": {
+      "modules": [
+        "AuthenticationController"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "令牌刷新": {
+      "modules": [
+        "AuthenticationController"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "密码重置": {
+      "modules": [
+        "AuthenticationController"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "管理用户": {
+      "modules": [
+        "AdminService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "更新系统设置": {
+      "modules": [
+        "AdminService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "存储和检索表格模板": {
+      "modules": [
+        "FormTemplateRepository"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "获取用户资料": {
+      "modules": [
+        "UserProfileService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "更新用户资料": {
+      "modules": [
+        "UserProfileService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "计算资料完整度": {
+      "modules": [
+        "UserProfileService"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "展示用户仪表盘": {
+      "modules": [
+        "DashboardController"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    },
+    "提供统计数据": {
+      "modules": [
+        "DashboardController"
+      ],
+      "objects": [],
+      "patterns": [
+        ""
+      ]
+    }
+  },
+  "dependency_graph": {
+    "AssessmentService": {
+      "depends_on": [
+        "PathwayService",
+        "AssessmentRepository"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "业务层"
+    },
+    "DocumentAnalyzer": {
+      "depends_on": [
+        "OpenAIClient"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "业务层"
+    },
+    "OpenAIClient": {
+      "depends_on": [
+        "OpenAI API"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "基础设施层"
+    },
+    "WorkspaceService": {
+      "depends_on": [
+        "MessageService",
+        "WorkspaceRepository"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "业务层"
+    },
+    "AppointmentService": {
+      "depends_on": [
+        "AppointmentRepository"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "业务层"
+    },
+    "AuthenticationController": {
+      "depends_on": [
+        "UserService",
+        "TokenService"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "表现层"
+    },
+    "AdminService": {
+      "depends_on": [
+        "UserRepository"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "业务层"
+    },
+    "FormTemplateRepository": {
+      "depends_on": [
+        "MongoDB"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "数据层"
+    },
+    "UserProfileService": {
+      "depends_on": [
+        "ValidationService",
+        "UserRepository"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "业务层"
+    },
+    "DashboardController": {
+      "depends_on": [
+        "DashboardService"
+      ],
+      "depended_by": [],
+      "pattern": "",
+      "layer": "表现层"
+    }
+  },
+  "layer_index": {
+    "frontend.pages": {},
+    "frontend.components": {},
+    "frontend.layouts": {},
+    "frontend.hooks": {},
+    "frontend.stores": {},
+    "backend.controllers": {},
+    "backend.services": {},
+    "backend.repositories": {},
+    "backend.models": {},
+    "fullstack.features": {},
+    "fullstack.shared": {},
+    "fullstack.core": {}
+  }
+}

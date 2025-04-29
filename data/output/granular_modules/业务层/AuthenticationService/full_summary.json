@@ -1,0 +1,27 @@
+{
+  "module_name": "AuthenticationService",
+  "module_type": "服务",
+  "responsibilities": [
+    "用户登录",
+    "用户注册",
+    "令牌刷新",
+    "密码重置"
+  ],
+  "layer": "业务层",
+  "domain": "认证",
+  "dependencies": [
+    "UserRepository",
+    "TokenService"
+  ],
+  "requirements": [
+    "POST /auth/login",
+    "POST /auth/register",
+    "POST /auth/refresh-token",
+    "POST /auth/reset-password"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "Express",
+    "JWT"
+  ]
+}

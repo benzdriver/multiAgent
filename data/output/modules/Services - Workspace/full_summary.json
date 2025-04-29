@@ -1,0 +1,26 @@
+{
+  "module_name": "Services - Workspace",
+  "responsibilities": [
+    "管理客户-顾问协作环境中的业务逻辑",
+    "协调共享文档的访问和更新",
+    "处理消息历史的检索和存储",
+    "管理协作任务列表的创建和更新",
+    "确保协作空间内的权限和安全性"
+  ],
+  "layer": "Business",
+  "domain": "Workspace",
+  "dependencies": [
+    "DocumentsService",
+    "MessagingService",
+    "TasksService",
+    "UserRepository",
+    "SecurityService"
+  ],
+  "requirements": [
+    "支持客户和顾问之间的文档共享和协作",
+    "支持实时消息传递和历史记录查看",
+    "支持任务列表的创建、更新和管理",
+    "确保协作空间的数据安全和访问控制"
+  ],
+  "target_path": "src/business/services/workspace"
+}

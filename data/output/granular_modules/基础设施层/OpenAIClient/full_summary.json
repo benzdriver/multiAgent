@@ -1,0 +1,20 @@
+{
+  "module_name": "OpenAIClient",
+  "module_type": "服务",
+  "responsibilities": [
+    "与OpenAI API集成",
+    "生成AI模型的响应"
+  ],
+  "layer": "基础设施层",
+  "domain": "人工智能集成",
+  "dependencies": [
+    "OpenAI API"
+  ],
+  "requirements": [
+    "系统能够与OpenAI进行交互"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "OpenAI API"
+  ]
+}

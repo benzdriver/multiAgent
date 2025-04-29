@@ -1,0 +1,22 @@
+{
+  "module_name": "Services - Assessment",
+  "responsibilities": [
+    "管理评估流程的业务逻辑",
+    "启动新的评估会话",
+    "处理评估步骤并维护评估状态",
+    "获取已完成评估的结果和分析"
+  ],
+  "layer": "Business",
+  "domain": "Assessment",
+  "dependencies": [
+    "AssessmentRepository",
+    "OpenAI API"
+  ],
+  "requirements": [
+    "支持多步骤的评估流程",
+    "确保评估过程中的数据一致性和完整性",
+    "提供基于用户输入的评估结果和分析",
+    "与OpenAI API集成以增强智能分析能力"
+  ],
+  "target_path": "src/business/services/assessment"
+}

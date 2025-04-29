@@ -1,0 +1,26 @@
+{
+  "module_name": "Services - Documents",
+  "responsibilities": [
+    "处理上传文档的业务逻辑，包括验证和保存",
+    "管理用户文档的分类和标签化",
+    "协调文档分析请求并处理结果",
+    "确保文档存储的安全性和访问控制",
+    "与用户资料和分析结果集成，提供文档相关的业务功能"
+  ],
+  "layer": "Business",
+  "domain": "Documents",
+  "dependencies": [
+    "DocumentRepository",
+    "S3/Blob存储的接口",
+    "OpenAI API的接口",
+    "UserRepository"
+  ],
+  "requirements": [
+    "支持多种文档类型的上传和存储",
+    "提供文档的分类和标签化功能",
+    "确保文档上传和分析过程的安全性",
+    "集成AI分析，以从文档中提取有价值的数据",
+    "提供用户友好的文档管理接口"
+  ],
+  "target_path": "src/business/services/documents"
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "Services - Consultants",
+  "responsibilities": [
+    "提供顾问匹配服务，根据用户情况推荐合适的顾问",
+    "管理顾问预约流程，包括创建和查看预约详情",
+    "协调顾问与用户之间的沟通和协作",
+    "实现复杂的业务逻辑，例如根据不同参数计算顾问匹配度"
+  ],
+  "layer": "Business",
+  "domain": "Consultants",
+  "dependencies": [
+    "ConsultantRepository",
+    "UserRepository",
+    "AppointmentRepository",
+    "PaymentService",
+    "OpenAI API (用于智能匹配建议)"
+  ],
+  "requirements": [
+    "能够匹配用户与合适的顾问，并提供顾问的详细资料",
+    "支持用户预约顾问服务，并处理支付流程",
+    "确保用户和顾问之间的互动流畅且高效",
+    "提供对顾问匹配和预约状态的实时反馈"
+  ],
+  "target_path": "src/business/services/consultants"
+}
