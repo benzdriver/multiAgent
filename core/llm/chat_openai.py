@@ -13,9 +13,17 @@ if not api_key:
     print("⚠️ OPENAI_API_KEY环境变量未设置，OpenAI API调用将会失败")
     print("请设置OPENAI_API_KEY环境变量，或使用模拟响应模式")
 
-client = AsyncOpenAI(
-    api_key=api_key
-)
+client = None
+
+def get_client():
+    global client
+    if client is None:
+        if os.environ.get("USE_MOCK_LLM") == "True":
+            mock_api_key = "sk-mock-key-for-testing"
+            client = AsyncOpenAI(api_key=mock_api_key)
+        else:
+            client = AsyncOpenAI(api_key=api_key)
+    return client
 
 # Retry parameters
 MAX_RETRIES = 3
@@ -81,7 +89,8 @@ async def chat(
     for attempt in range(MAX_RETRIES):
         try:
             print(f"🛰️ 发送OpenAI API请求 (尝试 {attempt+1}/{MAX_RETRIES})")
-            response = await client.chat.completions.create(
+            current_client = get_client()
+            response = await current_client.chat.completions.create(
                 model=model,
                 messages=message_list,
                 temperature=temperature,

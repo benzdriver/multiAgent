@@ -7,6 +7,7 @@ from pathlib import Path
 import json
 import traceback
 from fastapi import Depends
+from functools import lru_cache
 from core.clarifier.clarifier import Clarifier
 
 class StateService:
@@ -24,7 +25,8 @@ class StateService:
             "technology_stack": {},
             "requirement_module_index": {},
             "architecture_pattern": {},
-            "validation_issues": {}  # 保存验证问题
+            "validation_issues": {},  # 保存验证问题
+            "circular_dependencies": []
         }
         self.uploaded_files: List[str] = []
         self.current_mode: Optional[str] = None
@@ -53,7 +55,7 @@ class StateService:
         """获取全局状态"""
         return self.global_state
     
-    def update_global_state(self, new_state: Dict[str, Any]) -> None:
+    def update_global_state(self, new_state: Dict[str, Any]) -> Dict[str, Any]:
         """更新全局状态"""
         for key, value in new_state.items():
             if key in self.global_state:
@@ -61,6 +63,9 @@ class StateService:
                     self.global_state[key].update(value)
                 else:
                     self.global_state[key] = value
+            else:
+                self.global_state[key] = value
+        return self.global_state
     
     def get_uploaded_files(self) -> List[str]:
         """获取上传的文件列表"""
@@ -82,6 +87,48 @@ class StateService:
     def set_current_mode(self, mode: str) -> None:
         """设置当前模式"""
         self.current_mode = mode
+    
+    def add_requirement(self, requirement_id: str, requirement_data: Dict[str, Any]) -> None:
+        """添加需求"""
+        if "requirements" not in self.global_state:
+            self.global_state["requirements"] = {}
+        self.global_state["requirements"][requirement_id] = requirement_data
+    
+    def add_module(self, module_id: str, module_data: Dict[str, Any]) -> None:
+        """添加模块"""
+        if "modules" not in self.global_state:
+            self.global_state["modules"] = {}
+        self.global_state["modules"][module_id] = module_data
+    
+    def add_validation_issue(self, issue_type: str, issue_data: Dict[str, Any]) -> None:
+        """添加验证问题"""
+        if "validation_issues" not in self.global_state:
+            self.global_state["validation_issues"] = {}
+        if issue_type not in self.global_state["validation_issues"]:
+            self.global_state["validation_issues"][issue_type] = []
+        self.global_state["validation_issues"][issue_type].append(issue_data)
+    
+    def add_circular_dependency(self, dependency_data: Dict[str, Any]) -> None:
+        """添加循环依赖"""
+        if "circular_dependencies" not in self.global_state:
+            self.global_state["circular_dependencies"] = []
+        self.global_state["circular_dependencies"].append(dependency_data)
+    
+    def clear_global_state(self) -> None:
+        """清空全局状态"""
+        self.global_state = {
+            "requirements": {},
+            "modules": {},
+            "technology_stack": {},
+            "requirement_module_index": {},
+            "architecture_pattern": {},
+            "validation_issues": {},
+            "circular_dependencies": []
+        }
+    
+    def clear_conversation_history(self) -> None:
+        """清空对话历史"""
+        self.conversation_history = []
     
     def update_global_state_from_json(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """从JSON数据更新全局状态，并使用现有架构管理器执行验证"""
