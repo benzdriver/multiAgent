@@ -8,10 +8,10 @@ from openai import AsyncOpenAI
 from typing import List, Dict, Optional, Union, Any
 
 # Check if API key is present
-api_key = os.environ.get("OPENAI_API_KEY_OPENAI_API_KEY")
+api_key = os.environ.get("OPENAI_API_KEY")
 if not api_key:
-    print("⚠️ OPENAI_API_KEY_OPENAI_API_KEY环境变量未设置，OpenAI API调用将会失败")
-    print("请设置OPENAI_API_KEY_OPENAI_API_KEY环境变量，或使用模拟响应模式")
+    print("⚠️ OPENAI_API_KEY环境变量未设置，OpenAI API调用将会失败")
+    print("请设置OPENAI_API_KEY环境变量，或使用模拟响应模式")
 
 client = None
 
