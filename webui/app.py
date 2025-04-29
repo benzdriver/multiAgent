@@ -46,8 +46,9 @@ app.include_router(generator_api.router, prefix="/api/generator", tags=["generat
 # 创建一个全局的服务实例
 clarifier_service = ClarifierService()
 
-# 静态文件
 app.mount("/static", StaticFiles(directory="webui/static"), name="static")
+
+app.mount("/assets", StaticFiles(directory="webui/frontend/dist/assets"), name="frontend_assets")
 
 # 全局状态
 clarifier: Optional[Clarifier] = None
@@ -80,11 +81,94 @@ class StartClarifierResponse(BaseModel):
     status: str
     message: Optional[str] = None
 
-# 静态文件路由
 @app.get("/", response_class=HTMLResponse)
 async def read_root():
-    with open("webui/static/index.html", "r", encoding="utf-8") as f:
-        return HTMLResponse(content=f.read())
+    return FileResponse("webui/frontend/dist/index.html")
+
+@app.get("/api/get_global_state")
+async def get_global_state():
+    requirements = []
+    modules = []
+    tech_stack = []
+    validation_issues = []
+    circular_dependencies = []
+    
+    for req_id, req_data in global_state.get("requirements", {}).items():
+        requirements.append({
+            "id": req_id,
+            "name": req_data.get("name", ""),
+            "description": req_data.get("description", ""),
+            "priority": req_data.get("priority", "中"),
+            "status": req_data.get("status", "待处理"),
+            "relatedModules": global_state.get("requirement_module_index", {}).get(req_id, [])
+        })
+    
+    # 处理模块
+    for module_id, module_data in global_state.get("modules", {}).items():
+        modules.append({
+            "id": module_id,
+            "name": module_data.get("name", ""),
+            "description": module_data.get("description", ""),
+            "responsibilities": module_data.get("responsibilities", []),
+            "dependencies": module_data.get("dependencies", []),
+            "layer": module_data.get("layer", ""),
+            "domain": module_data.get("domain", ""),
+            "relatedRequirements": []  # 将在后续处理中填充
+        })
+    
+    tech_id = 1
+    for category, techs in global_state.get("technology_stack", {}).items():
+        for tech in techs:
+            tech_stack.append({
+                "id": f"tech_{tech_id}",
+                "name": tech,
+                "category": category,
+                "description": f"{category}类别的{tech}技术"
+            })
+            tech_id += 1
+    
+    issue_id = 1
+    for issue_type, issues in global_state.get("validation_issues", {}).items():
+        for issue in issues:
+            validation_issues.append({
+                "id": f"issue_{issue_id}",
+                "type": issue_type,
+                "description": issue.get("description", ""),
+                "relatedItems": issue.get("related_items", []),
+                "severity": issue.get("severity", "中")
+            })
+            issue_id += 1
+    
+    dep_id = 1
+    for dep in global_state.get("circular_dependencies", []):
+        circular_dependencies.append({
+            "id": f"dep_{dep_id}",
+            "modules": dep.get("modules", []),
+            "description": dep.get("description", "")
+        })
+        dep_id += 1
+    
+    req_module_index = global_state.get("requirement_module_index", {})
+    for req_id, module_ids in req_module_index.items():
+        for module_id in module_ids:
+            for module in modules:
+                if module["id"] == module_id:
+                    if "relatedRequirements" not in module:
+                        module["relatedRequirements"] = []
+                    module["relatedRequirements"].append(req_id)
+    
+    return {
+        "requirements": requirements,
+        "modules": modules,
+        "techStack": tech_stack,
+        "validationIssues": validation_issues,
+        "circularDependencies": circular_dependencies,
+        "mode": current_mode or "default"
+    }
+
+@app.get("/api/refresh_global_state")
+async def refresh_global_state():
+    return await get_global_state()
 
 # 获取全局状态
 @app.get("/api/state")
@@ -109,6 +193,11 @@ async def start_clarifier():
         try:
             # 使用core.clarifier包中的工厂方法创建Clarifier实例
             from core.clarifier import create_clarifier, ensure_data_dir
+            
+            os.environ["USE_MOCK_LLM"] = "True"
+            if "OPENAI_API_KEY" not in os.environ:
+                os.environ["OPENAI_API_KEY"] = "sk-mock-key-for-testing"
+                
             clarifier = create_clarifier(
                 data_dir="data",
                 use_mock=True,  # 测试阶段使用模拟LLM
@@ -1204,4 +1293,4 @@ def extract_json_from_response(response: str) -> Dict[str, Any]:
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                        
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                                                                                                                                                
