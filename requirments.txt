@@ -4,3 +4,4 @@ matplotlib
 tiktoken
 fastapi
 uvicorn
+python-multipart
