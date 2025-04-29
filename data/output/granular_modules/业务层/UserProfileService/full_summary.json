@@ -1,0 +1,23 @@
+{
+  "module_name": "UserProfileService",
+  "module_type": "服务",
+  "responsibilities": [
+    "获取用户资料",
+    "更新用户资料",
+    "计算资料完整度"
+  ],
+  "layer": "业务层",
+  "domain": "用户管理",
+  "dependencies": [
+    "UserRepository",
+    "ValidationService"
+  ],
+  "requirements": [
+    "用户可以查看和更新个人资料",
+    "系统计算资料完整度"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "MongoDB"
+  ]
+}

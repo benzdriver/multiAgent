@@ -1,0 +1,28 @@
+{
+  "module_name": "Views - Maintainability",
+  "responsibilities": [
+    "提供可维护的用户界面组件",
+    "确保每个视图组件的职责单一且清晰",
+    "支持易于理解和修改的代码结构",
+    "促进组件的复用性和可测试性",
+    "实现一致的UI设计和交互体验"
+  ],
+  "layer": "Presentation",
+  "domain": "Maintainability",
+  "dependencies": [
+    "Business层服务",
+    "UI框架（React）",
+    "样式库（Tailwind CSS）",
+    "状态管理工具（React Query, Context API, Zustand）",
+    "表单处理工具（React Hook Form, Zod）",
+    "国际化工具（next-i18next）"
+  ],
+  "requirements": [
+    "提供一致的用户界面和用户体验",
+    "支持快速迭代和组件更新",
+    "简化用户交互逻辑的实现",
+    "确保组件易于调试和测试",
+    "支持多语言和文化的用户界面"
+  ],
+  "target_path": "src/views"
+}

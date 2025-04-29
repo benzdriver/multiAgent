@@ -1,0 +1,25 @@
+{
+  "module_name": "Pages - Forms",
+  "responsibilities": [
+    "在用户界面中展示表格生成和预览功能",
+    "处理用户与表格生成和预览相关的交互",
+    "从业务层获取表格数据并在界面上呈现",
+    "提供用户友好的表格生成选项和反馈",
+    "支持表格字段的更新和验证反馈"
+  ],
+  "layer": "Presentation",
+  "domain": "Forms",
+  "dependencies": [
+    "forms/generateForm",
+    "forms/getForm",
+    "forms/updateFormField"
+  ],
+  "requirements": [
+    "用户可以选择和生成官方表格",
+    "用户可以预览和下载生成的表格",
+    "用户可以更新表格中的字段并获得即时验证反馈",
+    "界面应支持用户轻松导航和交互",
+    "支持不同类型表格的动态渲染"
+  ],
+  "target_path": "src/pages/forms"
+}

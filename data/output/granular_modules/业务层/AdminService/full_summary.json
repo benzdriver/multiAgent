@@ -1,0 +1,20 @@
+{
+  "module_name": "AdminService",
+  "module_type": "服务",
+  "responsibilities": [
+    "管理用户",
+    "更新系统设置"
+  ],
+  "layer": "业务层",
+  "domain": "管理员功能",
+  "dependencies": [
+    "UserRepository"
+  ],
+  "requirements": [
+    "管理员可以管理用户和系统设置"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "MongoDB"
+  ]
+}

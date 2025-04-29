@@ -1,0 +1,23 @@
+{
+  "module_name": "Services - Profile",
+  "responsibilities": [
+    "管理用户资料的获取和更新",
+    "协调对话式和表单式资料收集的流程",
+    "处理用户资料的完整性和验证",
+    "维护资料收集模式切换的业务逻辑"
+  ],
+  "layer": "Business",
+  "domain": "Profile",
+  "dependencies": [
+    "UserRepository",
+    "OpenAI API",
+    "ModeMapperService"
+  ],
+  "requirements": [
+    "提供可靠的用户资料获取和更新服务",
+    "支持对话式和表单式的资料收集方式",
+    "确保用户资料的完整性和准确性",
+    "允许用户无缝切换资料收集模式"
+  ],
+  "target_path": "services/profile"
+}

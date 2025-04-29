@@ -1,0 +1,27 @@
+{
+  "module_name": "Controllers - Consultants",
+  "responsibilities": [
+    "处理与顾问相关的HTTP请求",
+    "协调匹配顾问的业务逻辑",
+    "管理顾问预约的创建和确认流程",
+    "确保顾问匹配和预约相关数据的正确性和完整性",
+    "与Data层交互以获取和更新顾问相关数据",
+    "与Infrastructure层交互以处理身份验证和授权"
+  ],
+  "layer": "Business",
+  "domain": "Consultants",
+  "dependencies": [
+    "ConsultantRepository",
+    "UserRepository",
+    "AppointmentRepository",
+    "PaymentService",
+    "AuthService"
+  ],
+  "requirements": [
+    "能够根据用户情况匹配合适的顾问",
+    "支持用户预约顾问并处理相应的支付流程",
+    "确保顾问匹配和预约过程的安全性和数据隐私",
+    "提供顾问推荐和预约的高可用性和响应速度"
+  ],
+  "target_path": "src/business/controllers/consultants"
+}

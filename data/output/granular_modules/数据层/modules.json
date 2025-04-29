@@ -1,0 +1,20 @@
+[
+  {
+    "module_name": "FormTemplateRepository",
+    "module_type": "仓储",
+    "responsibilities": [
+      "存储和检索表格模板"
+    ],
+    "layer": "数据层",
+    "domain": "表格管理",
+    "dependencies": [
+      "MongoDB"
+    ],
+    "requirements": [
+      "系统存储和提供表格模板"
+    ],
+    "technology_stack": [
+      "MongoDB"
+    ]
+  }
+]

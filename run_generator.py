@@ -4,7 +4,7 @@ import argparse
 import json
 import asyncio
 from pathlib import Path
-from generator.autogen_module_generator import generate_module
+from core.generator.autogen_module_generator import generate_module
 from memory.structured_context import get_structured_context
 
 def run_code_generation(only=None):

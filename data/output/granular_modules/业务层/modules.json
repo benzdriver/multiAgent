@@ -1,0 +1,131 @@
+[
+  {
+    "module_name": "UserProfileService",
+    "module_type": "服务",
+    "responsibilities": [
+      "获取用户资料",
+      "更新用户资料",
+      "计算资料完整度"
+    ],
+    "layer": "业务层",
+    "domain": "用户管理",
+    "dependencies": [
+      "UserRepository",
+      "ValidationService"
+    ],
+    "requirements": [
+      "用户可以查看和更新个人资料",
+      "系统计算资料完整度"
+    ],
+    "technology_stack": [
+      "Node.js",
+      "MongoDB"
+    ]
+  },
+  {
+    "module_name": "AssessmentService",
+    "module_type": "服务",
+    "responsibilities": [
+      "创建评估",
+      "提交评估步骤",
+      "获取评估结果"
+    ],
+    "layer": "业务层",
+    "domain": "评估",
+    "dependencies": [
+      "AssessmentRepository",
+      "PathwayService"
+    ],
+    "requirements": [
+      "用户可以创建和查看评估",
+      "系统提供评估结果"
+    ],
+    "technology_stack": [
+      "Node.js",
+      "MongoDB"
+    ]
+  },
+  {
+    "module_name": "DocumentAnalyzer",
+    "module_type": "服务",
+    "responsibilities": [
+      "分析上传的文档",
+      "提取文档信息"
+    ],
+    "layer": "业务层",
+    "domain": "文档管理",
+    "dependencies": [
+      "OpenAIClient"
+    ],
+    "requirements": [
+      "用户可以上传并分析文档"
+    ],
+    "technology_stack": [
+      "Node.js",
+      "OpenAI API"
+    ]
+  },
+  {
+    "module_name": "WorkspaceService",
+    "module_type": "服务",
+    "responsibilities": [
+      "管理工作区",
+      "处理工作区消息和任务"
+    ],
+    "layer": "业务层",
+    "domain": "协作",
+    "dependencies": [
+      "WorkspaceRepository",
+      "MessageService"
+    ],
+    "requirements": [
+      "用户可以创建和管理工作区",
+      "用户可以发送消息和任务"
+    ],
+    "technology_stack": [
+      "Node.js",
+      "MongoDB"
+    ]
+  },
+  {
+    "module_name": "AdminService",
+    "module_type": "服务",
+    "responsibilities": [
+      "管理用户",
+      "更新系统设置"
+    ],
+    "layer": "业务层",
+    "domain": "管理员功能",
+    "dependencies": [
+      "UserRepository"
+    ],
+    "requirements": [
+      "管理员可以管理用户和系统设置"
+    ],
+    "technology_stack": [
+      "Node.js",
+      "MongoDB"
+    ]
+  },
+  {
+    "module_name": "AppointmentService",
+    "module_type": "服务",
+    "responsibilities": [
+      "创建和管理预约",
+      "处理预约状态"
+    ],
+    "layer": "业务层",
+    "domain": "预约管理",
+    "dependencies": [
+      "AppointmentRepository"
+    ],
+    "requirements": [
+      "用户可以预约和管理顾问",
+      "系统处理预约状态"
+    ],
+    "technology_stack": [
+      "Node.js",
+      "MongoDB"
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "module_name": "Controllers - Maintainability",
+  "responsibilities": [
+    "处理HTTP请求并将其路由到适当的业务逻辑",
+    "确保业务逻辑与API请求之间的解耦",
+    "协调各个服务来满足请求并返回响应",
+    "处理异常并返回适当的错误消息",
+    "执行输入验证和认证检查"
+  ],
+  "layer": "Business",
+  "domain": "Maintainability",
+  "dependencies": [
+    "AuthService",
+    "ProfileService",
+    "AssessmentService",
+    "DocumentService",
+    "ConsultantService"
+  ],
+  "requirements": [
+    "提供可维护且易于扩展的控制器结构",
+    "确保控制器代码结构清晰，职责明确",
+    "支持新的业务需求和功能的快速集成",
+    "提升代码的可读性和可测试性"
+  ],
+  "target_path": "src/business/controllers"
+}

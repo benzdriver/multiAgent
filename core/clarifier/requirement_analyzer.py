@@ -1,9 +1,9 @@
 import os
 import json
 from pathlib import Path
-from typing import Dict, Any, Callable, Awaitable
-from llm.llm_executor import run_prompt
-from llm.prompt_cleaner import clean_code_output
+from typing import Dict, Any, Callable, Awaitable, List, Optional
+from core.llm.llm_executor import run_prompt
+from core.llm.prompt_cleaner import clean_code_output
 
 
 class RequirementAnalyzer:
@@ -438,4 +438,196 @@ class RequirementAnalyzer:
 """
         doc += "".join([f"- {item}\\n" for item in priority.get("could_have", [])])
         
-        return doc 
+        return doc      
+        
+    async def analyze_granular_modules(self, content: str, llm_call: Callable, architecture_layers: Optional[List[str]] = None) -> List[Dict[str, Any]]:
+        """分析文档内容，提取细粒度模块
+        
+        Args:
+            content: 需求文档或架构文档内容
+            llm_call: 调用LLM的函数
+            architecture_layers: 可选的架构层级列表，用于指导模块提取
+            
+        Returns:
+            细粒度模块列表，每个模块包含详细信息
+        """
+        if self.logger:
+            self.logger.log("🔍 正在提取细粒度模块...", role="system")
+            self.logger.log(f"LLM输入：{content[:200]}...", role="llm_prompt")
+        else:
+            print("🔍 正在提取细粒度模块...")
+        
+        layers_prompt = ""
+        if architecture_layers:
+            layers_prompt = "请基于以下架构层级提取模块：\n"
+            for layer in architecture_layers:
+                layers_prompt += f"- {layer}\n"
+        else:
+            layers_prompt = """请基于以下常见架构层级提取模块：
+- 表现层 (Presentation)：UI组件、页面、视图等
+- 业务层 (Business)：服务、控制器、用例等
+- 数据层 (Data)：模型、仓储、数据访问等
+- 基础设施层 (Infrastructure)：工具、配置、中间件等
+"""
+        
+        prompt = f"""
+        请分析以下文档内容，提取细粒度的架构模块：
+
+        {content}
+
+        {layers_prompt}
+
+        对于每个识别出的模块，请提供以下信息：
+        1. 模块名称：清晰、具体的名称
+        2. 模块类型：UI组件、页面、服务、控制器、模型、仓储等
+        3. 模块职责：该模块的主要职责和功能
+        4. 所属层级：表现层、业务层、数据层、基础设施层等
+        5. 所属领域：认证、用户管理、评估、报告等
+        6. 依赖关系：该模块依赖的其他模块
+        7. 相关需求：与该模块相关的需求
+        8. 技术栈：实现该模块可能使用的技术
+
+        请以JSON格式返回，结构如下：
+        [
+            {{
+                "module_name": "模块名称",
+                "module_type": "模块类型",
+                "responsibilities": ["职责1", "职责2", ...],
+                "layer": "所属层级",
+                "domain": "所属领域",
+                "dependencies": ["依赖1", "依赖2", ...],
+                "requirements": ["需求1", "需求2", ...],
+                "technology_stack": ["技术1", "技术2", ...]
+            }},
+            ...
+        ]
+
+        请确保：
+        1. 提取的模块粒度适中，既不过于宏观也不过于微观
+        2. 模块名称应当清晰表达其功能和职责
+        3. 模块之间的依赖关系应当合理
+        4. 每个模块都应当有明确的职责和边界
+        5. 模块应当覆盖文档中提到的所有功能和需求
+        """
+        
+        try:
+            # 使用传入的LLM调用函数
+            result = await llm_call(prompt, parse_response=clean_code_output)
+            
+            if self.logger:
+                self.logger.log(f"LLM响应：{str(result)[:200]}...", role="llm_response")
+            
+            # 如果返回的是字符串，尝试解析为JSON
+            if isinstance(result, str):
+                import re
+                json_array_match = re.search(r'\[\s*{.*}\s*\]', result, re.DOTALL)
+                
+                if json_array_match:
+                    json_str = json_array_match.group(0)
+                    try:
+                        result = json.loads(json_str)
+                    except json.JSONDecodeError:
+                        try:
+                            result = json.loads(result)
+                        except json.JSONDecodeError:
+                            if self.logger:
+                                self.logger.log("⚠️ LLM返回的结果不是有效的JSON格式", role="error")
+                                self.logger.log(f"尝试解析的内容: {result[:200]}...", role="debug")
+                            else:
+                                print("⚠️ LLM返回的结果不是有效的JSON格式")
+                            # 创建一个基本的结构
+                            result = []
+                else:
+                    try:
+                        result = json.loads(result)
+                    except json.JSONDecodeError:
+                        if self.logger:
+                            self.logger.log("⚠️ LLM返回的结果不是有效的JSON格式", role="error")
+                            self.logger.log(f"尝试解析的内容: {result[:200]}...", role="debug")
+                        else:
+                            print("⚠️ LLM返回的结果不是有效的JSON格式")
+                        # 创建一个基本的结构
+                        result = []
+            
+            if not isinstance(result, list):
+                if self.logger:
+                    self.logger.log("⚠️ LLM返回的结果不是有效的模块列表", role="error")
+                else:
+                    print("⚠️ LLM返回的结果不是有效的模块列表")
+                result = []
+            
+            if self.logger:
+                self.logger.log(f"✓ 已提取 {len(result)} 个细粒度模块", role="system")
+            else:
+                print(f"✓ 已提取 {len(result)} 个细粒度模块")
+            
+            self._save_granular_modules(result)
+            
+            return result
+            
+        except Exception as e:
+            if self.logger:
+                self.logger.log(f"❌ 提取细粒度模块时出错: {str(e)}", role="error")
+            else:
+                print(f"❌ 提取细粒度模块时出错: {str(e)}")
+            return []
+    
+    def _save_granular_modules(self, modules: List[Dict[str, Any]]) -> None:
+        """保存提取的细粒度模块
+        
+        Args:
+            modules: 细粒度模块列表
+        """
+        try:
+            # 创建输出目录
+            granular_modules_dir = self.output_dir / "granular_modules"
+            granular_modules_dir.mkdir(parents=True, exist_ok=True)
+            
+            all_modules_file = granular_modules_dir / "all_modules.json"
+            with open(all_modules_file, "w", encoding="utf-8") as f:
+                json.dump(modules, f, ensure_ascii=False, indent=2)
+            
+            if self.logger:
+                self.logger.log(f"✓ 已保存所有模块到: {all_modules_file}", role="system")
+            else:
+                print(f"✓ 已保存所有模块到: {all_modules_file}")
+            
+            layers = {}
+            for module in modules:
+                layer = module.get("layer", "未分类")
+                if layer not in layers:
+                    layers[layer] = []
+                layers[layer].append(module)
+            
+            for layer, layer_modules in layers.items():
+                layer_dir = granular_modules_dir / layer.replace(" ", "_").replace("/", "_")
+                layer_dir.mkdir(parents=True, exist_ok=True)
+                
+                layer_file = layer_dir / "modules.json"
+                with open(layer_file, "w", encoding="utf-8") as f:
+                    json.dump(layer_modules, f, ensure_ascii=False, indent=2)
+                
+                if self.logger:
+                    self.logger.log(f"✓ 已保存 {layer} 层模块到: {layer_file}", role="system")
+                else:
+                    print(f"✓ 已保存 {layer} 层模块到: {layer_file}")
+                
+                for module in layer_modules:
+                    module_name = module.get("module_name", "未命名模块")
+                    module_dir = layer_dir / module_name.replace(" ", "_").replace("/", "_")
+                    module_dir.mkdir(parents=True, exist_ok=True)
+                    
+                    summary_file = module_dir / "full_summary.json"
+                    with open(summary_file, "w", encoding="utf-8") as f:
+                        json.dump(module, f, ensure_ascii=False, indent=2)
+                    
+                    if self.logger:
+                        self.logger.log(f"✓ 已保存模块 {module_name} 的full_summary.json", role="system")
+                    else:
+                        print(f"✓ 已保存模块 {module_name} 的full_summary.json")
+        
+        except Exception as e:
+            if self.logger:
+                self.logger.log(f"❌ 保存细粒度模块时出错: {str(e)}", role="error")
+            else:
+                print(f"❌ 保存细粒度模块时出错: {str(e)}")      

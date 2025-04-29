@@ -1,0 +1,27 @@
+{
+  "module_name": "Views - Authentication",
+  "responsibilities": [
+    "提供用户登录界面，支持邮箱和密码输入",
+    "提供用户注册界面，支持角色选择和基本信息输入",
+    "提供密码重置界面，支持请求重置和实际重置流程",
+    "管理用户身份验证状态和界面交互体验",
+    "与业务层的认证服务进行交互，处理用户认证请求的响应"
+  ],
+  "layer": "Presentation",
+  "domain": "Authentication",
+  "dependencies": [
+    "Authentication Service (Business Layer)",
+    "API Gateway for authentication requests",
+    "React组件库（如UI组件按钮、输入框）",
+    "React Hook Form和Zod用于表单处理和验证",
+    "Tailwind CSS用于样式"
+  ],
+  "requirements": [
+    "支持用户身份验证流程，包括登录、注册和密码重置",
+    "提供直观和响应迅速的用户界面",
+    "确保用户输入的安全性和数据隐私",
+    "支持社交登录选项以增强用户体验",
+    "支持多语言环境"
+  ],
+  "target_path": "src/views/authentication"
+}

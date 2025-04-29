@@ -1,0 +1,23 @@
+{
+  "module_name": "AssessmentService",
+  "module_type": "服务",
+  "responsibilities": [
+    "创建评估",
+    "提交评估步骤",
+    "获取评估结果"
+  ],
+  "layer": "业务层",
+  "domain": "评估",
+  "dependencies": [
+    "AssessmentRepository",
+    "PathwayService"
+  ],
+  "requirements": [
+    "用户可以创建和查看评估",
+    "系统提供评估结果"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "MongoDB"
+  ]
+}

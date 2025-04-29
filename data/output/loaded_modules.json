@@ -1,0 +1,835 @@
+{
+  "modules": {
+    "ui_components_-_accessibility": {
+      "module_name": "UI Components - Accessibility",
+      "responsibilities": [
+        "确保UI组件符合WCAG标准，提升可访问性",
+        "为视障用户提供替代文本和语音支持",
+        "确保组件在键盘导航时的可操作性",
+        "设计符合无障碍标准的颜色对比度",
+        "实施可调整的字体大小和样式以支持低视力用户"
+      ],
+      "layer": "Presentation",
+      "domain": "Accessibility",
+      "dependencies": [
+        "React组件库",
+        "Tailwind CSS"
+      ],
+      "requirements": [
+        "UI组件必须支持屏幕阅读器",
+        "提供可配置的无障碍选项，如高对比度模式",
+        "确保所有交互元素具有键盘可达性",
+        "为多语言支持提供无障碍文本"
+      ],
+      "target_path": "src/components/accessibility",
+      "name": "UI Components - Accessibility"
+    },
+    "pages_-_assessment": {
+      "module_name": "Pages - Assessment",
+      "responsibilities": [
+        "提供用户开始评估的界面和流程",
+        "管理评估步骤的用户交互和显示",
+        "展示评估结果和建议路径",
+        "引导用户通过评估流程并提供实时反馈"
+      ],
+      "layer": "Presentation",
+      "domain": "Assessment",
+      "dependencies": [
+        "API Gateway",
+        "Assessment服务",
+        "OpenAI API"
+      ],
+      "requirements": [
+        "允许用户开始并参与多步骤评估流程",
+        "实时显示评估进度和状态更新",
+        "提供可视化的评估结果和建议路径",
+        "支持与后台服务的无缝集成以获取和展示评估数据"
+      ],
+      "target_path": "src/pages/assessment",
+      "name": "Pages - Assessment"
+    },
+    "ui_components_-_reliability": {
+      "module_name": "UI Components - Reliability",
+      "responsibilities": [
+        "设计和实现用户界面组件以确保应用的高可靠性",
+        "使用React组件库创建可重用和一致的UI元素，如按钮、表单和卡片",
+        "集成Tailwind CSS以保持样式的简洁性和一致性",
+        "与业务层服务集成以确保数据的即时和准确展示",
+        "提供用户友好的错误处理和反馈机制以提高用户体验",
+        "确保UI组件在异常情况下的稳定性和响应能力"
+      ],
+      "layer": "Presentation",
+      "domain": "Reliability",
+      "dependencies": [
+        "Business层的服务接口以获取和展示数据",
+        "React组件库",
+        "Tailwind CSS用于样式",
+        "React Query用于服务器状态管理",
+        "Context API用于应用状态管理"
+      ],
+      "requirements": [
+        "UI组件必须在不同的浏览器和设备上保持一致性",
+        "确保在网络波动或服务中断时用户界面不崩溃",
+        "提供实时的用户反馈和错误报告机制",
+        "实现高响应性和低延迟的用户交互",
+        "组件应支持国际化以满足不同语言用户的需求"
+      ],
+      "target_path": "src/components/reliability/",
+      "name": "UI Components - Reliability"
+    },
+    "ui_components_-_performance": {
+      "module_name": "UI Components - Performance",
+      "responsibilities": [
+        "优化UI组件的加载和渲染速度",
+        "实现高效的状态管理以减少不必要的重新渲染",
+        "使用异步数据获取和缓存机制提升用户体验",
+        "使用懒加载技术优化页面初始加载时间",
+        "监控和分析UI组件的性能指标"
+      ],
+      "layer": "Presentation",
+      "domain": "Performance",
+      "dependencies": [
+        "React Query for efficient data fetching and caching",
+        "Context API for application-level state management",
+        "Zustand for managing complex local states",
+        "Next.js for server-side rendering and static generation"
+      ],
+      "requirements": [
+        "快速加载和响应的用户界面",
+        "减少初始页面加载时间",
+        "优化组件渲染以提高性能",
+        "确保UI组件的可维护性和可扩展性",
+        "支持多种设备和浏览器的性能优化"
+      ],
+      "target_path": "src/components/ui/performance",
+      "name": "UI Components - Performance"
+    },
+    "pages_-_performance": {
+      "module_name": "Pages - Performance",
+      "responsibilities": [
+        "优化页面加载速度和响应时间",
+        "实现和管理页面缓存策略",
+        "监控和分析页面性能指标",
+        "确保页面在不同设备和网络条件下的性能一致性"
+      ],
+      "layer": "Presentation",
+      "domain": "Performance",
+      "dependencies": [
+        "React Components",
+        "Next.js Optimization Features",
+        "React Query for Data Fetching",
+        "Tailwind CSS for Styling"
+      ],
+      "requirements": [
+        "页面加载时间不超过3秒",
+        "支持离线模式并保证数据一致性",
+        "提供动态内容的即时更新",
+        "集成性能监控工具以追踪关键指标"
+      ],
+      "target_path": "src/pages/performance",
+      "name": "Pages - Performance"
+    },
+    "ui_components_-_authentication": {
+      "module_name": "UI Components - Authentication",
+      "responsibilities": [
+        "提供用户登录界面，包括输入邮箱和密码的表单",
+        "实现用户注册界面，支持角色选择（申请人/顾问）",
+        "提供密码重置界面，支持请求重置和实际重置流程",
+        "支持社交登录与身份验证的UI集成",
+        "确保UI组件的响应性和无障碍设计"
+      ],
+      "layer": "Presentation",
+      "domain": "Authentication",
+      "dependencies": [
+        "API Gateway for authentication endpoints",
+        "Business Layer for authentication logic and token management",
+        "React Query for server state management",
+        "React Hook Form for form management",
+        "Next-i18next for internationalization"
+      ],
+      "requirements": [
+        "用户能够在不同设备上无缝访问和使用身份验证功能",
+        "用户界面应当清晰简洁，指导用户完成身份验证流程",
+        "支持多语言环境，确保国际用户的可用性",
+        "确保身份验证界面的安全性，防止常见的安全漏洞"
+      ],
+      "target_path": "src/components/auth",
+      "name": "UI Components - Authentication"
+    },
+    "pages_-_security": {
+      "module_name": "Pages - Security",
+      "responsibilities": [
+        "提供用户认证和授权的界面",
+        "支持用户登录、注册和密码重置的交互",
+        "确保通过UI组件实现安全的用户信息输入和展示"
+      ],
+      "layer": "Presentation",
+      "domain": "Security",
+      "dependencies": [
+        "API Gateway",
+        "Cognito认证"
+      ],
+      "requirements": [
+        "支持用户通过UI进行安全登录",
+        "提供密码重置和注册功能的页面",
+        "与后端认证服务的无缝集成"
+      ],
+      "target_path": "src/pages/security",
+      "name": "Pages - Security"
+    },
+    "pages_-_profile": {
+      "module_name": "Pages - Profile",
+      "responsibilities": [
+        "提供用户个人资料的查看和编辑界面",
+        "集成对话式和表单式资料收集功能",
+        "管理用户资料的完整性和更新确认",
+        "允许在对话式和表单式数据收集模式之间无缝切换"
+      ],
+      "layer": "Presentation",
+      "domain": "Profile",
+      "dependencies": [
+        "Profile Service (业务层)",
+        "UI组件库 (如: 按钮、输入框等)",
+        "状态管理库 (React Query, Context API)",
+        "认证服务 (Cognito/Auth0)"
+      ],
+      "requirements": [
+        "用户可以查看和编辑个人资料",
+        "支持通过AI对话和表单两种方式收集用户资料",
+        "确保用户资料的完整性检查和更新反馈",
+        "实现模式切换功能以提高用户体验"
+      ],
+      "target_path": "src/pages/profile",
+      "name": "Pages - Profile"
+    },
+    "pages_-_scalability": {
+      "module_name": "Pages - Scalability",
+      "responsibilities": [
+        "提供动态加载和渲染页面的能力以支持高流量",
+        "优化页面组件以最大化性能和响应速度",
+        "实现客户端缓存和数据预取策略以提高用户体验",
+        "确保页面组件在不同设备和浏览器上的兼容性"
+      ],
+      "layer": "Presentation",
+      "domain": "Scalability",
+      "dependencies": [
+        "API Gateway for data retrieval",
+        "Next.js for server-side rendering and static site generation",
+        "React Query for data fetching and caching",
+        "Tailwind CSS for responsive design"
+      ],
+      "requirements": [
+        "处理高并发请求并保持响应迅速",
+        "在不同网络条件下保持良好的用户体验",
+        "支持国际用户和不同语言的展示",
+        "无缝集成认证和授权机制"
+      ],
+      "target_path": "src/pages/scalability",
+      "name": "Pages - Scalability"
+    },
+    "pages_-_forms": {
+      "module_name": "Pages - Forms",
+      "responsibilities": [
+        "在用户界面中展示表格生成和预览功能",
+        "处理用户与表格生成和预览相关的交互",
+        "从业务层获取表格数据并在界面上呈现",
+        "提供用户友好的表格生成选项和反馈",
+        "支持表格字段的更新和验证反馈"
+      ],
+      "layer": "Presentation",
+      "domain": "Forms",
+      "dependencies": [
+        "forms/generateForm",
+        "forms/getForm",
+        "forms/updateFormField"
+      ],
+      "requirements": [
+        "用户可以选择和生成官方表格",
+        "用户可以预览和下载生成的表格",
+        "用户可以更新表格中的字段并获得即时验证反馈",
+        "界面应支持用户轻松导航和交互",
+        "支持不同类型表格的动态渲染"
+      ],
+      "target_path": "src/pages/forms",
+      "name": "Pages - Forms"
+    },
+    "ui_components_-_security": {
+      "module_name": "UI Components - Security",
+      "responsibilities": [
+        "提供用户登录、注册和密码重置的UI界面",
+        "确保UI组件的安全性，防止常见的UI漏洞，如XSS",
+        "集成并展示身份验证的反馈信息（如错误提示和成功消息）",
+        "在UI中处理身份验证状态的显示和用户角色的管理"
+      ],
+      "layer": "Presentation",
+      "domain": "Security",
+      "dependencies": [
+        "Business层的Auth服务",
+        "React组件库",
+        "国际化支持库（如next-i18next）",
+        "表单验证库（如React Hook Form + Zod）"
+      ],
+      "requirements": [
+        "提供流畅的用户体验，支持多语言切换",
+        "确保所有安全相关的交互都有明确的用户反馈",
+        "UI组件应支持响应式设计，适应不同设备和屏幕尺寸",
+        "与后端认证服务的无缝集成"
+      ],
+      "target_path": "src/components/security",
+      "name": "UI Components - Security"
+    },
+    "pages_-_workspace": {
+      "module_name": "Pages - Workspace",
+      "responsibilities": [
+        "提供客户和顾问之间的协作界面",
+        "展示共享文档",
+        "显示消息历史",
+        "管理任务列表的展示与更新",
+        "集成用户交互和界面的UI组件"
+      ],
+      "layer": "Presentation",
+      "domain": "Workspace",
+      "dependencies": [
+        "API Gateway for workspace data retrieval",
+        "Serverless functions such as workspace/getWorkspace",
+        "UI组件库（如原子组件和分子组件）"
+      ],
+      "requirements": [
+        "用户能够查看和编辑共享文档",
+        "用户能够查看消息历史记录",
+        "用户能够查看和更新任务列表",
+        "界面响应迅速并且易于使用",
+        "与后端API的无缝集成以获取实时数据"
+      ],
+      "target_path": "src/pages/workspace/[id]",
+      "name": "Pages - Workspace"
+    },
+    "pages_-_authentication": {
+      "module_name": "Pages - Authentication",
+      "responsibilities": [
+        "提供用户登录界面，包括输入邮箱和密码的表单，以及社交登录选项",
+        "提供用户注册界面，支持角色选择（申请人/顾问）",
+        "提供密码重置界面，处理重置请求和新密码设置",
+        "管理用户身份验证相关的页面逻辑和UI交互",
+        "与后端认证服务进行交互以完成登录、注册和密码重置功能"
+      ],
+      "layer": "Presentation",
+      "domain": "Authentication",
+      "dependencies": [
+        "API Gateway - 用于向后端认证服务发送请求",
+        "Cognito认证 - 提供身份验证功能",
+        "React组件库 - 用于构建UI组件",
+        "React Hook Form - 用于表单管理和验证",
+        "Zod - 用于数据验证"
+      ],
+      "requirements": [
+        "用户能够安全地登录、注册和重置密码",
+        "提供直观的用户界面和流畅的用户体验",
+        "确保UI与后端认证逻辑的无缝集成",
+        "支持多种身份验证方法，包括社交登录",
+        "确保表单数据的安全性和正确性"
+      ],
+      "target_path": "src/pages/auth",
+      "name": "Pages - Authentication"
+    },
+    "ui_components_-_workspace": {
+      "module_name": "UI Components - Workspace",
+      "responsibilities": [
+        "提供用户友好的界面以展示客户和顾问在协作空间中的互动",
+        "实现消息历史的显示和更新",
+        "支持任务列表的展示和交互",
+        "展示和管理共享文档的上传和查看功能",
+        "提供切换视图或模式的功能，方便用户在不同界面之间切换"
+      ],
+      "layer": "Presentation",
+      "domain": "Workspace",
+      "dependencies": [
+        "API Gateway提供的workspace/getWorkspace服务",
+        "React组件库用于构建UI",
+        "Tailwind CSS用于样式设计",
+        "React Query用于处理与服务层的异步数据获取"
+      ],
+      "requirements": [
+        "用户能在协作空间中查看并管理消息和任务",
+        "支持实时更新，确保用户可以访问最新的协作信息",
+        "易于扩展和维护的组件设计，以便于未来功能的添加",
+        "确保UI的响应式设计，适应不同设备的屏幕尺寸"
+      ],
+      "target_path": "src/components/WorkspaceUI",
+      "name": "UI Components - Workspace"
+    },
+    "ui_components_-_assessment": {
+      "module_name": "UI Components - Assessment",
+      "responsibilities": [
+        "渲染评估启动页面，让用户能够轻松开始评估流程",
+        "提供多步骤评估界面，支持用户逐步完成评估",
+        "展示评估结果，包含对用户的移民路径建议",
+        "管理用户界面的交互体验，确保流畅的用户体验",
+        "提供切换和导航功能，帮助用户在评估步骤间移动"
+      ],
+      "layer": "Presentation",
+      "domain": "Assessment",
+      "dependencies": [
+        "API Gateway - 用于获取和提交评估数据",
+        "Authentication模块 - 确保用户身份验证状态",
+        "React组件库 - 用于构建UI组件",
+        "Tailwind CSS - 用于样式和布局"
+      ],
+      "requirements": [
+        "确保用户界面易于使用，支持多步骤评估流程",
+        "与后端API集成，动态获取和提交评估数据",
+        "支持响应式设计，适应不同设备和屏幕尺寸",
+        "提供清晰的用户反馈和错误提示",
+        "实现高效的状态管理，减少不必要的渲染"
+      ],
+      "target_path": "src/components/assessment",
+      "name": "UI Components - Assessment"
+    },
+    "ui_components_-_dashboard": {
+      "module_name": "UI Components - Dashboard",
+      "responsibilities": [
+        "展示用户的概览信息，包括个人资料完整度、评估状态、待办任务和通知",
+        "提供用户与系统交互的入口，例如查看详细信息、操作待办任务和接收通知",
+        "渲染动态数据，确保信息的实时更新",
+        "统一的UI风格和一致的用户体验"
+      ],
+      "layer": "Presentation",
+      "domain": "Dashboard",
+      "dependencies": [
+        "API Gateway for data fetching",
+        "Authentication Service (Cognito/Auth0) for user verification",
+        "Serverless Functions for retrieving user dashboard data"
+      ],
+      "requirements": [
+        "确保界面响应迅速，支持多种设备和浏览器",
+        "通过直观的视觉设计和用户导航提高用户体验",
+        "支持国际化和本地化功能",
+        "无缝集成状态管理，确保UI状态与应用状态同步"
+      ],
+      "target_path": "src/components/dashboard",
+      "name": "UI Components - Dashboard"
+    },
+    "ui_components_-_profile": {
+      "module_name": "UI Components - Profile",
+      "responsibilities": [
+        "提供用户资料查看和编辑的界面",
+        "实现对话式和表单式资料收集的UI组件",
+        "支持用户在对话式和表单式模式间切换的交互",
+        "展示用户资料完整度和验证结果"
+      ],
+      "layer": "Presentation",
+      "domain": "Profile",
+      "dependencies": [
+        "Profile Service API for fetching and updating user data",
+        "AI Conversations API for interactive data collection",
+        "Form Validation Library for client-side validation",
+        "State Management (React Query, Context API)"
+      ],
+      "requirements": [
+        "用户可以查看和编辑个人资料",
+        "支持通过对话与表单两种模式收集资料",
+        "提供用户资料完整性和验证反馈",
+        "用户界面应与设计系统一致"
+      ],
+      "target_path": "src/components/ui/profile",
+      "name": "UI Components - Profile"
+    },
+    "pages_-_documents": {
+      "module_name": "Pages - Documents",
+      "responsibilities": [
+        "提供用户文档上传界面",
+        "展示用户已上传文档的管理界面",
+        "实现用户与文档相关操作的交互体验",
+        "支持用户执行文档预览和初步分析功能"
+      ],
+      "layer": "Presentation",
+      "domain": "Documents",
+      "dependencies": [
+        "API Gateway",
+        "Serverless Functions: documents/uploadDocument",
+        "Serverless Functions: documents/getUserDocuments"
+      ],
+      "requirements": [
+        "用户能够上传新的文档并选择文档类型",
+        "用户可以查看已上传文档的列表及其状态",
+        "支持文档的分类和初步分析展示",
+        "界面友好，易于导航和使用"
+      ],
+      "target_path": "src/pages/documents",
+      "name": "Pages - Documents"
+    },
+    "ui_components_-_usability": {
+      "module_name": "UI Components - Usability",
+      "responsibilities": [
+        "提供一致、直观的用户界面体验",
+        "创建可重用的UI组件以提高开发效率",
+        "确保UI组件的响应性和兼容性",
+        "通过直观的交互设计提升用户的操作便捷性"
+      ],
+      "layer": "Presentation",
+      "domain": "Usability",
+      "dependencies": [
+        "React框架",
+        "Tailwind CSS",
+        "React Query用于数据状态管理",
+        "Context API用于应用状态管理",
+        "Zustand用于复杂状态管理",
+        "React Hook Form用于表单处理",
+        "next-i18next用于国际化支持"
+      ],
+      "requirements": [
+        "支持多语言和地区的用户界面",
+        "通过组件库实现的快速界面开发",
+        "响应式设计以适应不同设备和屏幕大小",
+        "提升用户操作的简易性和可达性",
+        "与业务逻辑层的无缝集成以实现动态数据交互"
+      ],
+      "target_path": "src/components/ui",
+      "name": "UI Components - Usability"
+    },
+    "ui_components_-_forms": {
+      "module_name": "UI Components - Forms",
+      "responsibilities": [
+        "提供用户友好的表单界面以收集用户信息",
+        "使用React Hook Form和Zod进行表单验证和处理",
+        "支持多种表单布局和样式以适应不同的数据收集需求",
+        "提供表单元素的可重用组件，如输入框、选择器、按钮等",
+        "与业务层交互以提交和接收表单数据的验证结果"
+      ],
+      "layer": "Presentation",
+      "domain": "Forms",
+      "dependencies": [
+        "React Hook Form",
+        "Zod",
+        "React Query",
+        "业务层的表单处理服务"
+      ],
+      "requirements": [
+        "支持动态表单字段生成和验证",
+        "用户输入的实时验证和提示",
+        "多语言支持，通过next-i18next实现国际化",
+        "与业务层服务的无缝集成以处理表单数据",
+        "高性能和响应式设计以适应不同设备"
+      ],
+      "target_path": "src/components/forms",
+      "name": "UI Components - Forms"
+    },
+    "ui_components_-_scalability": {
+      "module_name": "UI Components - Scalability",
+      "responsibilities": [
+        "提供可重用的UI组件，如按钮、表单和卡片，以支持不同页面和功能的构建",
+        "确保UI组件在不同设备和屏幕尺寸上具有响应性和适应性",
+        "通过使用Next.js和React优化UI组件的性能，支持动态加载和代码拆分",
+        "与业务层的服务交互以获取和展示数据，同时保持组件的独立性和可测试性"
+      ],
+      "layer": "Presentation",
+      "domain": "Scalability",
+      "dependencies": [
+        "Business层服务（通过API）",
+        "React",
+        "Next.js",
+        "Tailwind CSS",
+        "状态管理工具（React Query, Context API, Zustand）"
+      ],
+      "requirements": [
+        "组件在高流量情况下保持性能和响应速度",
+        "支持组件的可扩展性和可维护性，以适应未来功能的增加",
+        "通过设计系统的应用，确保一致的用户体验和品牌一致性",
+        "能够快速集成和部署新的UI组件以支持业务需求"
+      ],
+      "target_path": "src/components/ui",
+      "name": "UI Components - Scalability"
+    },
+    "ui_components_-_maintainability": {
+      "module_name": "UI Components - Maintainability",
+      "responsibilities": [
+        "提供可重用的UI组件以提高开发效率",
+        "确保UI组件的可维护性和可扩展性",
+        "实现一致的设计系统以保持UI一致性",
+        "支持响应式设计以适应不同设备",
+        "集成状态管理以简化数据流管理"
+      ],
+      "layer": "Presentation",
+      "domain": "Maintainability",
+      "dependencies": [
+        "React组件库",
+        "Tailwind CSS",
+        "React Query",
+        "Context API",
+        "Zustand"
+      ],
+      "requirements": [
+        "组件应遵循设计系统的标准",
+        "组件应易于测试和调试",
+        "组件应易于扩展以适应未来需求",
+        "组件应提供良好的文档以支持开发者",
+        "组件应支持国际化和无障碍访问"
+      ],
+      "target_path": "src/components/ui",
+      "name": "UI Components - Maintainability"
+    },
+    "pages_-_dashboard": {
+      "module_name": "Pages - Dashboard",
+      "responsibilities": [
+        "提供客户仪表盘界面",
+        "展示用户个人资料完整度",
+        "显示评估状态和进度",
+        "呈现待办任务和通知",
+        "整合用户交互体验和展示逻辑"
+      ],
+      "layer": "Presentation",
+      "domain": "Dashboard",
+      "dependencies": [
+        "API Gateway",
+        "Auth Service (Cognito/Auth0)",
+        "Serverless Functions - dashboard/getUserDashboard",
+        "State management tools (React Query, Context API)"
+      ],
+      "requirements": [
+        "用户能够查看其仪表盘并获取最新信息",
+        "快速加载和响应用户操作",
+        "支持动态更新和实时通知显示",
+        "确保用户数据的安全和私密性"
+      ],
+      "target_path": "src/pages/dashboard/index.js",
+      "name": "Pages - Dashboard"
+    },
+    "pages_-_consultants": {
+      "module_name": "Pages - Consultants",
+      "responsibilities": [
+        "显示顾问匹配列表",
+        "支持用户选择和预约顾问",
+        "展示顾问的详细信息和评价",
+        "提供预约确认和支付链接",
+        "与用户交互以收集匹配偏好和预约信息"
+      ],
+      "layer": "Presentation",
+      "domain": "Consultants",
+      "dependencies": [
+        "API Gateway for accessing consultants/matchConsultants",
+        "API Gateway for accessing consultants/bookAppointment",
+        "React components for UI rendering",
+        "Tailwind CSS for styling",
+        "React Query for data fetching and caching"
+      ],
+      "requirements": [
+        "提供用户友好的顾问匹配和预约界面",
+        "确保顾问信息的准确展示",
+        "集成预约支付流程",
+        "支持用户根据偏好筛选顾问",
+        "确保页面响应性和可访问性"
+      ],
+      "target_path": "src/pages/consultants",
+      "name": "Pages - Consultants"
+    },
+    "ui_components_-_documents": {
+      "module_name": "UI Components - Documents",
+      "responsibilities": [
+        "提供用户友好的界面以便上传文档",
+        "支持用户浏览和管理已上传的文档",
+        "展示文档的初步分析结果和状态",
+        "实现文档上传和管理的交互组件，如按钮、表单和卡片",
+        "确保与后端服务的无缝集成以获取和展示文档数据"
+      ],
+      "layer": "Presentation",
+      "domain": "Documents",
+      "dependencies": [
+        "API Gateway - 与后端的Serverless函数交互",
+        "Authentication模块 - 确保用户身份验证",
+        "Document Management Services - 获取和管理文档数据"
+      ],
+      "requirements": [
+        "允许用户选择和上传多种类型的文档",
+        "展示文档的上传进度和成功确认",
+        "提供文档的预览功能",
+        "允许用户根据类型和状态筛选文档",
+        "提供用户友好的错误处理和反馈机制"
+      ],
+      "target_path": "src/components/documents",
+      "name": "UI Components - Documents"
+    },
+    "ui_components_-_consultants": {
+      "module_name": "UI Components - Consultants",
+      "responsibilities": [
+        "展示顾问匹配结果，包括顾问姓名、专长、评分及可用性",
+        "提供预约顾问的用户界面，允许用户选择日期、时间及咨询类型",
+        "显示顾问的详细信息和专业背景",
+        "管理用户和顾问之间的互动界面，如消息和文档共享"
+      ],
+      "layer": "Presentation",
+      "domain": "Consultants",
+      "dependencies": [
+        "API Gateway - consultants/matchConsultants",
+        "API Gateway - consultants/bookAppointment",
+        "React组件库",
+        "Tailwind CSS"
+      ],
+      "requirements": [
+        "用户可以查看和选择匹配的顾问",
+        "用户可以预约顾问咨询并查看确认信息",
+        "用户界面需具备响应式设计，以适应不同设备",
+        "提供无缝的用户体验，确保界面易于导航和使用"
+      ],
+      "target_path": "src/components/Consultants",
+      "name": "UI Components - Consultants"
+    }
+  },
+  "requirements": {
+    "req_1": {
+      "id": "req_1",
+      "name": "UI组件必须支持屏幕阅读器",
+      "description": "UI组件必须支持屏幕阅读器",
+      "priority": "medium"
+    },
+    "req_2": {
+      "id": "req_2",
+      "name": "提供可配置的无障碍选项，如高对比度模式",
+      "description": "提供可配置的无障碍选项，如高对比度模式",
+      "priority": "medium"
+    },
+    "req_3": {
+      "id": "req_3",
+      "name": "确保所有交互元素具有键盘可达性",
+      "description": "确保所有交互元素具有键盘可达性",
+      "priority": "medium"
+    },
+    "req_4": {
+      "id": "req_4",
+      "name": "为多语言支持提供无障碍文本",
+      "description": "为多语言支持提供无障碍文本",
+      "priority": "medium"
+    },
+    "req_5": {
+      "id": "req_5",
+      "name": "组件应支持国际化以满足不同语言用户的需求",
+      "description": "组件应支持国际化以满足不同语言用户的需求",
+      "priority": "medium"
+    }
+  },
+  "requirement_module_index": {
+    "req_1": [
+      "ui_components_-_accessibility",
+      "pages_-_assessment",
+      "ui_components_-_reliability",
+      "ui_components_-_performance",
+      "pages_-_performance",
+      "ui_components_-_authentication",
+      "pages_-_security",
+      "pages_-_profile",
+      "pages_-_scalability",
+      "pages_-_forms",
+      "ui_components_-_security",
+      "pages_-_workspace",
+      "pages_-_authentication",
+      "ui_components_-_workspace",
+      "ui_components_-_assessment",
+      "ui_components_-_dashboard",
+      "ui_components_-_profile",
+      "pages_-_documents",
+      "ui_components_-_usability",
+      "ui_components_-_forms",
+      "ui_components_-_scalability",
+      "ui_components_-_maintainability",
+      "pages_-_dashboard",
+      "pages_-_consultants",
+      "ui_components_-_documents",
+      "ui_components_-_consultants"
+    ],
+    "req_2": [
+      "ui_components_-_accessibility",
+      "pages_-_assessment",
+      "ui_components_-_reliability",
+      "ui_components_-_performance",
+      "pages_-_performance",
+      "ui_components_-_authentication",
+      "pages_-_security",
+      "pages_-_profile",
+      "pages_-_scalability",
+      "pages_-_forms",
+      "ui_components_-_security",
+      "pages_-_workspace",
+      "pages_-_authentication",
+      "ui_components_-_workspace",
+      "ui_components_-_assessment",
+      "ui_components_-_dashboard",
+      "ui_components_-_profile",
+      "pages_-_documents",
+      "ui_components_-_usability",
+      "ui_components_-_forms",
+      "ui_components_-_scalability",
+      "ui_components_-_maintainability",
+      "pages_-_dashboard",
+      "pages_-_consultants",
+      "ui_components_-_documents",
+      "ui_components_-_consultants"
+    ],
+    "req_3": [
+      "ui_components_-_accessibility",
+      "pages_-_assessment",
+      "ui_components_-_reliability",
+      "ui_components_-_performance",
+      "pages_-_performance",
+      "ui_components_-_authentication",
+      "pages_-_security",
+      "pages_-_profile",
+      "pages_-_scalability",
+      "pages_-_forms",
+      "ui_components_-_security",
+      "pages_-_workspace",
+      "pages_-_authentication",
+      "ui_components_-_workspace",
+      "ui_components_-_assessment",
+      "ui_components_-_dashboard",
+      "ui_components_-_profile",
+      "pages_-_documents",
+      "ui_components_-_usability",
+      "ui_components_-_forms",
+      "ui_components_-_scalability",
+      "ui_components_-_maintainability",
+      "pages_-_dashboard",
+      "pages_-_consultants",
+      "ui_components_-_documents",
+      "ui_components_-_consultants"
+    ],
+    "req_4": [
+      "ui_components_-_accessibility",
+      "pages_-_assessment",
+      "ui_components_-_reliability",
+      "ui_components_-_performance",
+      "pages_-_performance",
+      "ui_components_-_authentication",
+      "pages_-_profile",
+      "pages_-_scalability",
+      "pages_-_forms",
+      "ui_components_-_security",
+      "pages_-_workspace",
+      "pages_-_authentication",
+      "ui_components_-_workspace",
+      "ui_components_-_assessment",
+      "ui_components_-_dashboard",
+      "ui_components_-_profile",
+      "pages_-_documents",
+      "ui_components_-_usability",
+      "ui_components_-_forms",
+      "ui_components_-_scalability",
+      "ui_components_-_maintainability",
+      "pages_-_dashboard",
+      "pages_-_consultants",
+      "ui_components_-_documents",
+      "ui_components_-_consultants"
+    ],
+    "req_5": [
+      "ui_components_-_reliability",
+      "ui_components_-_performance",
+      "pages_-_forms",
+      "pages_-_workspace",
+      "pages_-_authentication",
+      "ui_components_-_assessment",
+      "ui_components_-_usability",
+      "ui_components_-_forms",
+      "ui_components_-_maintainability",
+      "pages_-_consultants",
+      "ui_components_-_documents"
+    ]
+  }
+}

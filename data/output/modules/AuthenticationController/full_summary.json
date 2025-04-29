@@ -1,0 +1,26 @@
+{
+  "module_name": "AuthenticationController",
+  "module_type": "控制器",
+  "responsibilities": [
+    "用户登录",
+    "用户注册",
+    "令牌刷新",
+    "密码重置"
+  ],
+  "layer": "表现层",
+  "domain": "认证",
+  "dependencies": [
+    "UserService",
+    "TokenService"
+  ],
+  "requirements": [
+    "用户可以登录和注册",
+    "用户可以重置密码"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "Express",
+    "JWT"
+  ],
+  "name": "AuthenticationController"
+}

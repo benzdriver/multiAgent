@@ -1,0 +1,25 @@
+{
+  "module_name": "UI Components - Workspace",
+  "responsibilities": [
+    "提供用户友好的界面以展示客户和顾问在协作空间中的互动",
+    "实现消息历史的显示和更新",
+    "支持任务列表的展示和交互",
+    "展示和管理共享文档的上传和查看功能",
+    "提供切换视图或模式的功能，方便用户在不同界面之间切换"
+  ],
+  "layer": "Presentation",
+  "domain": "Workspace",
+  "dependencies": [
+    "API Gateway提供的workspace/getWorkspace服务",
+    "React组件库用于构建UI",
+    "Tailwind CSS用于样式设计",
+    "React Query用于处理与服务层的异步数据获取"
+  ],
+  "requirements": [
+    "用户能在协作空间中查看并管理消息和任务",
+    "支持实时更新，确保用户可以访问最新的协作信息",
+    "易于扩展和维护的组件设计，以便于未来功能的添加",
+    "确保UI的响应式设计，适应不同设备的屏幕尺寸"
+  ],
+  "target_path": "src/components/WorkspaceUI"
+}

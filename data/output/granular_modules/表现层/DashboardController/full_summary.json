@@ -1,0 +1,20 @@
+{
+  "module_name": "DashboardController",
+  "module_type": "控制器",
+  "responsibilities": [
+    "展示用户仪表盘",
+    "提供统计数据"
+  ],
+  "layer": "表现层",
+  "domain": "仪表盘",
+  "dependencies": [
+    "DashboardService"
+  ],
+  "requirements": [
+    "用户可以查看仪表盘数据"
+  ],
+  "technology_stack": [
+    "React",
+    "Node.js"
+  ]
+}

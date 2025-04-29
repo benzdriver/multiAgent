@@ -1,0 +1,23 @@
+{
+  "module_name": "Layout Components - Security",
+  "responsibilities": [
+    "提供用户身份验证状态的可视化反馈",
+    "管理基于角色的导航和访问控制",
+    "集成安全相关的UI元素（如登录/登出按钮、用户信息显示）",
+    "确保安全组件在用户界面中的一致性和可用性"
+  ],
+  "layer": "Presentation",
+  "domain": "Security",
+  "dependencies": [
+    "Auth服务（如Cognito认证服务）",
+    "API Gateway提供的公共API",
+    "Business层中的认证和授权服务"
+  ],
+  "requirements": [
+    "支持动态加载和显示用户身份验证信息",
+    "能够根据用户角色动态调整界面元素",
+    "提供直观的用户登录/登出功能",
+    "确保所有安全相关组件在UI中一致的用户体验"
+  ],
+  "target_path": "src/components/layout/security"
+}

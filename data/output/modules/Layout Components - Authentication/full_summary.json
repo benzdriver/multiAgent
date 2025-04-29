@@ -1,0 +1,24 @@
+{
+  "module_name": "Layout Components - Authentication",
+  "responsibilities": [
+    "提供用户认证相关页面的布局组件",
+    "确保登录、注册和密码重置页面的统一导航和样式",
+    "通过页面布局组件提升用户交互体验",
+    "提供一致的导航栏、页脚和辅助导航组件"
+  ],
+  "layer": "Presentation",
+  "domain": "Authentication",
+  "dependencies": [
+    "Next.js框架",
+    "React组件库",
+    "Tailwind CSS",
+    "API Gateway - 用于与认证服务交互"
+  ],
+  "requirements": [
+    "支持响应式设计，适应不同设备和屏幕尺寸",
+    "提供可访问性支持，确保所有用户均可使用",
+    "与身份验证服务的无缝集成，确保用户体验流畅",
+    "维护与其他页面的一致外观和感觉"
+  ],
+  "target_path": "src/components/layout/authentication"
+}

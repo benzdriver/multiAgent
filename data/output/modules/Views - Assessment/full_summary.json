@@ -1,0 +1,23 @@
+{
+  "module_name": "Views - Assessment",
+  "responsibilities": [
+    "提供用户友好的界面以开始评估流程",
+    "支持多步骤评估流程的导航和数据输入",
+    "显示评估结果和推荐的移民路径",
+    "实现对话式和表单式用户信息收集的模式切换"
+  ],
+  "layer": "Presentation",
+  "domain": "Assessment",
+  "dependencies": [
+    "API Gateway for Assessment API calls",
+    "Authentication module for user login and session management",
+    "UI组件库（如按钮、输入框等）"
+  ],
+  "requirements": [
+    "用户能够启动评估并输入初始信息",
+    "用户能够在多步骤评估中保存和继续",
+    "用户能够查看评估结果和推荐路径",
+    "用户能够在对话式和表单式收集模式之间无缝切换"
+  ],
+  "target_path": "src/views/assessment"
+}

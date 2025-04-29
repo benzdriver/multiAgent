@@ -1,0 +1,26 @@
+{
+  "module_name": "UI Components - Authentication",
+  "responsibilities": [
+    "提供用户登录界面，包括输入邮箱和密码的表单",
+    "实现用户注册界面，支持角色选择（申请人/顾问）",
+    "提供密码重置界面，支持请求重置和实际重置流程",
+    "支持社交登录与身份验证的UI集成",
+    "确保UI组件的响应性和无障碍设计"
+  ],
+  "layer": "Presentation",
+  "domain": "Authentication",
+  "dependencies": [
+    "API Gateway for authentication endpoints",
+    "Business Layer for authentication logic and token management",
+    "React Query for server state management",
+    "React Hook Form for form management",
+    "Next-i18next for internationalization"
+  ],
+  "requirements": [
+    "用户能够在不同设备上无缝访问和使用身份验证功能",
+    "用户界面应当清晰简洁，指导用户完成身份验证流程",
+    "支持多语言环境，确保国际用户的可用性",
+    "确保身份验证界面的安全性，防止常见的安全漏洞"
+  ],
+  "target_path": "src/components/auth"
+}

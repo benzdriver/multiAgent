@@ -1,0 +1,23 @@
+{
+  "module_name": "UserProfileController",
+  "module_type": "控制器",
+  "responsibilities": [
+    "获取用户资料",
+    "更新用户资料",
+    "资料完整度检查"
+  ],
+  "layer": "表现层",
+  "domain": "用户管理",
+  "dependencies": [
+    "UserProfileService"
+  ],
+  "requirements": [
+    "GET /profile",
+    "PATCH /profile",
+    "GET /profile/completeness"
+  ],
+  "technology_stack": [
+    "Node.js",
+    "Express"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "module_name": "Pages - Assessment",
+  "responsibilities": [
+    "提供用户开始评估的界面和流程",
+    "管理评估步骤的用户交互和显示",
+    "展示评估结果和建议路径",
+    "引导用户通过评估流程并提供实时反馈"
+  ],
+  "layer": "Presentation",
+  "domain": "Assessment",
+  "dependencies": [
+    "API Gateway",
+    "Assessment服务",
+    "OpenAI API"
+  ],
+  "requirements": [
+    "允许用户开始并参与多步骤评估流程",
+    "实时显示评估进度和状态更新",
+    "提供可视化的评估结果和建议路径",
+    "支持与后台服务的无缝集成以获取和展示评估数据"
+  ],
+  "target_path": "src/pages/assessment"
+}
