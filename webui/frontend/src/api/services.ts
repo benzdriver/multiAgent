@@ -2,7 +2,7 @@ import api from './client';
 import { GlobalState, Requirement, Module, ApiResponse } from '../types';
 
 export const fetchGlobalState = (): Promise<ApiResponse<GlobalState>> => {
-  return api.get<GlobalState>('/state');
+  return api.get<GlobalState>('/get_global_state');
 };
 
 export const getConversationHistory = (): Promise<ApiResponse<Array<{role: string, content: string}>>> => {

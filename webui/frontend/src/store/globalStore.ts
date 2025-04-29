@@ -47,10 +47,16 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await services.fetchGlobalState();
-      if (response.data) {
-        set({ state: response.data, isLoading: false });
+      if (response) {
+        if (response.data) {
+          set({ state: response.data, isLoading: false });
+        } else if ('requirements' in response && Array.isArray((response as any).requirements)) {
+          set({ state: response as unknown as GlobalState, isLoading: false });
+        } else {
+          throw new Error('获取全局状态失败：无数据');
+        }
       } else {
-        throw new Error('获取全局状态失败：无数据');
+        throw new Error('获取全局状态失败：无响应');
       }
     } catch (error) {
       console.error('获取全局状态时出错:', error);
