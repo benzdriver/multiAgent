@@ -1,7 +1,0 @@
-python-dotenv
-networkx
-matplotlib
-tiktoken
-fastapi
-uvicorn
-python-multipart
