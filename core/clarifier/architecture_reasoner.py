@@ -8,9 +8,9 @@ from .architecture_manager import ArchitectureManager
 from llm.llm_executor import run_prompt
 
 class ArchitectureReasoner:
-    def __init__(self, architecture_manager=None, llm_chat=None, logger=None):
+    def __init__(self, architecture_manager=None, llm_chat=None, logger=None, output_path=None):
         self.arch_manager = architecture_manager or ArchitectureManager()
-        self.output_path = Path("data/output/architecture")
+        self.output_path = output_path or getattr(self.arch_manager, 'output_path', None) or Path("data/output/architecture")
         self.output_path.mkdir(parents=True, exist_ok=True)
         self.llm_chat = llm_chat
         self.logger = logger
@@ -56,6 +56,7 @@ class ArchitectureReasoner:
         # 1. 提取模块和依赖
         modules = []
         requirements = {}
+        dependencies = {}  # 存储模块间的依赖关系
         
         # 遍历各模式和层级提取模块信息
         for pattern in architecture_understanding["architecture_design"]["patterns"]:
@@ -84,11 +85,20 @@ class ArchitectureReasoner:
                     module_reqs = component.get("requirements", [])
                     requirements[component["name"]] = module_reqs
                     
+                    dependencies[component["name"]] = component.get("dependencies", [])
+                    
                     modules.append(module_spec)
         
         # 2. 将模块添加到架构索引
         for module in modules:
             self.arch_manager.index.add_module(module, requirements.get(module["name"], []))
+            
+        for module_name, deps in dependencies.items():
+            for dep in deps:
+                if dep in self.arch_manager.index.dependency_graph:
+                    if "depended_by" not in self.arch_manager.index.dependency_graph[dep]:
+                        self.arch_manager.index.dependency_graph[dep]["depended_by"] = set()
+                    self.arch_manager.index.dependency_graph[dep]["depended_by"].add(module_name)
             
         # 3. 添加架构模式（如果需要扩展现有模式）
         for pattern in architecture_understanding["architecture_design"]["patterns"]:
@@ -139,14 +149,39 @@ class ArchitectureReasoner:
             
             # 基于生成的文档进行推理
             await self._reason_by_pattern(pattern, pattern_docs)
-            
+        
         # 3. 执行整体架构验证
         await self._validate_overall_architecture()
-            
+        
         # 4. 保存最终的架构状态
         await self._save_final_architecture()
         
-        return self.arch_manager.index.get_current_state()
+        return {
+            "timestamp": datetime.now().isoformat(),
+            "requirement_module_index": {
+                k: list(v) for k, v in self.arch_manager.index.requirement_module_index.items()
+            },
+            "responsibility_index": {
+                k: {
+                    "modules": list(v["modules"]),
+                    "objects": list(v["objects"]),
+                    "patterns": list(v["patterns"])
+                } for k, v in self.arch_manager.index.responsibility_index.items()
+            },
+            "dependency_graph": {
+                k: {
+                    "depends_on": list(v["depends_on"]),
+                    "depended_by": list(v["depended_by"]),
+                    "pattern": v["pattern"],
+                    "layer": v["layer"]
+                } for k, v in self.arch_manager.index.dependency_graph.items()
+            },
+            "layer_index": {
+                layer: {
+                    name: module for name, module in modules.items()
+                } for layer, modules in self.arch_manager.index.layer_index.items()
+            }
+        }
 
     async def _generate_pattern_docs(self, pattern: Dict) -> Dict:
         """为特定架构模式生成详细文档"""
@@ -805,12 +840,16 @@ class ArchitectureReasoner:
         correction_plan = await self._generate_cycle_correction_plan(cycles)
         
         # 实施修正
-        if correction_plan:
+        if correction_plan and isinstance(correction_plan, list):
             corrections_applied = 0
             for correction in correction_plan:
-                result = await self._apply_correction(correction)
-                if result:
-                    corrections_applied += 1
+                if isinstance(correction, dict):
+                    result = await self._apply_correction(correction)
+                    if result:
+                        corrections_applied += 1
+                else:
+                    if self.logger:
+                        self.logger.log(f"⚠️ 无效的修正格式: {correction}", role="error")
             
             if self.logger:
                 self.logger.log(f"✅ 已应用 {corrections_applied} 个修正", role="system")
@@ -850,6 +889,11 @@ class ArchitectureReasoner:
 
     async def _apply_correction(self, correction: Dict) -> bool:
         """应用架构修正"""
+        if not isinstance(correction, dict):
+            if self.logger:
+                self.logger.log(f"\n⚠️ 无效的修正格式: {correction}", role="error")
+            return False
+            
         if self.logger:
             self.logger.log(f"\n应用修正: {correction.get('type', '')} - {correction.get('module', correction.get('cycle', ''))}", role="system")
         
@@ -921,8 +965,36 @@ class ArchitectureReasoner:
         
         # 保存架构状态
         state_file = output_dir / "architecture_state.json"
+        
+        state = {
+            "timestamp": datetime.now().isoformat(),
+            "requirement_module_index": {
+                k: list(v) for k, v in self.arch_manager.index.requirement_module_index.items()
+            },
+            "responsibility_index": {
+                k: {
+                    "modules": list(v["modules"]),
+                    "objects": list(v["objects"]),
+                    "patterns": list(v["patterns"])
+                } for k, v in self.arch_manager.index.responsibility_index.items()
+            },
+            "dependency_graph": {
+                k: {
+                    "depends_on": list(v["depends_on"]),
+                    "depended_by": list(v["depended_by"]),
+                    "pattern": v["pattern"],
+                    "layer": v["layer"]
+                } for k, v in self.arch_manager.index.dependency_graph.items()
+            },
+            "layer_index": {
+                layer: {
+                    name: module for name, module in modules.items()
+                } for layer, modules in self.arch_manager.index.layer_index.items()
+            }
+        }
+        
         with open(state_file, 'w', encoding='utf-8') as f:
-            json.dump(self.arch_manager.index.get_current_state(), f, ensure_ascii=False, indent=2)
+            json.dump(state, f, ensure_ascii=False, indent=2)
         
         if self.logger:
             self.logger.log(f"\n✅ 架构推理完成！", role="system")
@@ -936,8 +1008,32 @@ class ArchitectureReasoner:
         if self.logger:
             self.logger.log("\n📝 生成架构文档...", role="system")
         
-        # 1. 获取架构状态
-        arch_state = self.arch_manager.index.get_current_state()
+        arch_state = {
+            "timestamp": datetime.now().isoformat(),
+            "requirement_module_index": {
+                k: list(v) for k, v in self.arch_manager.index.requirement_module_index.items()
+            },
+            "responsibility_index": {
+                k: {
+                    "modules": list(v["modules"]),
+                    "objects": list(v["objects"]),
+                    "patterns": list(v["patterns"])
+                } for k, v in self.arch_manager.index.responsibility_index.items()
+            },
+            "dependency_graph": {
+                k: {
+                    "depends_on": list(v["depends_on"]),
+                    "depended_by": list(v["depended_by"]),
+                    "pattern": v["pattern"],
+                    "layer": v["layer"]
+                } for k, v in self.arch_manager.index.dependency_graph.items()
+            },
+            "layer_index": {
+                layer: {
+                    name: module for name, module in modules.items()
+                } for layer, modules in self.arch_manager.index.layer_index.items()
+            }
+        }
         
         # 2. 生成架构概览文档
         overview_doc = await self._generate_overview_doc(arch_state)
@@ -973,7 +1069,18 @@ class ArchitectureReasoner:
         5. 技术选型和理由
         """
         
-        return await self._get_llm_response(prompt)
+        response = await self._get_llm_response(prompt)
+        if isinstance(response, dict):
+            if "content" in response:
+                return response["content"]
+            elif "text" in response:
+                return response["text"]
+            else:
+                return json.dumps(response, ensure_ascii=False, indent=2)
+        elif isinstance(response, str):
+            return response
+        else:
+            return str(response)
         
     async def _generate_detailed_design_doc(self, arch_state: Dict) -> str:
         """生成详细设计文档"""
@@ -990,7 +1097,18 @@ class ArchitectureReasoner:
         5. 异常处理策略
         """
         
-        return await self._get_llm_response(prompt)
+        response = await self._get_llm_response(prompt)
+        if isinstance(response, dict):
+            if "content" in response:
+                return response["content"]
+            elif "text" in response:
+                return response["text"]
+            else:
+                return json.dumps(response, ensure_ascii=False, indent=2)
+        elif isinstance(response, str):
+            return response
+        else:
+            return str(response)
         
     async def _generate_interface_doc(self, arch_state: Dict) -> str:
         """生成接口文档"""
@@ -1007,7 +1125,18 @@ class ArchitectureReasoner:
         5. 错误码和处理
         """
         
-        return await self._get_llm_response(prompt)
+        response = await self._get_llm_response(prompt)
+        if isinstance(response, dict):
+            if "content" in response:
+                return response["content"]
+            elif "text" in response:
+                return response["text"]
+            else:
+                return json.dumps(response, ensure_ascii=False, indent=2)
+        elif isinstance(response, str):
+            return response
+        else:
+            return str(response)
         
     async def _generate_deployment_doc(self, arch_state: Dict) -> str:
         """生成部署文档"""
@@ -1024,7 +1153,18 @@ class ArchitectureReasoner:
         5. 监控和维护
         """
         
-        return await self._get_llm_response(prompt)   
+        response = await self._get_llm_response(prompt)
+        if isinstance(response, dict):
+            if "content" in response:
+                return response["content"]
+            elif "text" in response:
+                return response["text"]
+            else:
+                return json.dumps(response, ensure_ascii=False, indent=2)
+        elif isinstance(response, str):
+            return response
+        else:
+            return str(response)
         
     def _check_naming_inconsistencies(self) -> List[str]:
         """检查命名不一致性
@@ -1361,4 +1501,4 @@ class ArchitectureReasoner:
             else:
                 self.logger.log(f"\n✅ 模块 '{module_name}' 架构检查通过，未发现问题", role="system")
         
-        return issues    
+        return issues                  
