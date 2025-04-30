@@ -59,13 +59,36 @@ async def mock_llm_call(prompt: str, return_json: bool = False) -> Any:
     json_requested = return_json or "JSON" in prompt or "json" in prompt
     
     if json_requested:
-        # 返回一个基本的JSON结构
+        # 返回一个基本的JSON结构，包含模块数据
         response = {
             "status": "success",
             "message": "这是模拟的LLM JSON响应",
             "timestamp": str(asyncio.get_event_loop().time()),
             "data": {
                 "analysis": "这是一个模拟分析结果",
+                "modules": [
+                    {
+                        "name": "用户管理模块",
+                        "description": "处理用户账户、认证和授权相关功能",
+                        "technologies": {"language": "Python", "framework": "FastAPI"},
+                        "dependencies": ["数据库模块"],
+                        "requirements": ["REQ-001", "REQ-002"]
+                    },
+                    {
+                        "name": "数据库模块",
+                        "description": "提供数据持久化和查询服务",
+                        "technologies": {"language": "Python", "database": "PostgreSQL"},
+                        "dependencies": [],
+                        "requirements": ["REQ-003"]
+                    },
+                    {
+                        "name": "API接口模块",
+                        "description": "提供RESTful API接口，处理外部请求",
+                        "technologies": {"language": "Python", "framework": "FastAPI"},
+                        "dependencies": ["用户管理模块", "数据库模块"],
+                        "requirements": ["REQ-004", "REQ-005"]
+                    }
+                ],
                 "details": ["项目1", "项目2", "项目3"],
                 "recommendation": "这是一个模拟推荐"
             }

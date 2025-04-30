@@ -104,7 +104,7 @@ async def start_clarifier():
             from core.clarifier import create_clarifier, ensure_data_dir
             clarifier = create_clarifier(
                 data_dir="data",
-                use_mock=True,  # 测试阶段使用模拟LLM
+                use_mock=False,  # 使用真实LLM响应
                 verbose=True
             )
             print("✅ Clarifier已成功初始化")
@@ -714,8 +714,7 @@ async def startup_event():
     clarifier_service.add_system_message("系统启动中，正在初始化...")
     
     try:
-        # 初始化系统
-        await clarifier_service.initialize()
+        await clarifier_service.initialize(use_mock=False)
         
         # 设置默认模式为文件模式，自动扫描data/input目录
         global current_mode
@@ -1138,4 +1137,4 @@ def extract_json_from_response(response) -> Dict[str, Any]:
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)      
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)          

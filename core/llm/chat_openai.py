@@ -81,6 +81,9 @@ async def chat(
     for attempt in range(MAX_RETRIES):
         try:
             print(f"🛰️ 发送OpenAI API请求 (尝试 {attempt+1}/{MAX_RETRIES})")
+            print(f"📝 请求参数: model={model}, messages数量={len(message_list)}")
+            print(f"📝 第一条消息: {message_list[0]['role']}:{message_list[0]['content'][:50]}...")
+            
             response = await client.chat.completions.create(
                 model=model,
                 messages=message_list,
@@ -88,7 +91,11 @@ async def chat(
                 max_tokens=max_tokens,
                 stop=stop
             )
-            return response.choices[0].message.content
+            
+            content = response.choices[0].message.content
+            print(f"✅ API请求成功! 响应长度: {len(content)} 字符")
+            print(f"📝 响应前50个字符: {content[:50]}...")
+            return content
         except Exception as e:
             last_error = e
             if attempt < MAX_RETRIES - 1:

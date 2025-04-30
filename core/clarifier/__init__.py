@@ -41,8 +41,11 @@ def create_clarifier(
                 llm_chat = None  # 使用模拟模式
             else:
                 # 动态导入以减少依赖
+                print("🔍 尝试导入core.llm.chat_openai模块...")
                 openai_module = importlib.import_module("core.llm.chat_openai")
+                print("✅ 成功导入core.llm.chat_openai模块")
                 llm_chat = openai_module.chat
+                print(f"✅ 成功获取chat函数: {llm_chat}")
                 if verbose:
                     print("✓ 找到OpenAI API密钥。将使用真实LLM响应。")
         except ImportError:
