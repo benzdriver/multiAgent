@@ -358,7 +358,10 @@ async def analyze_documents():
             if not response:
                 raise HTTPException(status_code=500, detail="无法获取有效的LLM响应")
             
-            print(f"✅ 收到LLM响应: {response[:100]}...")
+            if isinstance(response, str):
+                print(f"✅ 收到LLM响应(字符串): {response[:100]}...")
+            else:
+                print(f"✅ 收到LLM响应(非字符串类型): {str(response)[:100]}...")
             
             # 从响应中提取JSON数据
             json_data = extract_json_from_response(response)
@@ -713,6 +716,14 @@ async def startup_event():
     try:
         # 初始化系统
         await clarifier_service.initialize()
+        
+        # 设置默认模式为文件模式，自动扫描data/input目录
+        global current_mode
+        current_mode = "file_based"
+        print(f"系统默认设置为文件模式，自动扫描data/input目录")
+        
+        mode_request = ModeRequest(mode="file_based")
+        await set_mode(mode_request)
     except Exception as e:
         clarifier_service.add_system_message(f"系统初始化失败: {str(e)}")
 
@@ -1123,4 +1134,4 @@ def extract_json_from_response(response: str) -> Dict[str, Any]:
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True) 
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)    

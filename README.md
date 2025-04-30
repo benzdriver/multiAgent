@@ -16,7 +16,7 @@
 
 3. **安装依赖**
    ```bash
-   pip install -r requirements.txt
+y   pip install -r requirements.txt
    ```
 
 ## 运行后端（FastAPI）
@@ -53,4 +53,4 @@ python run_clarifier_new.py
 - 如需自定义 LLM、数据路径等，可修改相关配置文件或源码
 
 ---
-如有问题欢迎提 issue 或联系开发者。  
+如有问题欢迎提 issue 或联系开发者。
