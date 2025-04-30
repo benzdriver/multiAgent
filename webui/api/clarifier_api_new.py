@@ -23,10 +23,42 @@ async def start_clarifier(
             if result["status"] == "success":
                 print("✅ Clarifier已成功初始化")
                 
-                state_service.add_conversation_message(
-                    "system",
-                    "欢迎使用需求澄清与架构设计系统！请选择使用模式：\n1. 基于文件分析 (上传需求文档)\n2. 交互式对话 (直接描述您的需求)"
-                )
+                from webui.api.document_api import analyze_documents
+                try:
+                    print("🔍 开始自动扫描data/input目录中的文档...")
+                    state_service.set_current_mode("file_based")
+                    
+                    import os
+                    from pathlib import Path
+                    os.makedirs("data/input", exist_ok=True)
+                    
+                    input_dir = Path("data/input")
+                    if input_dir.exists():
+                        md_files = list(input_dir.glob('**/*.md'))
+                        txt_files = list(input_dir.glob('**/*.txt'))
+                        input_files = md_files + txt_files
+                        
+                        if input_files:
+                            print(f"✅ 检测到 {len(input_files)} 个输入文档，开始自动分析...")
+                            
+                            for file_path in input_files:
+                                state_service.add_uploaded_file(str(file_path.absolute()))
+                            
+                            await analyze_documents(state_service=state_service)
+                            print("✅ 文档自动分析完成")
+                        else:
+                            print("⚠️ 未在data/input目录中找到文档")
+                            state_service.add_conversation_message(
+                                "system",
+                                "未在data/input目录中找到文档，请上传文档后继续。"
+                            )
+                except Exception as e:
+                    print(f"⚠️ 自动扫描文档失败: {str(e)}")
+                    state_service.add_conversation_message(
+                        "system",
+                        f"自动扫描文档失败: {str(e)}"
+                    )
+                
                 return {"status": "success", "message": "Clarifier initialized"}
             else:
                 print(f"❌ Clarifier初始化失败: {result.get('message', '未知错误')}")
@@ -42,6 +74,7 @@ async def start_clarifier(
                 f"初始化失败: {str(e)}"
             )
             return {"status": "error", "message": f"Clarifier initialization failed: {str(e)}"}
+    
     return {"status": "success", "message": "Clarifier already initialized"}
 
 @router.post("/analyze")
