@@ -100,6 +100,7 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
   const [reasoningResult, setReasoningResult] = React.useState<string>('');
   const [isLoadingRelated, setIsLoadingRelated] = React.useState<boolean>(false);
   const [isLoadingReasoning, setIsLoadingReasoning] = React.useState<boolean>(false);
+  const [fullSummary, setFullSummary] = React.useState<any>(null);
   
   const selectedItem = React.useMemo(() => {
     if (!selectedType || !selectedId) return null;
@@ -133,6 +134,30 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
     
     loadRelatedItems();
   }, [selectedType, selectedId, getRelatedModules, getRelatedRequirements]);
+  
+  React.useEffect(() => {
+    const fetchFullSummary = async () => {
+      if (!selectedType || selectedType !== 'module' || !selectedId) {
+        setFullSummary(null);
+        return;
+      }
+      
+      const selectedModule = state.modules.find(mod => mod.id === selectedId);
+      if (!selectedModule || !selectedModule.name) return;
+      
+      try {
+        const response = await fetch(`/api/module_summary/${encodeURIComponent(selectedModule.name)}`);
+        if (response.ok) {
+          const data = await response.json();
+          setFullSummary(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch module summary:', error);
+      }
+    };
+    
+    fetchFullSummary();
+  }, [selectedType, selectedId, state.modules]);
   
   const handleGetDeepReasoning = async () => {
     if (!selectedId || selectedType !== 'module') return;
@@ -253,6 +278,23 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
                 </Card>
               )}
             </DetailSection>
+            
+            {fullSummary && (
+              <DetailSection>
+                <SectionTitle>模块完整摘要</SectionTitle>
+                <SectionContent>
+                  <pre style={{ 
+                    background: '#f5f5f5', 
+                    padding: '10px', 
+                    borderRadius: '4px',
+                    overflow: 'auto',
+                    maxHeight: '300px'
+                  }}>
+                    {JSON.stringify(fullSummary, null, 2)}
+                  </pre>
+                </SectionContent>
+              </DetailSection>
+            )}
           </>
         )}
         
