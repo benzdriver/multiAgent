@@ -223,17 +223,25 @@ class ArchitectureValidator:
     def _check_layer_violations(self, module: Dict) -> List[str]:
         """检查层级违规"""
         violations = []
+        module_name = module.get('name', '')
         pattern = module.get('pattern', '')
         layer = module.get('layer', '')
+        dependencies = set(module.get('dependencies', []))
         
-        if pattern in self.index.architecture_patterns:
-            allowed_deps = self.index.get_allowed_dependencies(pattern, layer)
-            for dep in module.get('dependencies', []):
-                dep_info = self.index.dependency_graph.get(dep, {})
-                dep_layer = dep_info.get('layer', '')
+        if not pattern or not layer:
+            return violations
+            
+        allowed_dependencies = self.index.get_allowed_dependencies(pattern, layer)
+        
+        for dep in dependencies:
+            if dep in self.index.dependency_graph:
+                dep_pattern = self.index.dependency_graph[dep].get('pattern', '')
+                dep_layer = self.index.dependency_graph[dep].get('layer', '')
                 
-                if dep_layer and dep_layer not in allowed_deps:
-                    violations.append(f"依赖 '{dep}' 违反了 '{pattern}' 架构中 '{layer}' 层级的依赖规则")
+                if dep_pattern == pattern and dep_layer not in allowed_dependencies:
+                    violations.append(f"模块'{module_name}'依赖了'{dep}'，但'{layer}'层不允许依赖'{dep_layer}'层")
+                    
+                #     violations.append(f"模块'{module_name}'依赖了不同架构模式'{dep_pattern}'中的模块'{dep}'")
         
         return violations
 
@@ -389,4 +397,4 @@ class ArchitectureManager:
         
         state_file = self.output_path / "architecture_state.json"
         with open(state_file, 'w', encoding='utf-8') as f:
-            json.dump(state, f, ensure_ascii=False, indent=2)  
+            json.dump(state, f, ensure_ascii=False, indent=2)      
