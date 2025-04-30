@@ -10,6 +10,14 @@ const apiClient: AxiosInstance = axios.create({
   timeout: 30000, // 30秒超时
 });
 
+apiClient.interceptors.request.use((config) => {
+  if (config.url === '/get_global_state') {
+    config.url = '/state/get_global_state';
+    console.log('修改全局状态请求URL为:', config.url);
+  }
+  return config;
+});
+
 apiClient.interceptors.request.use(
   (config) => {
     return config;

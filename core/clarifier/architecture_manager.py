@@ -1,6 +1,8 @@
 from typing import Dict, List, Set
 from pathlib import Path
 import json
+import uuid
+import traceback
 from datetime import datetime
 
 class ArchitectureIndex:
@@ -130,8 +132,6 @@ class ArchitectureValidator:
 
     async def validate_new_module(self, module: Dict, requirements: List[str]) -> Dict:
         """验证新模块的合理性"""
-        print(f"🔍 ArchitectureValidator: 验证模块 '{module.get('name', 'unknown')}'")
-        
         issues = {
             "responsibility_overlaps": [],
             "circular_dependencies": [],
@@ -143,24 +143,20 @@ class ArchitectureValidator:
         overlaps = self._check_responsibility_overlaps(module)
         if overlaps:
             issues["responsibility_overlaps"].extend(overlaps)
-            print(f"⚠️ ArchitectureValidator: 检测到职责重叠")
         
         # 2. 检查循环依赖
         cycles = self._check_circular_dependencies(module)
         if cycles:
             issues["circular_dependencies"].extend(cycles)
-            print(f"⚠️ ArchitectureValidator: 检测到循环依赖")
         
         # 3. 检查层级违规
         layer_issues = self._check_layer_violations(module)
         if layer_issues:
             issues["layer_violations"].extend(layer_issues)
-            print(f"⚠️ ArchitectureValidator: 检测到层级违规")
         
         # 保存验证结果
         self.validation_issues[module.get('name', 'unknown')] = issues
         
-        print(f"✅ ArchitectureValidator: 验证完成")
         return issues
     
     def get_validation_issues(self) -> Dict:
@@ -274,11 +270,9 @@ class ArchitectureManager:
         if existing_index is not None:
             # 更新现有模块
             self.modules[existing_index] = module_data
-            print(f"✅ ArchitectureManager: 更新了现有模块 '{module_name}'")
         else:
             # 添加新模块
             self.modules.append(module_data)
-            print(f"✅ ArchitectureManager: 添加了新模块 '{module_name}'")
     
     def add_requirement(self, req_data: Dict) -> None:
         """添加或更新需求
@@ -301,58 +295,64 @@ class ArchitectureManager:
         if existing_index is not None:
             # 更新现有需求
             self.requirements[existing_index] = req_data
-            print(f"✅ ArchitectureManager: 更新了现有需求 '{req_id}'")
         else:
             # 添加新需求
             self.requirements.append(req_data)
-            print(f"✅ ArchitectureManager: 添加了新需求 '{req_id}'")
 
     async def process_new_module(self, module_spec: Dict, requirements: List[str]) -> Dict:
         """处理新模块"""
-        print(f"🔍 ArchitectureManager: 处理新模块 '{module_spec.get('name', 'unknown')}'")
+        module_name = module_spec.get('name', 'unknown')
+        call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+        print(f"🔄 [LOOP-TRACE] {call_id} - ENTER process_new_module: '{module_name}'")
         
         # 1. 验证新模块
+        print(f"🔄 [LOOP-TRACE] {call_id} - 开始验证模块 '{module_name}'")
         validation_result = await self.validator.validate_new_module(
             module_spec, 
             requirements
         )
+        print(f"🔄 [LOOP-TRACE] {call_id} - 验证完成: 发现 {sum(len(issues) for issues in validation_result.values())} 个问题")
         
         # 2. 如果有问题，返回验证结果
         if any(validation_result.values()):
-            print(f"⚠️ ArchitectureManager: 模块验证失败")
+            print(f"🔄 [LOOP-TRACE] {call_id} - 模块验证失败，返回问题列表")
             return {
                 "status": "validation_failed",
                 "issues": validation_result
             }
         
         # 3. 如果验证通过，添加到索引
+        print(f"🔄 [LOOP-TRACE] {call_id} - 验证通过，添加模块到索引")
         self.index.add_module(module_spec, requirements)
-        print(f"✅ ArchitectureManager: 已将模块添加到索引")
         
         # 3.1 添加到模块列表
+        print(f"🔄 [LOOP-TRACE] {call_id} - 添加模块到模块列表")
         self.add_module(module_spec)
 
         # 3.2 自动生成 full_summary.json
         module_name = module_spec.get("name")
         if module_name:
+            print(f"🔄 [LOOP-TRACE] {call_id} - 为模块 '{module_name}' 创建目录和摘要文件")
             module_dir = Path("data/output/modules") / str(module_name)
             module_dir.mkdir(parents=True, exist_ok=True)
-            print(f"📁 ArchitectureManager: 创建模块目录: {module_dir}")
             
             summary_path = module_dir / "full_summary.json"
             try:
                 with open(summary_path, "w", encoding="utf-8") as f:
                     json.dump(module_spec, f, ensure_ascii=False, indent=2)
-                print(f"✅ ArchitectureManager: 创建模块摘要文件: {summary_path}")
+                print(f"🔄 [LOOP-TRACE] {call_id} - 成功创建摘要文件: {summary_path}")
             except Exception as e:
-                print(f"❌ ArchitectureManager: 创建模块摘要文件失败: {e}")
+                print(f"❌ [LOOP-TRACE] {call_id} - 创建摘要文件失败: {str(e)}")
+                pass
         else:
-            print(f"⚠️ ArchitectureManager: 模块缺少名称，无法创建目录")
+            print(f"⚠️ [LOOP-TRACE] {call_id} - 模块缺少名称，无法创建目录")
         
         # 4. 保存更新后的架构信息
+        print(f"🔄 [LOOP-TRACE] {call_id} - 开始保存架构状态")
         await self._save_architecture_state()
-        print(f"✅ ArchitectureManager: 保存了架构状态")
+        print(f"🔄 [LOOP-TRACE] {call_id} - 架构状态保存完成")
         
+        print(f"🔄 [LOOP-TRACE] {call_id} - EXIT process_new_module: '{module_name}'")
         return {
             "status": "success",
             "module": module_spec
@@ -389,4 +389,4 @@ class ArchitectureManager:
         
         state_file = self.output_path / "architecture_state.json"
         with open(state_file, 'w', encoding='utf-8') as f:
-            json.dump(state, f, ensure_ascii=False, indent=2)  
+            json.dump(state, f, ensure_ascii=False, indent=2)              

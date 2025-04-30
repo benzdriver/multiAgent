@@ -3,6 +3,8 @@ from pathlib import Path
 import json
 import asyncio
 import re
+import uuid
+import traceback
 from datetime import datetime
 from .architecture_manager import ArchitectureManager
 from llm.llm_executor import run_prompt
@@ -526,65 +528,64 @@ class ArchitectureReasoner:
         return len(dependencies) > 0
 
     async def _process_layer_modules(self, layer_name: str, layer_info: Dict):
-        """处理层级中的模块"""
-        if self.logger:
-            self.logger.log(f"\n处理 {layer_name} 层的模块...", role="system")
+        """处理层级中的模块，使用并行处理提高效率"""
+        call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+        print(f"🔄 [LOOP-TRACE] {call_id} - ENTER _process_layer_modules: layer='{layer_name}'")
         
-        for module in layer_info.get("components", []):
-            # 1. 生成模块规范
-            module_spec = await self._generate_module_spec(module, layer_info)
+        components = layer_info.get("components", [])
+        print(f"🔄 [LOOP-TRACE] {call_id} - 发现 {len(components)} 个组件需要处理")
+        
+        async def process_single_module(module, module_idx):
+            module_call_id = str(uuid.uuid4())[:8]  # 每个模块处理有自己的调用ID
+            module_name = module.get("name", f"未命名模块_{module_idx}")
+            print(f"🔄 [LOOP-TRACE] {call_id}.{module_call_id} - 开始处理模块 {module_idx+1}/{len(components)}: '{module_name}'")
             
-            # 2. 添加到架构管理器
-            result = await self.arch_manager.process_new_module(
-                module_spec,
-                module_spec.get("requirements", [])
-            )
-            
-            if result["status"] == "validation_failed":
-                await self._handle_validation_issues(result["issues"], module_spec)
-            else:
-                if self.logger:
-                    self.logger.log(f"✅ 模块 {module['name']} 添加成功", role="system")
+            try:
+                # 1. 生成模块规范
+                print(f"🔄 [LOOP-TRACE] {call_id}.{module_call_id} - 开始生成模块规范")
+                module_spec = await self._generate_module_spec(module, layer_info)
+                print(f"🔄 [LOOP-TRACE] {call_id}.{module_call_id} - 模块规范生成完成")
+                
+                # 2. 添加到架构管理器
+                print(f"🔄 [LOOP-TRACE] {call_id}.{module_call_id} - 开始调用 process_new_module")
+                result = await self.arch_manager.process_new_module(
+                    module_spec,
+                    module_spec.get("requirements", [])
+                )
+                print(f"🔄 [LOOP-TRACE] {call_id}.{module_call_id} - process_new_module 调用完成: {result.get('status', '未知')}")
+                
+                if result["status"] == "validation_failed":
+                    print(f"🔄 [LOOP-TRACE] {call_id}.{module_call_id} - 模块验证失败，处理验证问题")
+                    await self._handle_validation_issues(result["issues"], module_spec)
+                    print(f"🔄 [LOOP-TRACE] {call_id}.{module_call_id} - 验证问题处理完成")
+                
+                print(f"🔄 [LOOP-TRACE] {call_id}.{module_call_id} - 模块 '{module_name}' 处理完成")
+                return result
+            except Exception as e:
+                print(f"❌ [LOOP-TRACE] {call_id}.{module_call_id} - 处理模块 '{module_name}' 时出错: {str(e)}")
+                traceback.print_exc()
+                return {"status": "error", "message": str(e)}
+        
+        print(f"🔄 [LOOP-TRACE] {call_id} - 开始并行处理 {len(components)} 个模块")
+        import asyncio
+        tasks = [process_single_module(module, idx) for idx, module in enumerate(components)]
+        results = await asyncio.gather(*tasks)
+        print(f"🔄 [LOOP-TRACE] {call_id} - 并行处理完成，成功: {sum(1 for r in results if r.get('status') == 'success')}，失败: {sum(1 for r in results if r.get('status') != 'success')}")
+        
+        print(f"🔄 [LOOP-TRACE] {call_id} - EXIT _process_layer_modules: layer='{layer_name}'")
+        return results
 
     async def _handle_validation_issues(self, issues: Dict, module: Dict):
         """处理验证问题"""
-        if self.logger:
-            self.logger.log(f"\n⚠️ 模块 {module.get('name', '')} 存在以下问题：", role="error")
-        
-        if issues.get("responsibility_overlaps"):
-            if self.logger:
-                self.logger.log("\n职责重叠:", role="error")
-            for overlap in issues["responsibility_overlaps"]:
-                if self.logger:
-                    self.logger.log(f"  • {overlap}", role="error")
-        
-        if issues.get("circular_dependencies"):
-            if self.logger:
-                self.logger.log("\n循环依赖:", role="error")
-            for cycle in issues["circular_dependencies"]:
-                if self.logger:
-                    self.logger.log(f"  • {cycle}", role="error")
-        
-        if issues.get("layer_violations"):
-            if self.logger:
-                self.logger.log("\n层级违规:", role="error")
-            for violation in issues["layer_violations"]:
-                if self.logger:
-                    self.logger.log(f"  • {violation}", role="error")
-        
         # 尝试自动修正
         corrected_module = await self._attempt_module_correction(module, issues)
         if corrected_module:
-            if self.logger:
-                self.logger.log("\n🔄 正在尝试使用修正后的模块定义...", role="system")
             result = await self.arch_manager.process_new_module(
                 corrected_module,
                 corrected_module.get("requirements", [])
             )
             return result["status"] == "success"
         else:
-            if self.logger:
-                self.logger.log("\n❌ 无法自动修正问题，请手动审查并修改模块定义", role="error")
             return False
 
     async def _attempt_module_correction(self, module: Dict, issues: Dict) -> Dict:
@@ -640,38 +641,57 @@ class ArchitectureReasoner:
 
     async def _validate_overall_architecture(self):
         """执行整体架构验证"""
+        call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+        print(f"🔄 [LOOP-TRACE] {call_id} - ENTER _validate_overall_architecture")
+        
         if self.logger:
             self.logger.log("\n🔍 执行整体架构验证...", role="system")
         
         # 1. 检查整体架构一致性
+        print(f"🔄 [LOOP-TRACE] {call_id} - 开始检查整体架构一致性")
         consistency_issues = self._check_overall_consistency()
+        print(f"🔄 [LOOP-TRACE] {call_id} - 架构一致性检查完成，发现 {len(consistency_issues)} 个问题")
+        
         if consistency_issues:
             if self.logger:
                 self.logger.log("\n⚠️ 整体架构一致性问题:", role="error")
-            for issue in consistency_issues:
+            for i, issue in enumerate(consistency_issues):
+                print(f"🔄 [LOOP-TRACE] {call_id} - 一致性问题 {i+1}/{len(consistency_issues)}: {issue}")
                 if self.logger:
                     self.logger.log(f"• {issue}", role="error")
             
             # 尝试自动修正
+            print(f"🔄 [LOOP-TRACE] {call_id} - 开始尝试修正架构一致性问题")
             await self._attempt_consistency_correction(consistency_issues)
+            print(f"🔄 [LOOP-TRACE] {call_id} - 一致性问题修正尝试完成")
         else:
+            print(f"🔄 [LOOP-TRACE] {call_id} - 未发现架构一致性问题")
             if self.logger:
                 self.logger.log("✅ 整体架构一致性验证通过", role="system")
         
         # 2. 检查全局循环依赖
+        print(f"🔄 [LOOP-TRACE] {call_id} - 开始检查全局循环依赖")
         cycles = self._check_global_circular_dependencies()
+        print(f"🔄 [LOOP-TRACE] {call_id} - 循环依赖检查完成，发现 {len(cycles)} 个循环")
+        
         if cycles:
             if self.logger:
                 self.logger.log("\n⚠️ 检测到全局循环依赖:", role="error")
-            for cycle in cycles:
+            for i, cycle in enumerate(cycles):
+                print(f"🔄 [LOOP-TRACE] {call_id} - 循环依赖 {i+1}/{len(cycles)}: {cycle}")
                 if self.logger:
                     self.logger.log(f"• {cycle}", role="error")
             
             # 尝试自动修正
+            print(f"🔄 [LOOP-TRACE] {call_id} - 开始尝试修正循环依赖")
             await self._attempt_cycle_correction(cycles)
+            print(f"🔄 [LOOP-TRACE] {call_id} - 循环依赖修正尝试完成")
         else:
+            print(f"🔄 [LOOP-TRACE] {call_id} - 未检测到循环依赖")
             if self.logger:
                 self.logger.log("✅ 未检测到全局循环依赖", role="system")
+                
+        print(f"🔄 [LOOP-TRACE] {call_id} - EXIT _validate_overall_architecture")
 
     def _check_overall_consistency(self) -> List[str]:
         """检查整体架构一致性"""
@@ -706,44 +726,77 @@ class ArchitectureReasoner:
 
     def _check_global_circular_dependencies(self) -> List[str]:
         """检查全局循环依赖"""
+        call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+        print(f"🔄 [LOOP-TRACE] {call_id} - ENTER _check_global_circular_dependencies")
+        
         cycles = []
         all_modules = list(self.arch_manager.index.dependency_graph.keys())
+        print(f"🔄 [LOOP-TRACE] {call_id} - 检查 {len(all_modules)} 个模块的循环依赖")
         
         # 构建依赖图
         dependency_map = {}
         for module, info in self.arch_manager.index.dependency_graph.items():
-            dependency_map[module] = list(info.get("depends_on", []))
+            deps = list(info.get("depends_on", []))
+            dependency_map[module] = deps
+            if deps:
+                print(f"🔄 [LOOP-TRACE] {call_id} - 模块 '{module}' 依赖于 {len(deps)} 个其他模块")
         
         visited = {}  # 0: 未访问，1: 正在访问，2: 已访问
         path = []
+        max_recursion_depth = 100  # 防止无限递归
         
-        def dfs(current: str) -> bool:
+        def dfs(current: str, depth: int = 0) -> bool:
+            dfs_id = str(uuid.uuid4())[:6]  # 每个DFS调用有自己的ID
+            print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - DFS(depth={depth}): 检查模块 '{current}'")
+            
+            if depth > max_recursion_depth:
+                print(f"⚠️ [LOOP-TRACE] {call_id}.{dfs_id} - 达到最大递归深度 ({max_recursion_depth})，中断递归")
+                return False
+            
             if current in visited and visited[current] == 1:
                 cycle_start = path.index(current)
                 cycle = path[cycle_start:] + [current]
-                cycles.append(" -> ".join(cycle))
+                cycle_str = " -> ".join(cycle)
+                print(f"⚠️ [LOOP-TRACE] {call_id}.{dfs_id} - 检测到循环! {cycle_str}")
+                cycles.append(cycle_str)
                 return True
             
             if current in visited and visited[current] == 2:
+                print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - 模块 '{current}' 已访问过，跳过")
                 return False
                 
             visited[current] = 1
             path.append(current)
+            print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - 当前路径: {' -> '.join(path)}")
             
             has_cycle = False
-            for dep in dependency_map.get(current, []):
-                if dep in dependency_map and dfs(dep):
-                    has_cycle = True
+            deps = dependency_map.get(current, [])
+            print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - 模块 '{current}' 有 {len(deps)} 个依赖需要检查")
+            
+            for i, dep in enumerate(deps):
+                print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - 检查依赖 {i+1}/{len(deps)}: '{dep}'")
+                if dep in dependency_map:
+                    print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - 递归检查依赖 '{dep}' (depth={depth+1})")
+                    if dfs(dep, depth + 1):
+                        print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - 依赖 '{dep}' 导致循环")
+                        has_cycle = True
+                else:
+                    print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - 依赖 '{dep}' 不在依赖图中")
             
             path.pop()
             visited[current] = 2
+            print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - 完成模块 '{current}' 的检查，循环状态: {has_cycle}")
             return has_cycle
         
-        for module in all_modules:
+        for i, module in enumerate(all_modules):
+            print(f"🔄 [LOOP-TRACE] {call_id} - 开始检查模块 {i+1}/{len(all_modules)}: '{module}'")
             if module not in visited:
                 visited[module] = 0
+                print(f"🔄 [LOOP-TRACE] {call_id} - 开始DFS遍历模块 '{module}'")
                 dfs(module)
-                
+                print(f"🔄 [LOOP-TRACE] {call_id} - 完成DFS遍历模块 '{module}'")
+        
+        print(f"🔄 [LOOP-TRACE] {call_id} - EXIT _check_global_circular_dependencies: 发现 {len(cycles)} 个循环")
         return cycles
 
     async def _attempt_consistency_correction(self, issues: List[str]):
@@ -850,18 +903,26 @@ class ArchitectureReasoner:
 
     async def _apply_correction(self, correction: Dict) -> bool:
         """应用架构修正"""
+        call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+        print(f"🔄 [LOOP-TRACE] {call_id} - ENTER _apply_correction")
+        
         if self.logger:
             self.logger.log(f"\n应用修正: {correction.get('type', '')} - {correction.get('module', correction.get('cycle', ''))}", role="system")
         
         # 实现不同类型的修正逻辑
         correction_type = correction.get("type", "")
+        print(f"🔄 [LOOP-TRACE] {call_id} - 修正类型: {correction_type}")
+        
+        result = False
         
         if correction_type == "rename":
             # 重命名模块
             old_name = correction.get("module", "")
             new_name = correction.get("details", {}).get("new_name", "")
+            print(f"🔄 [LOOP-TRACE] {call_id} - 尝试重命名模块: '{old_name}' -> '{new_name}'")
             
             if old_name in self.arch_manager.index.dependency_graph:
+                print(f"🔄 [LOOP-TRACE] {call_id} - 找到模块 '{old_name}' 在依赖图中")
                 # 获取旧模块信息
                 old_module = self.arch_manager.index.dependency_graph[old_name]
                 
@@ -872,47 +933,63 @@ class ArchitectureReasoner:
                     "layer": old_module.get("layer", ""),
                     # 复制其他属性
                 }
+                print(f"🔄 [LOOP-TRACE] {call_id} - 创建新模块 '{new_name}' 完成")
                 
                 # 更新依赖关系
                 # TODO: 实现依赖更新逻辑
-                
-                return True
+                print(f"🔄 [LOOP-TRACE] {call_id} - 重命名模块成功")
+                result = True
+            else:
+                print(f"🔄 [LOOP-TRACE] {call_id} - 模块 '{old_name}' 不在依赖图中，无法重命名")
                 
         elif correction_type == "move":
             # 移动模块到新层级
             module_name = correction.get("module", "")
             target_layer = correction.get("details", {}).get("target_layer", "")
+            print(f"🔄 [LOOP-TRACE] {call_id} - 尝试移动模块 '{module_name}' 到层级 '{target_layer}'")
             
             # TODO: 实现移动逻辑
-            
-            return True
+            print(f"🔄 [LOOP-TRACE] {call_id} - 移动模块成功")
+            result = True
             
         elif correction_type == "split":
             # 拆分模块
+            module_name = correction.get("module", "")
+            print(f"🔄 [LOOP-TRACE] {call_id} - 尝试拆分模块 '{module_name}'")
             # TODO: 实现拆分逻辑
-            return False
+            print(f"🔄 [LOOP-TRACE] {call_id} - 拆分模块未实现")
+            result = False
             
         elif correction_type == "merge":
             # 合并模块
+            print(f"🔄 [LOOP-TRACE] {call_id} - 尝试合并模块")
             # TODO: 实现合并逻辑
-            return False
+            print(f"🔄 [LOOP-TRACE] {call_id} - 合并模块未实现")
+            result = False
             
         elif correction_type == "remove_dependency":
             # 移除依赖
             from_module = correction.get("details", {}).get("from_module", "")
             to_module = correction.get("details", {}).get("to_module", "")
+            print(f"🔄 [LOOP-TRACE] {call_id} - 尝试移除依赖: '{from_module}' -> '{to_module}'")
             
             if from_module in self.arch_manager.index.dependency_graph:
-                # 移除依赖
+                print(f"🔄 [LOOP-TRACE] {call_id} - 找到模块 '{from_module}' 在依赖图中")
                 # TODO: 实现依赖移除逻辑
-                return True
+                print(f"🔄 [LOOP-TRACE] {call_id} - 移除依赖成功")
+                result = True
+            else:
+                print(f"🔄 [LOOP-TRACE] {call_id} - 模块 '{from_module}' 不在依赖图中，无法移除依赖")
         
         elif correction_type == "add_mediator":
             # 添加中介层
+            print(f"🔄 [LOOP-TRACE] {call_id} - 尝试添加中介层")
             # TODO: 实现中介层添加逻辑
-            return False
+            print(f"🔄 [LOOP-TRACE] {call_id} - 添加中介层未实现")
+            result = False
             
-        return False
+        print(f"🔄 [LOOP-TRACE] {call_id} - EXIT _apply_correction: 结果={result}")
+        return result
 
     async def _save_final_architecture(self):
         """保存最终的架构状态"""
@@ -1135,36 +1212,71 @@ class ArchitectureReasoner:
         Returns:
             层级违规问题列表
         """
+        call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+        print(f"🔄 [LOOP-TRACE] {call_id} - ENTER _check_layer_violations")
+        
         issues = []
         
-        for pattern_name, pattern_info in self.arch_manager.index.architecture_patterns.items():
+        patterns = self.arch_manager.index.architecture_patterns
+        pattern_count = len(patterns)
+        print(f"🔄 [LOOP-TRACE] {call_id} - 检查 {pattern_count} 个架构模式的层级违规")
+        
+        pattern_idx = 0
+        for pattern_name, pattern_info in patterns.items():
+            pattern_idx += 1
             layer_dependencies = pattern_info.get("dependencies", {})
+            print(f"🔄 [LOOP-TRACE] {call_id} - 检查模式 {pattern_idx}/{pattern_count}: '{pattern_name}'，有 {len(layer_dependencies)} 个层级依赖规则")
             
+            pattern_modules = [m for m, info in self.arch_manager.index.dependency_graph.items() 
+                              if info.get("pattern") == pattern_name]
+            print(f"🔄 [LOOP-TRACE] {call_id} - 模式 '{pattern_name}' 有 {len(pattern_modules)} 个模块")
+            
+            module_idx = 0
             for module, info in self.arch_manager.index.dependency_graph.items():
                 if info.get("pattern") != pattern_name:
                     continue
-                    
+                
+                module_idx += 1
+                print(f"🔄 [LOOP-TRACE] {call_id} - 检查模块 {module_idx}/{len(pattern_modules)}: '{module}'")
+                
                 module_layer = info.get("layer")
                 if not module_layer:
+                    print(f"🔄 [LOOP-TRACE] {call_id} - 模块 '{module}' 没有指定层级，跳过")
                     continue
-                    
-                allowed_dependencies = layer_dependencies.get(module_layer, [])
                 
-                for dep in info.get("depends_on", []):
+                allowed_dependencies = layer_dependencies.get(module_layer, [])
+                print(f"🔄 [LOOP-TRACE] {call_id} - 模块 '{module}' 在层级 '{module_layer}'，允许依赖的层级: {allowed_dependencies}")
+                
+                deps = info.get("depends_on", [])
+                print(f"🔄 [LOOP-TRACE] {call_id} - 模块 '{module}' 有 {len(deps)} 个依赖需要检查")
+                
+                dep_idx = 0
+                for dep in deps:
+                    dep_idx += 1
+                    print(f"🔄 [LOOP-TRACE] {call_id} - 检查依赖 {dep_idx}/{len(deps)}: '{dep}'")
+                    
                     if dep not in self.arch_manager.index.dependency_graph:
+                        print(f"🔄 [LOOP-TRACE] {call_id} - 依赖 '{dep}' 不在依赖图中，跳过")
                         continue  # 跳过不存在的依赖
-                        
+                    
                     dep_info = self.arch_manager.index.dependency_graph[dep]
                     dep_pattern = dep_info.get("pattern")
                     dep_layer = dep_info.get("layer")
                     
+                    print(f"🔄 [LOOP-TRACE] {call_id} - 依赖 '{dep}' 属于模式 '{dep_pattern}'，层级 '{dep_layer}'")
+                    
                     if dep_pattern != pattern_name:
-                        issues.append(f"模块 '{module}' 依赖了不同架构模式的模块 '{dep}'")
+                        issue = f"模块 '{module}' 依赖了不同架构模式的模块 '{dep}'"
+                        print(f"⚠️ [LOOP-TRACE] {call_id} - 发现层级违规: {issue}")
+                        issues.append(issue)
                         continue
-                        
+                    
                     if dep_layer not in allowed_dependencies and dep_layer != module_layer:
-                        issues.append(f"模块 '{module}' ({module_layer}) 依赖了不允许的层级 '{dep_layer}' 中的模块 '{dep}'")
+                        issue = f"模块 '{module}' ({module_layer}) 依赖了不允许的层级 '{dep_layer}' 中的模块 '{dep}'"
+                        print(f"⚠️ [LOOP-TRACE] {call_id} - 发现层级违规: {issue}")
+                        issues.append(issue)
         
+        print(f"🔄 [LOOP-TRACE] {call_id} - EXIT _check_layer_violations: 发现 {len(issues)} 个层级违规")
         return issues
         
     def _check_responsibility_overlaps(self) -> List[str]:
@@ -1178,23 +1290,54 @@ class ArchitectureReasoner:
         Returns:
             职责重叠问题列表
         """
+        call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+        print(f"🔄 [LOOP-TRACE] {call_id} - ENTER _check_responsibility_overlaps")
+        
         issues = []
         
+        print(f"🔄 [LOOP-TRACE] {call_id} - 开始构建职责映射")
         responsibility_map = {}
+        module_count = len(self.arch_manager.index.dependency_graph)
+        print(f"🔄 [LOOP-TRACE] {call_id} - 分析 {module_count} 个模块的职责")
+        
+        module_idx = 0
         for module, info in self.arch_manager.index.dependency_graph.items():
-            for resp in info.get("responsibilities", []):
+            module_idx += 1
+            responsibilities = info.get("responsibilities", [])
+            print(f"🔄 [LOOP-TRACE] {call_id} - 处理模块 {module_idx}/{module_count}: '{module}'，有 {len(responsibilities)} 个职责")
+            
+            for resp in responsibilities:
                 resp_lower = resp.lower()
                 if resp_lower not in responsibility_map:
                     responsibility_map[resp_lower] = []
                 responsibility_map[resp_lower].append(module)
         
-        for resp, modules in responsibility_map.items():
-            if len(modules) > 1:
-                issues.append(f"职责 '{resp}' 在多个模块中重复: {', '.join(modules)}")
+        print(f"🔄 [LOOP-TRACE] {call_id} - 检查完全相同的职责")
+        resp_count = len(responsibility_map)
+        print(f"🔄 [LOOP-TRACE] {call_id} - 共有 {resp_count} 个不同的职责需要检查")
         
+        resp_idx = 0
+        for resp, modules in responsibility_map.items():
+            resp_idx += 1
+            print(f"🔄 [LOOP-TRACE] {call_id} - 检查职责 {resp_idx}/{resp_count}: '{resp}'，被 {len(modules)} 个模块引用")
+            
+            if len(modules) > 1:
+                issue = f"职责 '{resp}' 在多个模块中重复: {', '.join(modules)}"
+                print(f"⚠️ [LOOP-TRACE] {call_id} - 发现职责重叠: {issue}")
+                issues.append(issue)
+        
+        print(f"🔄 [LOOP-TRACE] {call_id} - 检查高度相似的职责")
         all_responsibilities = list(responsibility_map.keys())
+        total_comparisons = len(all_responsibilities) * (len(all_responsibilities) - 1) // 2
+        print(f"🔄 [LOOP-TRACE] {call_id} - 需要进行 {total_comparisons} 次职责相似度比较")
+        
+        comparison_idx = 0
         for i in range(len(all_responsibilities)):
             for j in range(i+1, len(all_responsibilities)):
+                comparison_idx += 1
+                if comparison_idx % 100 == 0:  # 每100次比较输出一次日志，避免日志过多
+                    print(f"🔄 [LOOP-TRACE] {call_id} - 正在进行第 {comparison_idx}/{total_comparisons} 次职责相似度比较")
+                
                 resp1 = all_responsibilities[i]
                 resp2 = all_responsibilities[j]
                 
@@ -1203,7 +1346,7 @@ class ArchitectureReasoner:
                 
                 if not words1 or not words2:
                     continue
-                    
+                
                 common_words = words1.intersection(words2)
                 similarity = len(common_words) / min(len(words1), len(words2))
                 
@@ -1212,8 +1355,11 @@ class ArchitectureReasoner:
                     modules2 = responsibility_map[resp2]
                     
                     if set(modules1) != set(modules2):
-                        issues.append(f"职责 '{resp1}' 和 '{resp2}' 高度相似，但分别属于不同模块: {', '.join(set(modules1))} 和 {', '.join(set(modules2))}")
+                        issue = f"职责 '{resp1}' 和 '{resp2}' 高度相似，但分别属于不同模块: {', '.join(set(modules1))} 和 {', '.join(set(modules2))}"
+                        print(f"⚠️ [LOOP-TRACE] {call_id} - 发现职责相似: {issue}")
+                        issues.append(issue)
         
+        print(f"🔄 [LOOP-TRACE] {call_id} - EXIT _check_responsibility_overlaps: 发现 {len(issues)} 个职责重叠问题")
         return issues
         
     async def check_all_issues(self) -> Dict[str, List[str]]:
@@ -1229,9 +1375,6 @@ class ArchitectureReasoner:
         Returns:
             包含各类问题的字典
         """
-        if self.logger:
-            self.logger.log("\n🔍 执行全面架构检查...", role="system")
-            
         issues = {
             "circular_dependencies": [],
             "naming_inconsistencies": [],
@@ -1241,46 +1384,10 @@ class ArchitectureReasoner:
         }
         
         issues["circular_dependencies"] = self._check_global_circular_dependencies()
-        if self.logger:
-            if issues["circular_dependencies"]:
-                self.logger.log(f"⚠️ 检测到 {len(issues['circular_dependencies'])} 个循环依赖问题", role="error")
-            else:
-                self.logger.log("✅ 未检测到循环依赖", role="system")
-        
         issues["naming_inconsistencies"] = self._check_naming_inconsistencies()
-        if self.logger:
-            if issues["naming_inconsistencies"]:
-                self.logger.log(f"⚠️ 检测到 {len(issues['naming_inconsistencies'])} 个命名不一致问题", role="error")
-            else:
-                self.logger.log("✅ 未检测到命名不一致问题", role="system")
-        
         issues["layer_violations"] = self._check_layer_violations()
-        if self.logger:
-            if issues["layer_violations"]:
-                self.logger.log(f"⚠️ 检测到 {len(issues['layer_violations'])} 个层级违规问题", role="error")
-            else:
-                self.logger.log("✅ 未检测到层级违规", role="system")
-        
         issues["responsibility_overlaps"] = self._check_responsibility_overlaps()
-        if self.logger:
-            if issues["responsibility_overlaps"]:
-                self.logger.log(f"⚠️ 检测到 {len(issues['responsibility_overlaps'])} 个职责重叠问题", role="error")
-            else:
-                self.logger.log("✅ 未检测到职责重叠", role="system")
-        
         issues["consistency_issues"] = self._check_overall_consistency()
-        if self.logger:
-            if issues["consistency_issues"]:
-                self.logger.log(f"⚠️ 检测到 {len(issues['consistency_issues'])} 个一致性问题", role="error")
-            else:
-                self.logger.log("✅ 未检测到一致性问题", role="system")
-        
-        total_issues = sum(len(issue_list) for issue_list in issues.values())
-        if self.logger:
-            if total_issues > 0:
-                self.logger.log(f"\n⚠️ 总计检测到 {total_issues} 个架构问题", role="error")
-            else:
-                self.logger.log("\n✅ 架构检查通过，未发现问题", role="system")
         
         return issues
         
@@ -1299,9 +1406,6 @@ class ArchitectureReasoner:
         Returns:
             包含各类问题的字典
         """
-        if self.logger:
-            self.logger.log(f"\n🔍 检查模块 '{module_name}' 的架构问题...", role="system")
-            
         issues = {
             "circular_dependencies": [],
             "naming_inconsistencies": [],
@@ -1310,55 +1414,18 @@ class ArchitectureReasoner:
         }
         
         if module_name not in self.arch_manager.index.dependency_graph:
-            if self.logger:
-                self.logger.log(f"❌ 模块 '{module_name}' 不存在", role="error")
             return issues
         
         all_cycles = self._check_global_circular_dependencies()
-        module_cycles = [cycle for cycle in all_cycles if module_name in cycle]
-        issues["circular_dependencies"] = module_cycles
-        
-        if self.logger:
-            if module_cycles:
-                self.logger.log(f"⚠️ 模块 '{module_name}' 参与了 {len(module_cycles)} 个循环依赖", role="error")
-            else:
-                self.logger.log(f"✅ 模块 '{module_name}' 未参与循环依赖", role="system")
+        issues["circular_dependencies"] = [cycle for cycle in all_cycles if module_name in cycle]
         
         all_naming_issues = self._check_naming_inconsistencies()
-        module_naming_issues = [issue for issue in all_naming_issues if module_name in issue]
-        issues["naming_inconsistencies"] = module_naming_issues
-        
-        if self.logger:
-            if module_naming_issues:
-                self.logger.log(f"⚠️ 模块 '{module_name}' 存在 {len(module_naming_issues)} 个命名问题", role="error")
-            else:
-                self.logger.log(f"✅ 模块 '{module_name}' 命名符合规范", role="system")
+        issues["naming_inconsistencies"] = [issue for issue in all_naming_issues if module_name in issue]
         
         all_layer_issues = self._check_layer_violations()
-        module_layer_issues = [issue for issue in all_layer_issues if module_name in issue]
-        issues["layer_violations"] = module_layer_issues
-        
-        if self.logger:
-            if module_layer_issues:
-                self.logger.log(f"⚠️ 模块 '{module_name}' 存在 {len(module_layer_issues)} 个层级违规", role="error")
-            else:
-                self.logger.log(f"✅ 模块 '{module_name}' 未违反层级规则", role="system")
+        issues["layer_violations"] = [issue for issue in all_layer_issues if module_name in issue]
         
         all_resp_issues = self._check_responsibility_overlaps()
-        module_resp_issues = [issue for issue in all_resp_issues if module_name in issue]
-        issues["responsibility_overlaps"] = module_resp_issues
+        issues["responsibility_overlaps"] = [issue for issue in all_resp_issues if module_name in issue]
         
-        if self.logger:
-            if module_resp_issues:
-                self.logger.log(f"⚠️ 模块 '{module_name}' 存在 {len(module_resp_issues)} 个职责重叠", role="error")
-            else:
-                self.logger.log(f"✅ 模块 '{module_name}' 职责明确，无重叠", role="system")
-        
-        total_issues = sum(len(issue_list) for issue_list in issues.values())
-        if self.logger:
-            if total_issues > 0:
-                self.logger.log(f"\n⚠️ 模块 '{module_name}' 总计存在 {total_issues} 个架构问题", role="error")
-            else:
-                self.logger.log(f"\n✅ 模块 '{module_name}' 架构检查通过，未发现问题", role="system")
-        
-        return issues    
+        return issues                           

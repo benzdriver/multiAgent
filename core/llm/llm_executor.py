@@ -176,7 +176,7 @@ async def run_prompt(
     system_message: Optional[str] = None,
     model: str = "gpt-4o",
     tokenizer=None,
-    max_input_tokens: int = 8000,
+    max_input_tokens: int = 16000,  # 增大最大输入token数
     parse_response: Callable[[str], Any] = lambda x: x,
     merge_result: Callable[[Any, Any], Any] = lambda acc, x: x,
     get_system_prompt: Optional[Callable[[int, int], str]] = None,

@@ -15,17 +15,24 @@ async def start_clarifier(
     startup_service: StartupService = Depends(get_startup_service)
 ) -> Dict[str, Any]:
     """启动澄清器"""
+    import uuid
+    call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+    print(f"🔄 [LOOP-TRACE] {call_id} - ENTER start_clarifier")
+    
     clarifier = state_service.get_clarifier()
     if clarifier is None:
+        print(f"🔄 [LOOP-TRACE] {call_id} - Clarifier未初始化，开始初始化过程")
         try:
+            print(f"🔄 [LOOP-TRACE] {call_id} - 调用startup_service.initialize")
             result = await startup_service.initialize(use_mock=False)
+            print(f"🔄 [LOOP-TRACE] {call_id} - startup_service.initialize返回结果: {result['status']}")
             
             if result["status"] == "success":
-                print("✅ Clarifier已成功初始化")
+                print(f"✅ [LOOP-TRACE] {call_id} - Clarifier已成功初始化")
                 
                 from webui.api.document_api import analyze_documents
                 try:
-                    print("🔍 开始自动扫描data/input目录中的文档...")
+                    print(f"🔍 [LOOP-TRACE] {call_id} - 开始自动扫描data/input目录中的文档...")
                     state_service.set_current_mode("file_based")
                     
                     import os
@@ -39,42 +46,54 @@ async def start_clarifier(
                         input_files = md_files + txt_files
                         
                         if input_files:
-                            print(f"✅ 检测到 {len(input_files)} 个输入文档，开始自动分析...")
+                            print(f"✅ [LOOP-TRACE] {call_id} - 检测到 {len(input_files)} 个输入文档，开始自动分析...")
                             
-                            for file_path in input_files:
+                            for i, file_path in enumerate(input_files):
+                                print(f"🔄 [LOOP-TRACE] {call_id} - 添加文件 {i+1}/{len(input_files)}: {file_path.name}")
                                 state_service.add_uploaded_file(str(file_path.absolute()))
                             
+                            print(f"🔄 [LOOP-TRACE] {call_id} - 调用analyze_documents开始分析文档")
                             await analyze_documents(state_service=state_service)
-                            print("✅ 文档自动分析完成")
+                            print(f"✅ [LOOP-TRACE] {call_id} - 文档自动分析完成")
                         else:
-                            print("⚠️ 未在data/input目录中找到文档")
+                            print(f"⚠️ [LOOP-TRACE] {call_id} - 未在data/input目录中找到文档")
                             state_service.add_conversation_message(
                                 "system",
                                 "未在data/input目录中找到文档，请上传文档后继续。"
                             )
                 except Exception as e:
-                    print(f"⚠️ 自动扫描文档失败: {str(e)}")
+                    print(f"❌ [LOOP-TRACE] {call_id} - 自动扫描文档失败: {str(e)}")
+                    import traceback
+                    print(traceback.format_exc())
                     state_service.add_conversation_message(
                         "system",
                         f"自动扫描文档失败: {str(e)}"
                     )
                 
+                print(f"🔄 [LOOP-TRACE] {call_id} - EXIT start_clarifier: 初始化成功")
                 return {"status": "success", "message": "Clarifier initialized"}
             else:
-                print(f"❌ Clarifier初始化失败: {result.get('message', '未知错误')}")
+                print(f"❌ [LOOP-TRACE] {call_id} - Clarifier初始化失败: {result.get('message', '未知错误')}")
                 state_service.add_conversation_message(
                     "system",
                     f"初始化失败: {result.get('message', '未知错误')}"
                 )
+                print(f"🔄 [LOOP-TRACE] {call_id} - EXIT start_clarifier: 初始化失败")
                 return {"status": "error", "message": result.get("message", "Clarifier initialization failed")}
         except Exception as e:
-            print(f"❌ Clarifier初始化失败: {str(e)}")
+            print(f"❌ [LOOP-TRACE] {call_id} - Clarifier初始化失败: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
             state_service.add_conversation_message(
                 "system",
                 f"初始化失败: {str(e)}"
             )
+            print(f"🔄 [LOOP-TRACE] {call_id} - EXIT start_clarifier: 初始化异常")
             return {"status": "error", "message": f"Clarifier initialization failed: {str(e)}"}
+    else:
+        print(f"🔄 [LOOP-TRACE] {call_id} - Clarifier已初始化，无需重复初始化")
     
+    print(f"🔄 [LOOP-TRACE] {call_id} - EXIT start_clarifier: Clarifier已存在")
     return {"status": "success", "message": "Clarifier already initialized"}
 
 @router.post("/analyze")
@@ -220,24 +239,37 @@ async def check_conflicts(
     state_service: StateService = Depends(get_state_service)
 ) -> Dict[str, Any]:
     """检查模块冲突"""
+    import uuid
+    call_id = str(uuid.uuid4())[:8]  # 生成唯一调用ID用于跟踪
+    print(f"🔄 [LOOP-TRACE] {call_id} - ENTER check_conflicts")
+    
     clarifier = state_service.get_clarifier()
     if not clarifier:
+        print(f"❌ [LOOP-TRACE] {call_id} - EXIT check_conflicts: Clarifier未初始化")
         raise HTTPException(status_code=400, detail="Clarifier尚未初始化")
     
     try:
+        print(f"🔄 [LOOP-TRACE] {call_id} - 获取全局状态")
         global_state = state_service.get_global_state()
         
         if not global_state.get("modules"):
+            print(f"❌ [LOOP-TRACE] {call_id} - EXIT check_conflicts: 没有找到模块数据")
             raise HTTPException(status_code=400, detail="没有找到模块数据，请先生成架构")
         
+        module_count = len(global_state.get("modules", []))
+        print(f"🔄 [LOOP-TRACE] {call_id} - 找到 {module_count} 个模块")
+        
         if hasattr(clarifier, 'architecture_manager') and hasattr(clarifier.architecture_manager, 'check_conflicts'):
-            print("🔍 开始检查模块冲突...")
+            print(f"🔍 [LOOP-TRACE] {call_id} - 开始检查模块冲突...")
             
+            print(f"🔄 [LOOP-TRACE] {call_id} - 调用architecture_manager.check_conflicts")
             conflicts = await clarifier.architecture_manager.check_conflicts()
+            print(f"🔄 [LOOP-TRACE] {call_id} - check_conflicts返回结果: {len(conflicts) if conflicts else 0} 个冲突")
             
             if conflicts:
-                print(f"⚠️ 检测到 {len(conflicts)} 个冲突")
+                print(f"⚠️ [LOOP-TRACE] {call_id} - 检测到 {len(conflicts)} 个冲突")
                 
+                print(f"🔄 [LOOP-TRACE] {call_id} - 更新全局状态中的冲突信息")
                 global_state["validation_issues"]["conflicts"] = conflicts
                 state_service.update_global_state(global_state)
                 
@@ -246,27 +278,32 @@ async def check_conflicts(
                     f"检测到 {len(conflicts)} 个模块冲突。"
                 )
                 
+                print(f"🔄 [LOOP-TRACE] {call_id} - EXIT check_conflicts: 检测到冲突")
                 return {
                     "status": "warning", 
                     "message": f"Detected {len(conflicts)} conflicts",
                     "conflicts": conflicts
                 }
             else:
-                print("✅ 未检测到模块冲突")
+                print(f"✅ [LOOP-TRACE] {call_id} - 未检测到模块冲突")
                 
                 state_service.add_conversation_message(
                     "system",
                     "未检测到模块冲突。"
                 )
                 
+                print(f"🔄 [LOOP-TRACE] {call_id} - EXIT check_conflicts: 未检测到冲突")
                 return {
                     "status": "success", 
                     "message": "No conflicts detected"
                 }
         else:
+            print(f"❌ [LOOP-TRACE] {call_id} - EXIT check_conflicts: Clarifier不支持冲突检查功能")
             raise HTTPException(status_code=500, detail="Clarifier不支持冲突检查功能")
     
     except Exception as e:
+        print(f"❌ [LOOP-TRACE] {call_id} - 冲突检查失败: {str(e)}")
         import traceback
-        traceback.print_exc()
+        print(traceback.format_exc())
+        print(f"🔄 [LOOP-TRACE] {call_id} - EXIT check_conflicts: 检查异常")
         raise HTTPException(status_code=500, detail=f"冲突检查失败: {str(e)}")
