@@ -101,7 +101,7 @@ async def analyze_requirements(
             
             state_service.add_conversation_message(
                 "clarifier",
-                "架构分析已完成，您可以：\n1. 查看生成的模块详情\n2. 进行深度架构推理\n3. 验证架构"
+                "请点击已生成的模块，查看模块详情。"
             )
             
             return {
