@@ -1078,8 +1078,12 @@ def update_global_state_from_json(data: Dict[str, Any]) -> None:
         traceback.print_exc()
 
 # 改进JSON提取函数
-def extract_json_from_response(response: str) -> Dict[str, Any]:
+def extract_json_from_response(response) -> Dict[str, Any]:
     """从LLM响应中提取JSON数据，增强提取能力"""
+    if isinstance(response, dict):
+        print(f"✅ 响应已经是字典类型，无需提取JSON")
+        return response
+        
     if not response:
         return {}
     
@@ -1134,4 +1138,4 @@ def extract_json_from_response(response: str) -> Dict[str, Any]:
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)    
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)      
