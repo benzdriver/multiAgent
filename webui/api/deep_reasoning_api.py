@@ -141,7 +141,7 @@ async def deep_reasoning(
         
         if extracted_json:
             print(f"✅ 成功从推理结果中提取JSON数据")
-            state_service.update_global_state_from_json(extracted_json)
+            await state_service.update_global_state_from_json(extracted_json)
             
             if "modules" in extracted_json:
                 new_modules_count = 0

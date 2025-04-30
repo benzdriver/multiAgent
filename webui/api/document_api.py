@@ -303,7 +303,7 @@ async def analyze_documents(
             except Exception as e:
                 print(f"⚠️ 保存分析结果文件时出错: {e}")
             
-            state_service.update_global_state_from_json(json_data)
+            await state_service.update_global_state_from_json(json_data)
             
             clarifier = state_service.get_clarifier()
             if clarifier and hasattr(clarifier, 'architecture_manager'):

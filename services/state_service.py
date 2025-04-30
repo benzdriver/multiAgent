@@ -130,7 +130,7 @@ class StateService:
         """清空对话历史"""
         self.conversation_history = []
     
-    def update_global_state_from_json(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def update_global_state_from_json(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """从JSON数据更新全局状态，并使用现有架构管理器执行验证"""
         print(f"🔄 开始从JSON更新全局状态...")
         
@@ -242,11 +242,11 @@ class StateService:
         except Exception as e:
             print(f"⚠️ 生成依赖图或索引时出错: {e}")
         
-        self._validate_architecture_with_manager(data)
+        await self._validate_architecture_with_manager(data)
         
         return self.global_state
     
-    def _validate_architecture_with_manager(self, data: Dict[str, Any]) -> None:
+    async def _validate_architecture_with_manager(self, data: Dict[str, Any]) -> None:
         """使用架构管理器验证架构"""
         try:
             if self.clarifier and hasattr(self.clarifier, 'architecture_manager'):
@@ -272,7 +272,7 @@ class StateService:
                         print(f"🔄 添加模块 '{module_name}' 到架构索引...")
                         try:
                             if hasattr(arch_manager, 'process_new_module'):
-                                process_result = arch_manager.process_new_module(module, requirements)
+                                process_result = await arch_manager.process_new_module(module, requirements)
                                 print(f"✅ 模块处理结果: {process_result.get('status', '未知')}")
                         except Exception as e:
                             print(f"❌ 处理模块 '{module_name}' 时出错: {e}")
