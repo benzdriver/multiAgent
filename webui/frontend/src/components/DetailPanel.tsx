@@ -4,6 +4,7 @@ import Card from './common/Card';
 import Button from './common/Button';
 import { useGlobalStore } from '../store/globalStore';
 import { Requirement, Module } from '../types';
+import ModuleSummaryTest from './ModuleSummaryTest';
 
 const DetailPanelContainer = styled.div`
   width: 320px;
@@ -138,21 +139,46 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
   React.useEffect(() => {
     const fetchFullSummary = async () => {
       if (!selectedType || selectedType !== 'module' || !selectedId) {
+        console.log('不获取模块摘要: 未选择模块或选择类型不是模块', { selectedType, selectedId });
         setFullSummary(null);
         return;
       }
       
+      console.log('尝试获取模块摘要', { selectedType, selectedId });
+      console.log('当前模块列表', state.modules);
+      
       const selectedModule = state.modules.find(mod => mod.id === selectedId);
-      if (!selectedModule || !selectedModule.name) return;
+      if (!selectedModule || !selectedModule.name) {
+        console.log('未找到选中的模块或模块名称为空', { selectedId });
+        return;
+      }
+      
+      console.log('找到选中的模块', { moduleName: selectedModule.name });
       
       try {
-        const response = await fetch(`/api/module_summary/${encodeURIComponent(selectedModule.name)}`);
+        const moduleName = selectedModule.name;
+        const url = `/api/module_summary/${encodeURIComponent(moduleName)}`;
+        console.log('请求模块摘要API', { url });
+        
+        const response = await fetch(url);
+        console.log('模块摘要API响应', { status: response.status });
+        
         if (response.ok) {
           const data = await response.json();
+          console.log('获取到模块摘要数据', data);
+          console.log('设置fullSummary状态', data);
           setFullSummary(data);
+          
+          setTimeout(() => {
+            console.log('检查fullSummary是否已设置', { fullSummary: data });
+          }, 100);
+        } else {
+          const errorText = await response.text();
+          console.error('模块摘要API错误', { status: response.status, error: errorText });
+          console.log('尝试直接访问URL:', url);
         }
       } catch (error) {
-        console.error('Failed to fetch module summary:', error);
+        console.error('获取模块摘要失败:', error);
       }
     };
     
@@ -279,19 +305,64 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
               )}
             </DetailSection>
             
-            {fullSummary && (
+            {selectedType === 'module' && (
               <DetailSection>
                 <SectionTitle>模块完整摘要</SectionTitle>
                 <SectionContent>
-                  <pre style={{ 
-                    background: '#f5f5f5', 
-                    padding: '10px', 
-                    borderRadius: '4px',
-                    overflow: 'auto',
-                    maxHeight: '300px'
-                  }}>
-                    {JSON.stringify(fullSummary, null, 2)}
-                  </pre>
+                  {fullSummary ? (
+                    <pre style={{ 
+                      background: '#f5f5f5', 
+                      padding: '10px', 
+                      borderRadius: '4px',
+                      overflow: 'auto',
+                      maxHeight: '300px',
+                      fontSize: '12px',
+                      fontFamily: 'monospace',
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-word'
+                    }}>
+                      {JSON.stringify(fullSummary, null, 2)}
+                    </pre>
+                  ) : (
+                    <div>
+                      <p>加载模块摘要中...</p>
+                      <button 
+                        onClick={() => {
+                          const selectedModule = state.modules.find(mod => mod.id === selectedId);
+                          if (selectedModule && selectedModule.name) {
+                            const url = `/api/module_summary/${encodeURIComponent(selectedModule.name)}`;
+                            console.log('手动刷新模块摘要', { url });
+                            fetch(url)
+                              .then(response => response.json())
+                              .then(data => {
+                                console.log('获取到模块摘要数据', data);
+                                setFullSummary(data);
+                              })
+                              .catch(error => console.error('获取模块摘要失败:', error));
+                          }
+                        }}
+                        style={{
+                          padding: '5px 10px',
+                          background: '#4a6bff',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        刷新模块摘要
+                      </button>
+                    </div>
+                  )}
+                </SectionContent>
+              </DetailSection>
+            )}
+            
+            {selectedType === 'module' && selectedItem && (
+              <DetailSection>
+                <SectionTitle>模块摘要测试组件</SectionTitle>
+                <SectionContent>
+                  <ModuleSummaryTest moduleName={(selectedItem as Module).name} />
                 </SectionContent>
               </DetailSection>
             )}

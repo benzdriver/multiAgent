@@ -48,7 +48,7 @@ const MainContent: React.FC = () => {
       {isLoading && <Loading fullScreen text="加载中..." />}
       
       <ActionBar>
-        <Button onClick={handleStartClarifier} disabled={isLoading}>
+        <Button onClick={handleStartClarifier} disabled={false}>
           启动澄清器
         </Button>
         <Button onClick={handleRefreshState} disabled={isLoading} type="secondary">

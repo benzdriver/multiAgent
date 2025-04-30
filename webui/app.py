@@ -23,6 +23,7 @@ from webui.api.document_api import router as document_router
 from webui.api.deep_reasoning_api import router as deep_reasoning_router
 from webui.api.clarifier_api_new import router as clarifier_router
 from webui.api.module_api import router as module_router
+from webui.api.relation_api import router as relation_router
 
 # 导入服务
 from services.state_service import StateService, get_state_service
@@ -46,6 +47,7 @@ app.include_router(document_router, prefix="/api", tags=["文档"])
 app.include_router(deep_reasoning_router, prefix="/api", tags=["深度推理"])
 app.include_router(clarifier_router, prefix="/api", tags=["澄清器"])
 app.include_router(module_router, prefix="/api", tags=["模块"])
+app.include_router(relation_router, prefix="/api", tags=["关系"])
 
 # 静态文件
 app.mount("/static", StaticFiles(directory="webui/static"), name="static")
@@ -108,4 +110,4 @@ async def startup_event():
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                  
