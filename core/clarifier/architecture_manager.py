@@ -124,6 +124,35 @@ class ArchitectureIndex:
         if pattern in self.architecture_patterns:
             return self.architecture_patterns[pattern]["layers"].get(layer, {}).get("path", "")
         return ""
+        
+    def get_current_state(self) -> Dict:
+        """获取当前架构索引的状态"""
+        state = {
+            "requirement_module_index": {
+                k: list(v) for k, v in self.requirement_module_index.items()
+            },
+            "responsibility_index": {
+                k: {
+                    "modules": list(v["modules"]),
+                    "objects": list(v["objects"]),
+                    "patterns": list(v["patterns"])
+                } for k, v in self.responsibility_index.items()
+            },
+            "dependency_graph": {
+                k: {
+                    "depends_on": list(v["depends_on"]),
+                    "depended_by": list(v["depended_by"]),
+                    "pattern": v.get("pattern", ""),
+                    "layer": v.get("layer", "")
+                } for k, v in self.dependency_graph.items()
+            },
+            "layer_index": {
+                layer: {
+                    name: module for name, module in modules.items()
+                } for layer, modules in self.layer_index.items()
+            }
+        }
+        return state
 
 class ArchitectureValidator:
     def __init__(self, index: ArchitectureIndex):
@@ -401,4 +430,4 @@ class ArchitectureManager:
         
         state_file = self.output_path / "architecture_state.json"
         with open(state_file, 'w', encoding='utf-8') as f:
-            json.dump(state, f, ensure_ascii=False, indent=2)                
+            json.dump(state, f, ensure_ascii=False, indent=2)                  

@@ -32,7 +32,7 @@ class ArchitectureReasoner:
             # 使用llm_executor中的run_prompt函数
             result = await run_prompt(
                 chat=self.llm_chat,
-                user_prompt=prompt,
+                user_message=prompt,
                 model="gpt-4o",
                 use_mock=self.llm_chat is None,
                 return_json=True
@@ -294,21 +294,70 @@ class ArchitectureReasoner:
             ("frontend", "layouts"): ["Layout"],
             ("frontend", "hooks"): ["Hook"],
             ("frontend", "stores"): ["Store", "StateManager"],
-            ("backend", "controllers"): ["Controller"],
-            ("backend", "services"): ["Service"],
-            ("backend", "repositories"): ["Repository", "DAO"],
-            ("backend", "models"): ["Model", "Entity"],
-            ("fullstack", "features"): ["FeatureModule"],
-            ("fullstack", "shared"): ["SharedUtil", "Helper"],
-            ("fullstack", "core"): ["CoreEngine", "Kernel"]
+            ("backend", "controllers"): ["Controller", "API"],
+            ("backend", "services"): ["Service", "Manager"],
+            ("backend", "repositories"): ["Repository", "DAO", "DataAccess"],
+            ("backend", "models"): ["Model", "Entity", "DTO"],
+            ("fullstack", "features"): ["FeatureModule", "Feature"],
+            ("fullstack", "shared"): ["SharedUtil", "Helper", "Common"],
+            ("fullstack", "core"): ["CoreEngine", "Kernel", "Core"]
         }
+        
+        tech_features = {
+            "authentication": ["Auth", "Identity", "Security"],
+            "authorization": ["Permission", "Access", "Security"],
+            "user": ["User", "Account", "Profile"],
+            "document": ["Document", "File", "Storage"],
+            "form": ["Form", "Template", "Generator"],
+            "assessment": ["Assessment", "Evaluation", "Analyzer"],
+            "consultant": ["Consultant", "Expert", "Advisor"],
+            "dashboard": ["Dashboard", "Analytics", "Monitor"],
+            "notification": ["Notification", "Alert", "Message"],
+            "payment": ["Payment", "Billing", "Transaction"],
+            "report": ["Report", "Analysis", "Summary"],
+            "workflow": ["Workflow", "Process", "Pipeline"],
+            "ai": ["AI", "Intelligence", "Predictor"],
+            "chat": ["Chat", "Conversation", "Messaging"],
+            "data": ["Data", "Information", "Resource"]
+        }
+        
         key = (pattern, layer)
         complements = layer_complements.get(key, [])
+        
         # 自动补全 features 字段
         if complements:
             features = set(module.get("features", []))
             features.update(complements)
             module["features"] = list(features)
+        
+        module_name_lower = module.get("name", "").lower()
+        for tech_key, tech_suffixes in tech_features.items():
+            if tech_key in module_name_lower:
+                features = set(module.get("features", []))
+                features.update(tech_suffixes)
+                module["features"] = list(features)
+                break
+        
+        if "module_name" not in module and "name" in module:
+            name = module["name"]
+            if any('\u4e00' <= char <= '\u9fff' for char in name):
+                english_name = f"{pattern.capitalize()}{layer.capitalize()}"
+                if module.get("features") and len(module.get("features")) > 0:
+                    english_name += module.get("features")[0]
+                module["module_name"] = english_name
+            else:
+                has_tech_feature = False
+                if module.get("features"):
+                    for feature in module.get("features"):
+                        if feature in name:
+                            has_tech_feature = True
+                            break
+                
+                if not has_tech_feature and module.get("features") and len(module.get("features")) > 0:
+                    module["module_name"] = f"{name}{module.get('features')[0]}"
+                else:
+                    module["module_name"] = name
+        
         # 继续 LLM 生成
         prompt = f"""
         为 {module['name']} 模块生成详细规范。
@@ -320,7 +369,7 @@ class ArchitectureReasoner:
         {json.dumps(layer_info, ensure_ascii=False, indent=2)}
 
         请提供：
-        1. 模块名称
+        1. 模块名称（使用英文命名，包含技术特征）
         2. 详细职责描述
         3. 与其他层的依赖关系
         4. 对外暴露的接口
@@ -785,8 +834,12 @@ class ArchitectureReasoner:
             print(f"🔄 [LOOP-TRACE] {call_id}.{dfs_id} - DFS(depth={depth}): 检查模块 '{current}'")
             
             if depth > max_recursion_depth:
-                print(f"⚠️ [LOOP-TRACE] {call_id}.{dfs_id} - 达到最大递归深度 ({max_recursion_depth})，中断递归")
-                return False
+                depth_warning = f"达到最大递归深度 ({max_recursion_depth})，可能存在未检测到的循环依赖"
+                print(f"⚠️ [LOOP-TRACE] {call_id}.{dfs_id} - {depth_warning}")
+                if self.logger:
+                    self.logger.log(f"⚠️ {depth_warning}", role="warning")
+                cycles.append(f"⚠️ 递归深度限制: {' -> '.join(path)} -> ... (超过最大深度 {max_recursion_depth})")
+                return True  # 返回True以便上层知道存在潜在问题
             
             if current in visited and visited[current] == 1:
                 cycle_start = path.index(current)
@@ -1568,4 +1621,4 @@ class ArchitectureReasoner:
         all_resp_issues = self._check_responsibility_overlaps()
         issues["responsibility_overlaps"] = [issue for issue in all_resp_issues if module_name in issue]
         
-        return issues                           
+        return issues                                   
