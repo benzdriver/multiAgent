@@ -204,7 +204,16 @@ async def generate_layered_modules():
                                 if field in ["responsibilities", "dependencies", "requirements"]:
                                     result[field] = []
                                 elif field == "target_path":
-                                    result[field] = f"src/{domain.lower()}/{component.lower().replace(' ', '_')}"
+                                    layer_lower = layer.lower()
+                                    domain_lower = domain.lower()
+                                    if layer_lower in ["presentation", "ui", "前端"]:
+                                        result[field] = f"frontend/presentation/{domain_lower}"
+                                    elif layer_lower in ["business", "service", "业务"]:
+                                        result[field] = f"backend/business/{domain_lower}"
+                                    elif layer_lower in ["data", "model", "数据"]:
+                                        result[field] = f"backend/data/{domain_lower}"
+                                    else:
+                                        result[field] = f"src/{domain_lower}/{component.lower().replace(' ', '_')}"
                                 else:
                                     result[field] = "unknown"
                         

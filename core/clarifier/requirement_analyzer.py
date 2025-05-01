@@ -534,6 +534,23 @@ class RequirementAnalyzer:
             else:
                 if new_name != module_name:
                     print(f"✓ 修复模块名称: {module_name} -> {new_name}")
+            
+            layer_en = english_layer_map.get(layer, layer)
+            module_type_en = english_type_map.get(module_type, module_type)
+            domain_clean = module_name.lower().replace(" ", "_")
+            
+            if layer_en == "Presentation":
+                target_path = f"frontend/presentation/{domain_clean}"
+            elif layer_en == "Business":
+                target_path = f"backend/business/{domain_clean}"
+            elif layer_en == "Data":
+                target_path = f"backend/data/{domain_clean}"
+            elif layer_en == "Infrastructure":
+                target_path = f"backend/infrastructure/{domain_clean}"
+            else:
+                target_path = f"misc/{domain_clean}"
+            
+            module["target_path"] = target_path
     
     async def analyze_granular_modules(self, content: str, llm_call: Callable, architecture_layers: Optional[List[str]] = None) -> List[Dict[str, Any]]:
         """分析文档内容，提取细粒度模块
@@ -761,4 +778,4 @@ class RequirementAnalyzer:
             if self.logger:
                 self.logger.log(f"❌ 保存细粒度模块时出错: {str(e)}", role="error")
             else:
-                print(f"❌ 保存细粒度模块时出错: {str(e)}")          
+                print(f"❌ 保存细粒度模块时出错: {str(e)}")                    

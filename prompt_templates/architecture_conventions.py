@@ -63,48 +63,60 @@ The system will use the following naming conventions and layer structure:
 def infer_module_layer(module_name):
     """Infer the architectural layer based on the module name"""
     # Test for presentation layer
-    if any(module_name.endswith(suffix) for suffix in ["Controller", "Page", "View"]):
+    if any(module_name.endswith(suffix) for suffix in ["Controller", "Page", "View"]) or \
+       "UI_Components" in module_name or "UI Components" in module_name or \
+       "Layout_Components" in module_name or "Layout Components" in module_name or \
+       "Pages_-_" in module_name or "Pages - " in module_name:
+        domain = extract_domain_from_module_name(module_name) if "_-_" in module_name or " - " in module_name else ""
         return {
             "layer": "presentation",
             "expected_api_format": "HTTP paths",
             "typical_dependencies": ["*Service"],
-            "target_path": "backend/controllers" if module_name.endswith("Controller") else "frontend/pages"
+            "target_path": f"frontend/presentation/{domain}" if domain else (
+                "frontend/controllers" if module_name.endswith("Controller") else "frontend/pages"
+            )
         }
     
     # Test for business logic layer
-    elif module_name.endswith("Service"):
+    elif module_name.endswith("Service") or \
+         "Controllers_-_" in module_name or "Controllers - " in module_name or \
+         "Services_-_" in module_name or "Services - " in module_name:
+        domain = extract_domain_from_module_name(module_name) if "_-_" in module_name or " - " in module_name else ""
         return {
             "layer": "business",
             "expected_api_format": "method names",
             "typical_dependencies": ["*Repository", "*Client"],
-            "target_path": "backend/services"
+            "target_path": f"backend/business/{domain}" if domain else "backend/services"
         }
     
     # Test for data access layer
     elif any(module_name.endswith(suffix) for suffix in ["Repository", "DAO"]):
+        domain = extract_domain_from_module_name(module_name) if "_-_" in module_name or " - " in module_name else ""
         return {
             "layer": "data_access",
             "expected_api_format": "data operations",
             "typical_dependencies": ["*Model", "*Entity"],
-            "target_path": "backend/repositories"
+            "target_path": f"backend/data/{domain}" if domain else "backend/repositories"
         }
     
     # Test for model layer
     elif any(module_name.endswith(suffix) for suffix in ["Model", "Entity", "Schema"]):
+        domain = extract_domain_from_module_name(module_name) if "_-_" in module_name or " - " in module_name else ""
         return {
             "layer": "model",
             "expected_api_format": "properties and methods",
             "typical_dependencies": [],
-            "target_path": "backend/models"
+            "target_path": f"backend/data/{domain}" if domain else "backend/models"
         }
     
     # Test for utility layer
     elif any(module_name.endswith(suffix) for suffix in ["Util", "Helper", "Client"]):
+        domain = extract_domain_from_module_name(module_name) if "_-_" in module_name or " - " in module_name else ""
         return {
             "layer": "utility",
             "expected_api_format": "utility methods",
             "typical_dependencies": [],
-            "target_path": "backend/utils"
+            "target_path": f"backend/infrastructure/{domain}" if domain else "backend/utils"
         }
     
     # Test for testing layer with more detailed analysis
@@ -580,6 +592,21 @@ Use this format:
 Use placeholder values if necessary. Respond only with JSON. Do NOT add markdown or comments.
 """
 
+def extract_domain_from_module_name(module_name):
+    """从模块名称中提取领域部分，用于构建目录路径
+    
+    例如：
+    - "UI_Components_-_Workspace" -> "workspace"
+    - "Controllers - Authentication" -> "authentication"
+    """
+    domain = ""
+    if "_-_" in module_name:
+        domain = module_name.split("_-_")[-1]
+    elif " - " in module_name:
+        domain = module_name.split(" - ")[-1]
+    domain = domain.strip().lower()
+    return domain
+
 def save_template_config():
     """Save template configuration to the config file"""
     config = {
@@ -644,4 +671,4 @@ def save_template_config():
 
 # Ensure config file exists
 if not CONFIG_PATH.exists():
-    save_template_config() 
+    save_template_config()        

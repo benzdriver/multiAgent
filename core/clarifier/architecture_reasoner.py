@@ -309,6 +309,17 @@ class ArchitectureReasoner:
             features = set(module.get("features", []))
             features.update(complements)
             module["features"] = list(features)
+            
+        pattern = module.get("pattern", "").lower()
+        layer = module.get("layer", "").lower()
+        domain = module.get("domain", "").lower() if "domain" in module else ""
+        
+        if not module.get("target_path") and domain:
+            if pattern == "frontend":
+                module["target_path"] = f"frontend/{layer}/{domain}"
+            else:
+                module["target_path"] = f"backend/{layer}/{domain}"
+                
         # 继续 LLM 生成
         prompt = f"""
         为 {module['name']} 模块生成详细规范。
@@ -1338,6 +1349,18 @@ class ArchitectureReasoner:
                         
                 if not matched:
                     issues.append(f"模块 '{module}' 的命名可能不能充分反映其职责")
+        
+        for module, info in self.arch_manager.index.dependency_graph.items():
+            target_path = info.get("target_path", "")
+            layer = info.get("layer", "").lower()
+            
+            if target_path:
+                if layer == "presentation" and not target_path.startswith("frontend/"):
+                    issues.append(f"模块 '{module}' 的目标路径 '{target_path}' 不符合表现层命名规范")
+                elif layer == "business" and not target_path.startswith("backend/business/"):
+                    issues.append(f"模块 '{module}' 的目标路径 '{target_path}' 不符合业务层命名规范")
+                elif layer == "data" and not target_path.startswith("backend/data/"):
+                    issues.append(f"模块 '{module}' 的目标路径 '{target_path}' 不符合数据层命名规范")
         
         return issues
         
