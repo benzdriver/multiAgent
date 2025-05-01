@@ -50,8 +50,6 @@ app.include_router(module_router, prefix="/api", tags=["模块"])
 app.include_router(relation_router, prefix="/api", tags=["关系"])
 
 # 静态文件
-app.mount("/static", StaticFiles(directory="webui/static"), name="static")
-
 app.mount("/assets", StaticFiles(directory="webui/frontend/dist/assets"), name="frontend_assets")
 
 
@@ -100,4 +98,4 @@ async def startup_event():
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                          
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                                                    

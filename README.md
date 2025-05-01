@@ -26,7 +26,7 @@ uvicorn webui.app:app --reload
 ```
 
 - 默认监听 http://127.0.0.1:8000
-- WebUI 静态页面位于 `webui/static/index.html`，可直接浏览器访问或通过 Nginx/VSCode Live Server 代理
+- WebUI 使用React前端实现，位于 `webui/frontend/` 目录，构建后的页面通过 `http://127.0.0.1:8000` 访问
 
 ## 运行 Clarifier CLI
 
@@ -53,4 +53,4 @@ python run_clarifier_new.py
 - 如需自定义 LLM、数据路径等，可修改相关配置文件或源码
 
 ---
-如有问题欢迎提 issue 或联系开发者。  
+如有问题欢迎提 issue 或联系开发者。    
