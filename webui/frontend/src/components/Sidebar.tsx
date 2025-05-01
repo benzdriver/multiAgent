@@ -98,13 +98,34 @@ const LayerGroup = styled.div`
   margin-bottom: 16px;
 `;
 
+const LayerTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border-color);
+`;
+
 const LayerTitle = styled.h3`
   font-size: 14px;
-  margin: 8px 0;
+  margin: 0;
   color: var(--light-text);
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 4px;
   font-weight: bold;
+`;
+
+const CollapseIcon = styled.span<{ expanded?: boolean }>`
+  font-size: 16px;
+  color: var(--light-text);
+  transition: transform 0.2s ease;
+  transform: ${props => props.expanded ? 'rotate(0deg)' : 'rotate(-90deg)'};
+  display: inline-block;
+`;
+
+const ModuleContainer = styled.div<{ expanded?: boolean }>`
+  max-height: ${props => props.expanded ? '1000px' : '0'};
+  overflow: hidden;
+  transition: max-height 0.3s ease;
 `;
 
 const SidebarItem = styled.div<{ active?: boolean }>`
@@ -142,6 +163,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const { state } = useGlobalStore();
   const [selectedRequirement, setSelectedRequirement] = useState<string>('');
   const [filteredModules, setFilteredModules] = useState<Module[]>([]);
+  const [expandedLayers, setExpandedLayers] = useState<Record<string, boolean>>({});
   
   const groupModulesByLayer = (modules: Module[]) => {
     const groups: Record<string, Module[]> = {};
@@ -158,14 +180,43 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
   
   useEffect(() => {
+    const layers = Object.keys(groupModulesByLayer(state.modules));
+    const initialExpandedState: Record<string, boolean> = {};
+    
+    layers.forEach(layer => {
+      initialExpandedState[layer] = true;
+    });
+    
+    setExpandedLayers(initialExpandedState);
+  }, [state.modules]);
+  
+  useEffect(() => {
     if (selectedRequirement) {
       const requirement = state.requirements.find(req => req.id === selectedRequirement);
       if (requirement) {
-        const related = state.modules.filter(mod => 
-          mod.name.toLowerCase().includes(requirement.name.toLowerCase()) ||
-          requirement.description.toLowerCase().includes(mod.name.toLowerCase())
-        );
+        const related = state.modules.filter(mod => {
+          const nameMatch = mod.name.toLowerCase().includes(requirement.name.toLowerCase());
+          
+          const descMatch = requirement.description.toLowerCase().includes(mod.name.toLowerCase());
+          
+          const respMatch = mod.responsibilities.some(resp => 
+            resp.toLowerCase().includes(requirement.name.toLowerCase()) ||
+            requirement.description.toLowerCase().includes(resp.toLowerCase())
+          );
+          
+          return nameMatch || descMatch || respMatch;
+        });
+        
         setFilteredModules(related);
+        
+        const relatedLayers = new Set(related.map(mod => mod.layer || '未分类'));
+        const newExpandedState = {...expandedLayers};
+        
+        relatedLayers.forEach(layer => {
+          newExpandedState[layer] = true;
+        });
+        
+        setExpandedLayers(newExpandedState);
       }
     } else {
       setFilteredModules(state.modules);
@@ -183,6 +234,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   
   const handleModuleClick = (moduleId: string) => {
     onSelectItem('module', moduleId);
+  };
+  
+  const toggleLayerExpand = (layer: string) => {
+    setExpandedLayers(prev => ({
+      ...prev,
+      [layer]: !prev[layer]
+    }));
   };
   
   const projectStats = {
@@ -241,16 +299,22 @@ const Sidebar: React.FC<SidebarProps> = ({
         {Object.keys(modulesByLayer).length > 0 ? (
           Object.entries(modulesByLayer).map(([layer, modules]) => (
             <LayerGroup key={layer}>
-              <LayerTitle>{layer}</LayerTitle>
-              {modules.map(module => (
-                <SidebarItem
-                  key={module.id}
-                  active={selectedType === 'module' && selectedId === module.id}
-                  onClick={() => handleModuleClick(module.id)}
-                >
-                  {module.name}
-                </SidebarItem>
-              ))}
+              <LayerTitleContainer onClick={() => toggleLayerExpand(layer)}>
+                <LayerTitle>{layer}</LayerTitle>
+                <CollapseIcon expanded={expandedLayers[layer]}>▼</CollapseIcon>
+              </LayerTitleContainer>
+              
+              <ModuleContainer expanded={expandedLayers[layer]}>
+                {modules.map(module => (
+                  <SidebarItem
+                    key={module.id}
+                    active={selectedType === 'module' && selectedId === module.id}
+                    onClick={() => handleModuleClick(module.id)}
+                  >
+                    {module.name}
+                  </SidebarItem>
+                ))}
+              </ModuleContainer>
             </LayerGroup>
           ))
         ) : (
