@@ -19,5 +19,7 @@
     "提供安全事件的监控和日志记录",
     "支持多因素认证（MFA）集成"
   ],
-  "target_path": "Business/Controllers/Security"
+  "target_path": "Business/Controllers/Security",
+  "name": "Controllers - Security",
+  "description": "Controllers - Security模块"
 }

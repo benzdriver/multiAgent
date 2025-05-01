@@ -19,5 +19,7 @@
     "支持国际化和多语言切换",
     "与后端服务的无缝集成以获取动态数据（通过API调用）"
   ],
-  "target_path": "src/components/layout"
+  "target_path": "src/components/layout",
+  "name": "Layout Components - Scalability",
+  "description": "Layout Components - Scalability模块"
 }

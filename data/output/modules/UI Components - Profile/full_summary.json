@@ -20,5 +20,7 @@
     "提供用户资料完整性和验证反馈",
     "用户界面应与设计系统一致"
   ],
-  "target_path": "src/components/ui/profile"
+  "target_path": "src/components/ui/profile",
+  "name": "UI Components - Profile",
+  "description": "UI Components - Profile模块"
 }

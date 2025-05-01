@@ -23,5 +23,7 @@
     "支持多种身份验证方法，包括社交登录",
     "确保表单数据的安全性和正确性"
   ],
-  "target_path": "src/pages/auth"
+  "target_path": "src/pages/auth",
+  "name": "Pages - Authentication",
+  "description": "Pages - Authentication模块"
 }

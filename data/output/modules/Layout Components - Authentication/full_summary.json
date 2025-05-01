@@ -20,5 +20,7 @@
     "与身份验证服务的无缝集成，确保用户体验流畅",
     "维护与其他页面的一致外观和感觉"
   ],
-  "target_path": "src/components/layout/authentication"
+  "target_path": "src/components/layout/authentication",
+  "name": "Layout Components - Authentication",
+  "description": "Layout Components - Authentication模块"
 }

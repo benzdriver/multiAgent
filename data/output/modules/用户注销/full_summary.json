@@ -1,0 +1,19 @@
+{
+  "id": "module_3",
+  "name": "用户注销模块",
+  "description": "处理用户注销的业务逻辑",
+  "responsibilities": [
+    "用户注销",
+    "令牌失效"
+  ],
+  "dependencies": [
+    "module_2"
+  ],
+  "technologies": [
+    "Node.js"
+  ],
+  "module_name": "用户注销",
+  "target_path": "/auth/logout",
+  "layer": "未指定",
+  "domain": "未指定"
+}

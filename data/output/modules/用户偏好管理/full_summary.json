@@ -1,0 +1,20 @@
+{
+  "id": "module_47",
+  "name": "用户偏好管理模块",
+  "description": "管理用户在系统中的个性化偏好",
+  "responsibilities": [
+    "偏好设置",
+    "偏好存储"
+  ],
+  "dependencies": [
+    "module_5"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "用户偏好管理",
+  "target_path": "/preferences",
+  "layer": "未指定",
+  "domain": "未指定"
+}

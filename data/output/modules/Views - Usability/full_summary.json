@@ -18,5 +18,7 @@
     "优化页面加载时间和性能",
     "提供清晰的用户反馈和错误处理机制"
   ],
-  "target_path": "src/presentation/views/usability"
+  "target_path": "src/presentation/views/usability",
+  "name": "Views - Usability",
+  "description": "Views - Usability模块"
 }

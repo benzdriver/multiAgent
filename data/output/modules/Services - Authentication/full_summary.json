@@ -18,5 +18,7 @@
     "支持密码重置功能，安全地重置用户密码",
     "确保用户身份验证过程的安全性和性能"
   ],
-  "target_path": "src/business/services/authentication"
+  "target_path": "src/business/services/authentication",
+  "name": "Services - Authentication",
+  "description": "Services - Authentication模块"
 }

@@ -2,6 +2,12 @@ import { create } from 'zustand';
 import { GlobalState, Requirement, Module } from '../types';
 import services from '../api/services';
 
+declare global {
+  interface Window {
+    __GLOBAL_STATE__: GlobalState;
+  }
+}
+
 interface GlobalStore {
   state: GlobalState;
   isLoading: boolean;
@@ -38,7 +44,8 @@ const initialState: GlobalState = {
   mode: 'default',
 };
 
-export const useGlobalStore = create<GlobalStore>((set, get) => ({
+export const useGlobalStore = create<GlobalStore>((set, get) => {
+  const store = {
   state: initialState,
   isLoading: false,
   error: null,
@@ -46,12 +53,20 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
   fetchGlobalState: async () => {
     set({ isLoading: true, error: null });
     try {
+      console.log('开始获取全局状态...');
       const response = await services.fetchGlobalState();
+      console.log('获取全局状态响应:', response);
+      
       if (response) {
         if (response.data) {
+          console.log('响应数据模块:', response.data.modules);
           set({ state: response.data, isLoading: false });
+          console.log('设置后的全局状态:', get().state);
+          console.log('设置后的模块列表:', get().state.modules);
         } else if ('requirements' in response && Array.isArray((response as any).requirements)) {
+          console.log('响应直接包含requirements:', (response as any).requirements);
           set({ state: response as unknown as GlobalState, isLoading: false });
+          console.log('设置后的全局状态:', get().state);
         } else {
           throw new Error('获取全局状态失败：无数据');
         }
@@ -102,8 +117,11 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
   startClarifier: async () => {
     set({ isLoading: true, error: null });
     try {
-      await services.startClarifier();
+      console.log('开始启动澄清器...');
+      const response = await services.startClarifier();
+      console.log('澄清器启动响应:', response);
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('启动澄清器时出错:', error);
       set({ 
@@ -118,6 +136,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.analyzeRequirements();
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('分析需求时出错:', error);
       set({ 
@@ -132,6 +151,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.generateGranularModules();
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('生成细粒度模块时出错:', error);
       set({ 
@@ -146,6 +166,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.checkConflicts();
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('检查冲突时出错:', error);
       set({ 
@@ -160,6 +181,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.setMode(mode);
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('设置模式时出错:', error);
       set({ 
@@ -174,6 +196,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.uploadFile(file);
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('上传文件时出错:', error);
       set({ 
@@ -188,6 +211,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.analyzeDocuments();
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('分析文档时出错:', error);
       set({ 
@@ -202,6 +226,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.updateRequirement(reqId, data);
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('更新需求时出错:', error);
       set({ 
@@ -216,6 +241,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.deepClarification();
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('深度澄清时出错:', error);
       set({ 
@@ -230,6 +256,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     try {
       await services.deepReasoning();
       await get().fetchGlobalState();
+      set({ isLoading: false });
     } catch (error) {
       console.error('深度推理时出错:', error);
       set({ 
@@ -291,6 +318,21 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
       return [];
     }
   }
-}));
+  };
+  
+  if (typeof window !== 'undefined') {
+    window.__GLOBAL_STATE__ = initialState;
+    
+    const updateWindow = () => {
+      window.__GLOBAL_STATE__ = get().state;
+    };
+    
+    setTimeout(updateWindow, 1000);
+    
+    setInterval(updateWindow, 1000);
+  }
+  
+  return store;
+});
 
 export default useGlobalStore;

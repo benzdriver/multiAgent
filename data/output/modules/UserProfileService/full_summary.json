@@ -20,5 +20,6 @@
     "Node.js",
     "MongoDB"
   ],
-  "name": "UserProfileService"
+  "name": "UserProfileService",
+  "description": "UserProfileService模块"
 }

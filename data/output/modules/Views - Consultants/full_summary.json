@@ -20,5 +20,7 @@
     "确保用户界面的响应性和易于使用",
     "与后端服务的无缝集成以检索和显示数据"
   ],
-  "target_path": "src/views/consultants"
+  "target_path": "src/views/consultants",
+  "name": "Views - Consultants",
+  "description": "Views - Consultants模块"
 }

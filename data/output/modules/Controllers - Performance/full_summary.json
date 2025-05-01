@@ -19,5 +19,7 @@
     "实现性能警报和通知",
     "确保与其他模块的顺畅集成以获取系统性能数据"
   ],
-  "target_path": "src/business/controllers/performance"
+  "target_path": "src/business/controllers/performance",
+  "name": "Controllers - Performance",
+  "description": "Controllers - Performance模块"
 }

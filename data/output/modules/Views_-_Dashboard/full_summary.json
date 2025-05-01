@@ -1,0 +1,26 @@
+{
+  "module_name": "Views - Dashboard",
+  "responsibilities": [
+    "提供用户仪表盘的视觉呈现",
+    "展示用户的概览信息，如进度追踪和通知",
+    "实现用户与仪表盘的交互逻辑",
+    "响应用户操作并更新展示内容"
+  ],
+  "layer": "Presentation",
+  "domain": "Dashboard",
+  "dependencies": [
+    "API Gateway",
+    "Auth Service for user authentication",
+    "Dashboard Business Service for fetching data"
+  ],
+  "requirements": [
+    "用户可以查看其个人资料完整度和评估状态",
+    "用户可以查看待办任务和通知",
+    "界面应实现无缝的用户体验和响应式设计",
+    "支持多语言和国际化"
+  ],
+  "target_path": "src/components/views/Dashboard",
+  "name": "Views - Dashboard",
+  "description": "Views - Dashboard模块",
+  "safe_module_name": "Views_-_Dashboard"
+}

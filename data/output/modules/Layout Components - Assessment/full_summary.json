@@ -20,5 +20,7 @@
     "与身份验证服务集成以确保安全访问",
     "良好的可访问性和可用性设计"
   ],
-  "target_path": "src/components/Layout/Assessment"
+  "target_path": "src/components/Layout/Assessment",
+  "name": "Layout Components - Assessment",
+  "description": "Layout Components - Assessment模块"
 }

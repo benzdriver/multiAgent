@@ -1,0 +1,27 @@
+{
+  "module_name": "Controllers - Dashboard",
+  "responsibilities": [
+    "处理客户仪表盘请求",
+    "协调用户数据和仪表盘数据的获取和展示",
+    "管理和协调与用户仪表盘相关的后端功能调用",
+    "确保仪表盘数据的安全性和正确性"
+  ],
+  "layer": "Business",
+  "domain": "Dashboard",
+  "dependencies": [
+    "API Gateway for request routing",
+    "Serverless Functions such as 'dashboard/getUserDashboard'",
+    "Authentication services like Cognito for user validation",
+    "Data repositories for accessing user and dashboard data"
+  ],
+  "requirements": [
+    "提供个性化和实时更新的客户仪表盘视图",
+    "支持用户仪表盘中的数据完整性和一致性",
+    "确保用户仪表盘数据的安全访问",
+    "快速响应用户请求以提高用户体验"
+  ],
+  "target_path": "src/business/controllers/dashboard",
+  "name": "Controllers - Dashboard",
+  "description": "Controllers - Dashboard模块",
+  "safe_module_name": "Controllers_-_Dashboard"
+}

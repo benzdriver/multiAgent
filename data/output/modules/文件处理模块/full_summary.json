@@ -1,0 +1,18 @@
+{
+  "id": "module_31",
+  "name": "文件处理模块",
+  "description": "处理文档的格式转换和压缩",
+  "responsibilities": [
+    "格式转换",
+    "文件压缩"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "Sharp"
+  ],
+  "module_name": "文件处理",
+  "target_path": "/documents/process",
+  "layer": "未指定",
+  "domain": "未指定"
+}

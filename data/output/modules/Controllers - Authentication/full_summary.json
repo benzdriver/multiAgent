@@ -23,5 +23,7 @@
     "与Cognito/Auth0进行无缝集成以处理认证和授权",
     "保证认证服务的高可用性和可扩展性"
   ],
-  "target_path": "Business/Controllers/Authentication"
+  "target_path": "Business/Controllers/Authentication",
+  "name": "Controllers - Authentication",
+  "description": "Controllers - Authentication模块"
 }

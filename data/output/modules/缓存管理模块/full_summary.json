@@ -1,0 +1,17 @@
+{
+  "id": "module_15",
+  "name": "缓存管理模块",
+  "description": "提供系统缓存功能",
+  "responsibilities": [
+    "数据缓存",
+    "缓存失效"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Redis"
+  ],
+  "module_name": "缓存管理",
+  "target_path": "/cache",
+  "layer": "未指定",
+  "domain": "未指定"
+}

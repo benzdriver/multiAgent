@@ -17,5 +17,6 @@
     "React",
     "Node.js"
   ],
-  "name": "DashboardController"
+  "name": "DashboardController",
+  "description": "DashboardController模块"
 }

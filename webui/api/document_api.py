@@ -122,7 +122,24 @@ async def analyze_documents(
     uploaded_files = state_service.get_uploaded_files()
     
     if not uploaded_files:
-        raise HTTPException(status_code=400, detail="没有找到已上传的文件")
+        input_dir = Path("data/input")
+        if input_dir.exists():
+            md_files = list(input_dir.glob('**/*.md'))
+            txt_files = list(input_dir.glob('**/*.txt'))
+            input_files = md_files + txt_files
+            
+            if input_files:
+                print(f"✅ 检测到 {len(input_files)} 个输入文档，自动加载...")
+                
+                for file_path in input_files:
+                    state_service.add_uploaded_file(str(file_path.absolute()))
+                
+                uploaded_files = state_service.get_uploaded_files()
+                print(f"✅ 自动加载了 {len(uploaded_files)} 个文档")
+            else:
+                raise HTTPException(status_code=400, detail="没有找到已上传的文件，data/input目录也为空")
+        else:
+            raise HTTPException(status_code=400, detail="没有找到已上传的文件")
     
     try:
         all_content = ""
@@ -208,6 +225,10 @@ async def analyze_documents(
         4. 模块名称应该反映其主要功能
         5. 每个模块必须包含module_name和target_path字段
         6. 返回的JSON必须能够被direct parse（不要有markdown标记）
+        7. 进行细粒度模块划分，生成至少50个以上的模块，每个模块应该具有单一职责
+        8. 将大型功能模块拆分成更小的子模块，确保每个模块专注于特定功能
+        9. 不同层级的功能应该分别创建独立模块，如数据访问层、业务逻辑层、表示层等
+        10. 考虑横切关注点（如日志、安全、缓存等）创建专门的模块
         """.strip()
         
         response = None
@@ -246,9 +267,23 @@ async def analyze_documents(
                     module_dir = modules_dir / str(module_name)
                     module_dir.mkdir(parents=True, exist_ok=True)
                     
-                    with open(module_dir / "full_summary.json", "w", encoding="utf-8") as f:
-                        json.dump(module_data, f, ensure_ascii=False, indent=2)
-                    print(f"✅ 创建了模块目录和摘要: {module_dir}")
+                    try:
+                        with open(module_dir / "full_summary.json", "w", encoding="utf-8") as f:
+                            json.dump(module_data, f, ensure_ascii=False, indent=2)
+                        print(f"✅ 创建了模块目录和摘要: {module_dir}")
+                    except Exception as e:
+                        print(f"❌ 创建模块摘要文件失败: {str(e)}")
+                        safe_module_name = ''.join(c for c in module_name if c.isalnum() or c in ['-', '_'])
+                        if safe_module_name and safe_module_name != module_name:
+                            try:
+                                safe_module_dir = modules_dir / safe_module_name
+                                safe_module_dir.mkdir(parents=True, exist_ok=True)
+                                with open(safe_module_dir / "full_summary.json", "w", encoding="utf-8") as f:
+                                    json.dump(module_data, f, ensure_ascii=False, indent=2)
+                                print(f"✅ 使用安全名称创建了模块目录和摘要: {safe_module_dir}")
+                                module_data["safe_module_name"] = safe_module_name
+                            except Exception as e2:
+                                print(f"❌ 即使使用安全名称也无法创建模块摘要文件: {str(e2)}")
             
             output_dir = Path("data/output")
             output_dir.mkdir(parents=True, exist_ok=True)
@@ -281,7 +316,6 @@ async def analyze_documents(
                         f.write("# Auto-generated module dependency graph\n")
                         f.write("dependency_graph = ")
                         json.dump(dependency_graph, f, ensure_ascii=False, indent=2)
-                    print(f"✅ 已生成依赖图到: {output_dir / 'dependency_graph.py'}")
                     
                     summary_index = {}
                     for module_id, module_data in modules_data.items():
@@ -295,7 +329,6 @@ async def analyze_documents(
                     
                     with open(output_dir / "summary_index.json", "w", encoding="utf-8") as f:
                         json.dump(summary_index, f, ensure_ascii=False, indent=2)
-                    print(f"✅ 已生成summary_index.json: {output_dir / 'summary_index.json'}")
                     
                 except Exception as e:
                     print(f"⚠️ 生成依赖图或索引时出错: {e}")
@@ -303,23 +336,8 @@ async def analyze_documents(
             except Exception as e:
                 print(f"⚠️ 保存分析结果文件时出错: {e}")
             
-            state_service.update_global_state_from_json(json_data)
-            
-            clarifier = state_service.get_clarifier()
-            if clarifier and hasattr(clarifier, 'architecture_manager'):
-                arch_manager = clarifier.architecture_manager
-                for module_id, module_data in modules_data.items():
-                    requirements = []
-                    for req_id, modules in json_data.get("requirement_module_index", {}).items():
-                        if module_id in modules:
-                            requirements.append(req_id)
-                    
-                    print(f"📊 处理模块: {module_id}")
-                    try:
-                        result = await arch_manager.process_new_module(module_data, requirements)
-                        print(f"🔍 模块处理结果: {result.get('status', '未知')}")
-                    except Exception as e:
-                        print(f"⚠️ 处理模块 {module_id} 时出错: {e}")
+            print(f"✅ 文档分析完成，生成了 {len(json_data.get('modules', {}))} 个模块")
+            await state_service.update_global_state_from_json(json_data)
             
             state_service.add_conversation_message(
                 "user",

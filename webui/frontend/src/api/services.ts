@@ -2,7 +2,7 @@ import api from './client';
 import { GlobalState, Requirement, Module, ApiResponse } from '../types';
 
 export const fetchGlobalState = (): Promise<ApiResponse<GlobalState>> => {
-  return api.get<GlobalState>('/get_global_state');
+  return api.get<GlobalState>('/api/state/get_global_state');
 };
 
 export const getConversationHistory = (): Promise<ApiResponse<Array<{role: string, content: string}>>> => {
@@ -10,11 +10,11 @@ export const getConversationHistory = (): Promise<ApiResponse<Array<{role: strin
 };
 
 export const getCurrentMode = (): Promise<ApiResponse<{mode: string}>> => {
-  return api.get<{mode: string}>('/mode');
+  return api.get<{mode: string}>('/state/mode');
 };
 
 export const startClarifier = (): Promise<ApiResponse<{ status: string, message: string }>> => {
-  return api.post<{ status: string, message: string }>('/start_clarifier');
+  return api.post<{ status: string, message: string }>('/api/start_clarifier');
 };
 
 export const analyzeRequirements = (): Promise<ApiResponse<{
@@ -26,7 +26,7 @@ export const analyzeRequirements = (): Promise<ApiResponse<{
     status: string,
     message: string,
     modules_count: number
-  }>('/analyze');
+  }>('/api/analyze');
 };
 
 export const generateGranularModules = (): Promise<ApiResponse<{
@@ -63,7 +63,7 @@ export const setMode = (mode: string): Promise<ApiResponse<{
   return api.post<{
     status: string,
     mode: string
-  }>('/set_mode', formData);
+  }>('/api/state/set_mode', formData);
 };
 
 export const uploadFile = (file: File): Promise<ApiResponse<{
@@ -73,7 +73,7 @@ export const uploadFile = (file: File): Promise<ApiResponse<{
   return api.upload<{
     status: string,
     filename: string
-  }>('/upload_file', file);
+  }>('/api/upload_file', file);
 };
 
 export const analyzeDocuments = (): Promise<ApiResponse<{
@@ -85,7 +85,7 @@ export const analyzeDocuments = (): Promise<ApiResponse<{
     status: string,
     message: string,
     global_state: GlobalState
-  }>('/analyze_documents');
+  }>('/api/analyze_documents');
 };
 
 export const updateRequirement = (reqId: string, data: any): Promise<ApiResponse<{

@@ -2,7 +2,8 @@
 启动服务模块，处理应用初始化
 """
 
-from typing import Dict, Any
+from typing import Dict, Any, List
+from pathlib import Path
 from services.state_service import get_state_service, StateService
 from core.clarifier import create_clarifier, ensure_data_dir
 from fastapi import Depends
@@ -45,6 +46,26 @@ class StartupService:
             )
             
             self.state_service.set_clarifier(clarifier)
+            
+            input_dir = Path("data/input")
+            if input_dir.exists():
+                md_files = list(input_dir.glob('**/*.md'))
+                txt_files = list(input_dir.glob('**/*.txt'))
+                input_files = md_files + txt_files
+                
+                if input_files:
+                    print(f"✅ 检测到 {len(input_files)} 个输入文档，开始自动分析...")
+                    self.state_service.set_current_mode("file_based")
+                    
+                    for file_path in input_files:
+                        self.state_service.add_uploaded_file(str(file_path))
+                    
+                    try:
+                        from webui.api.document_api import analyze_documents
+                        await analyze_documents(state_service=self.state_service)
+                        print("✅ 文档自动分析完成")
+                    except Exception as e:
+                        print(f"⚠️ 文档自动分析失败: {str(e)}")
             
             print("✅ Clarifier已成功初始化")
             return {"status": "success", "message": "Clarifier initialized"}

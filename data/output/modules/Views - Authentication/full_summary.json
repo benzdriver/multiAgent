@@ -23,5 +23,7 @@
     "支持社交登录选项以增强用户体验",
     "支持多语言环境"
   ],
-  "target_path": "src/views/authentication"
+  "target_path": "src/views/authentication",
+  "name": "Views - Authentication",
+  "description": "Views - Authentication模块"
 }

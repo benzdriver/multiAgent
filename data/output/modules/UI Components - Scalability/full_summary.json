@@ -21,5 +21,7 @@
     "通过设计系统的应用，确保一致的用户体验和品牌一致性",
     "能够快速集成和部署新的UI组件以支持业务需求"
   ],
-  "target_path": "src/components/ui"
+  "target_path": "src/components/ui",
+  "name": "UI Components - Scalability",
+  "description": "UI Components - Scalability模块"
 }

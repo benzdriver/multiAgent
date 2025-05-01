@@ -16,5 +16,7 @@
     "提供密码重置和注册功能的页面",
     "与后端认证服务的无缝集成"
   ],
-  "target_path": "src/pages/security"
+  "target_path": "src/pages/security",
+  "name": "Pages - Security",
+  "description": "Pages - Security模块"
 }

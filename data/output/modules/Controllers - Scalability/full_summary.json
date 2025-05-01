@@ -20,5 +20,7 @@
     "确保系统在负载增加时的稳定性和响应速度",
     "提供实时监控和性能分析以优化性能"
   ],
-  "target_path": "src/business/controllers/scalability"
+  "target_path": "src/business/controllers/scalability",
+  "name": "Controllers - Scalability",
+  "description": "Controllers - Scalability模块"
 }

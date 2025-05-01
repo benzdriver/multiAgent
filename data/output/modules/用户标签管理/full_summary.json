@@ -1,0 +1,20 @@
+{
+  "id": "module_42",
+  "name": "用户标签管理模块",
+  "description": "用户可自己定义和管理标签",
+  "responsibilities": [
+    "标签创建",
+    "标签查询"
+  ],
+  "dependencies": [
+    "module_5"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "用户标签管理",
+  "target_path": "/tags",
+  "layer": "未指定",
+  "domain": "未指定"
+}

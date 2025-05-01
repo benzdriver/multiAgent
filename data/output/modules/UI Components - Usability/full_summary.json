@@ -24,5 +24,7 @@
     "提升用户操作的简易性和可达性",
     "与业务逻辑层的无缝集成以实现动态数据交互"
   ],
-  "target_path": "src/components/ui"
+  "target_path": "src/components/ui",
+  "name": "UI Components - Usability",
+  "description": "UI Components - Usability模块"
 }

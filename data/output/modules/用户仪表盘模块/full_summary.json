@@ -1,0 +1,21 @@
+{
+  "id": "module_10",
+  "name": "用户仪表盘模块",
+  "description": "提供用户的仪表盘视图",
+  "responsibilities": [
+    "数据汇总",
+    "用户提醒"
+  ],
+  "dependencies": [
+    "module_4",
+    "module_9"
+  ],
+  "technologies": [
+    "Node.js",
+    "React"
+  ],
+  "module_name": "用户仪表盘",
+  "target_path": "/dashboard",
+  "layer": "未指定",
+  "domain": "未指定"
+}

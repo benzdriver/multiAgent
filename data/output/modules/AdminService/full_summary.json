@@ -17,5 +17,6 @@
     "Node.js",
     "MongoDB"
   ],
-  "name": "AdminService"
+  "name": "AdminService",
+  "description": "AdminService模块"
 }

@@ -19,5 +19,7 @@
     "确保与业务逻辑的有效集成以显示动态内容",
     "提供用户友好的导航和界面元素"
   ],
-  "target_path": "src/components/consultants/layout"
+  "target_path": "src/components/consultants/layout",
+  "name": "Layout Components - Consultants",
+  "description": "Layout Components - Consultants模块"
 }

@@ -19,5 +19,7 @@
     "界面应实现无缝的用户体验和响应式设计",
     "支持多语言和国际化"
   ],
-  "target_path": "src/components/views/Dashboard"
+  "target_path": "src/components/views/Dashboard",
+  "name": "Views - Dashboard",
+  "description": "Views - Dashboard模块"
 }

@@ -19,5 +19,7 @@
     "提供直观的用户登录/登出功能",
     "确保所有安全相关组件在UI中一致的用户体验"
   ],
-  "target_path": "src/components/layout/security"
+  "target_path": "src/components/layout/security",
+  "name": "Layout Components - Security",
+  "description": "Layout Components - Security模块"
 }

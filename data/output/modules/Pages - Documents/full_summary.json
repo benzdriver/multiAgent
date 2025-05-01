@@ -19,5 +19,7 @@
     "支持文档的分类和初步分析展示",
     "界面友好，易于导航和使用"
   ],
-  "target_path": "src/pages/documents"
+  "target_path": "src/pages/documents",
+  "name": "Pages - Documents",
+  "description": "Pages - Documents模块"
 }

@@ -1,0 +1,20 @@
+{
+  "id": "module_7",
+  "name": "表单生成模块",
+  "description": "根据用户信息生成移民表格",
+  "responsibilities": [
+    "表单模板应用",
+    "PDF生成"
+  ],
+  "dependencies": [
+    "module_5"
+  ],
+  "technologies": [
+    "Node.js",
+    "PDFKit"
+  ],
+  "module_name": "表单生成",
+  "target_path": "/forms/generate",
+  "layer": "未指定",
+  "domain": "未指定"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "module_32",
+  "name": "数据备份模块",
+  "description": "对系统数据进行定期备份",
+  "responsibilities": [
+    "数据备份",
+    "备份恢复"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "AWS S3"
+  ],
+  "module_name": "数据备份",
+  "target_path": "/backup",
+  "layer": "未指定",
+  "domain": "未指定"
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "Services - Authentication",
+  "responsibilities": [
+    "处理用户身份验证请求，包括登录、注册和密码重置",
+    "协调AWS Cognito/Auth0进行身份验证和授权",
+    "实现业务逻辑以确保用户身份验证过程的安全性和有效性",
+    "管理用户身份验证会话，生成和验证JWT令牌"
+  ],
+  "layer": "Business",
+  "domain": "Authentication",
+  "dependencies": [
+    "Cognito/Auth0",
+    "UserRepository"
+  ],
+  "requirements": [
+    "支持用户登录功能，验证用户凭据",
+    "支持用户注册流程，创建新用户账户",
+    "支持密码重置功能，安全地重置用户密码",
+    "确保用户身份验证过程的安全性和性能"
+  ],
+  "target_path": "src/business/services/authentication",
+  "name": "Services - Authentication",
+  "description": "Services - Authentication模块",
+  "safe_module_name": "Services_-_Authentication"
+}

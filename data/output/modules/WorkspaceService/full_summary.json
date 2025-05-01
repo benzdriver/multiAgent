@@ -19,5 +19,6 @@
     "Node.js",
     "MongoDB"
   ],
-  "name": "WorkspaceService"
+  "name": "WorkspaceService",
+  "description": "WorkspaceService模块"
 }

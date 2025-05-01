@@ -20,5 +20,7 @@
     "服务的健康状态和性能指标应被持续记录和分析",
     "在高负载或故障情况下，服务应保持高可用性"
   ],
-  "target_path": "src/business/services/reliability"
+  "target_path": "src/business/services/reliability",
+  "name": "Services - Reliability",
+  "description": "Services - Reliability模块"
 }

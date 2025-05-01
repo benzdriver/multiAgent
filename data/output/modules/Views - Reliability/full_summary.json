@@ -18,5 +18,7 @@
     "界面应能处理并反馈后台服务的错误",
     "界面应提供实时的操作状态反馈"
   ],
-  "target_path": "src/presentation/views/reliability"
+  "target_path": "src/presentation/views/reliability",
+  "name": "Views - Reliability",
+  "description": "Views - Reliability模块"
 }

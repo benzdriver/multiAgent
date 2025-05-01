@@ -22,5 +22,7 @@
     "易于集成新的页面和功能",
     "提供清晰的文档和示例代码"
   ],
-  "target_path": "src/components/layout"
+  "target_path": "src/components/layout",
+  "name": "Layout Components - Maintainability",
+  "description": "Layout Components - Maintainability模块"
 }

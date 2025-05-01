@@ -1,0 +1,20 @@
+{
+  "id": "module_4",
+  "name": "文档分析模块",
+  "description": "支持文档的上传、存储与分析",
+  "responsibilities": [
+    "文档上传",
+    "文档分析"
+  ],
+  "dependencies": [
+    "module_1"
+  ],
+  "technologies": [
+    "Node.js",
+    "AWS S3"
+  ],
+  "module_name": "文档分析模块",
+  "target_path": "src/modules/document-analysis",
+  "layer": "未指定",
+  "domain": "未指定"
+}

@@ -23,5 +23,7 @@
     "确保服务组件的健康和可用性",
     "实现服务降级和流量控制机制"
   ],
-  "target_path": "src/business/controllers/reliability"
+  "target_path": "src/business/controllers/reliability",
+  "name": "Controllers - Reliability",
+  "description": "Controllers - Reliability模块"
 }

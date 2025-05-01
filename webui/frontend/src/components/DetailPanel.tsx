@@ -4,6 +4,7 @@ import Card from './common/Card';
 import Button from './common/Button';
 import { useGlobalStore } from '../store/globalStore';
 import { Requirement, Module } from '../types';
+import ModuleSummaryTest from './ModuleSummaryTest';
 
 const DetailPanelContainer = styled.div`
   width: 320px;
@@ -100,6 +101,7 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
   const [reasoningResult, setReasoningResult] = React.useState<string>('');
   const [isLoadingRelated, setIsLoadingRelated] = React.useState<boolean>(false);
   const [isLoadingReasoning, setIsLoadingReasoning] = React.useState<boolean>(false);
+  const [fullSummary, setFullSummary] = React.useState<any>(null);
   
   const selectedItem = React.useMemo(() => {
     if (!selectedType || !selectedId) return null;
@@ -133,6 +135,83 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
     
     loadRelatedItems();
   }, [selectedType, selectedId, getRelatedModules, getRelatedRequirements]);
+  
+  React.useEffect(() => {
+    const fetchFullSummary = async () => {
+      if (!selectedType || selectedType !== 'module' || !selectedId) {
+        console.log('不获取模块摘要: 未选择模块或选择类型不是模块', { selectedType, selectedId });
+        setFullSummary(null);
+        return;
+      }
+      
+      console.log('尝试获取模块摘要', { selectedType, selectedId });
+      console.log('当前模块列表', state.modules);
+      
+      const selectedModule = state.modules.find(mod => mod.id === selectedId);
+      if (!selectedModule || !selectedModule.name) {
+        console.log('未找到选中的模块或模块名称为空', { selectedId });
+        return;
+      }
+      
+      console.log('找到选中的模块', { moduleName: selectedModule.name });
+      
+      try {
+        const moduleName = selectedModule.name;
+        const url = `/api/module_summary/${encodeURIComponent(moduleName)}`;
+        console.log('请求模块摘要API', { url });
+        
+        const response = await fetch(url);
+        console.log('模块摘要API响应', { status: response.status });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log('获取到模块摘要数据', data);
+          console.log('设置fullSummary状态', data);
+          setFullSummary(data);
+        } else {
+          const errorText = await response.text();
+          console.error('模块摘要API错误', { status: response.status, error: errorText });
+          
+          const altModuleName = selectedModule.name
+            .split(' ').join('_')  // 替换空格为下划线
+            .replace(/[^\w\s\-_]/g, ''); // 移除非字母数字字符
+          
+          if (altModuleName !== moduleName) {
+            console.log('尝试使用替代名称获取摘要', { altModuleName });
+            const altUrl = `/api/module_summary/${encodeURIComponent(altModuleName)}`;
+            const altResponse = await fetch(altUrl);
+            
+            if (altResponse.ok) {
+              const data = await altResponse.json();
+              console.log('使用替代名称获取到数据', data);
+              setFullSummary(data);
+            } else {
+              console.error('替代名称也无法获取模块摘要');
+              
+              const moduleWithSafeName = selectedModule as any;
+              if (moduleWithSafeName.safe_module_name) {
+                console.log('尝试使用safe_module_name获取摘要', { safe_module_name: moduleWithSafeName.safe_module_name });
+                const safeUrl = `/api/module_summary/${encodeURIComponent(moduleWithSafeName.safe_module_name)}`;
+                const safeResponse = await fetch(safeUrl);
+                
+                if (safeResponse.ok) {
+                  const data = await safeResponse.json();
+                  console.log('使用safe_module_name获取到数据', data);
+                  setFullSummary(data);
+                } else {
+                  console.error('所有尝试都失败，无法获取模块摘要');
+                }
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('获取模块摘要失败:', error);
+      }
+    };
+    
+    fetchFullSummary();
+  }, [selectedType, selectedId, state.modules]);
   
   const handleGetDeepReasoning = async () => {
     if (!selectedId || selectedType !== 'module') return;
@@ -253,6 +332,106 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
                 </Card>
               )}
             </DetailSection>
+            
+            {selectedType === 'module' && (
+              <DetailSection>
+                <SectionTitle>模块完整摘要</SectionTitle>
+                <SectionContent>
+                  {fullSummary ? (
+                    <pre style={{ 
+                      background: '#f5f5f5', 
+                      padding: '10px', 
+                      borderRadius: '4px',
+                      overflow: 'auto',
+                      maxHeight: '300px',
+                      fontSize: '12px',
+                      fontFamily: 'monospace',
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-word'
+                    }}>
+                      {JSON.stringify(fullSummary, null, 2)}
+                    </pre>
+                  ) : (
+                    <div>
+                      <p>加载模块摘要中...</p>
+                      <button 
+                        onClick={() => {
+                          const selectedModule = state.modules.find(mod => mod.id === selectedId);
+                          if (selectedModule && selectedModule.name) {
+                            console.log('手动刷新模块摘要');
+                            
+                            const url = `/api/module_summary/${encodeURIComponent(selectedModule.name)}`;
+                            console.log('尝试原始名称', { url });
+                            
+                            fetch(url)
+                              .then(response => {
+                                if (response.ok) {
+                                  return response.json();
+                                }
+                                
+                                const altModuleName = selectedModule.name
+                                  .split(' ').join('_')
+                                  .replace(/[^\w\s\-_]/g, '');
+                                
+                                if (altModuleName !== selectedModule.name) {
+                                  console.log('尝试替代名称', { altModuleName });
+                                  const altUrl = `/api/module_summary/${encodeURIComponent(altModuleName)}`;
+                                  return fetch(altUrl).then(altResponse => {
+                                    if (altResponse.ok) {
+                                      return altResponse.json();
+                                    }
+                                    
+                                    const moduleWithSafeName = selectedModule as any;
+                                    if (moduleWithSafeName.safe_module_name) {
+                                      console.log('尝试safe_module_name', { safe_module_name: moduleWithSafeName.safe_module_name });
+                                      const safeUrl = `/api/module_summary/${encodeURIComponent(moduleWithSafeName.safe_module_name)}`;
+                                      return fetch(safeUrl).then(safeResponse => {
+                                        if (safeResponse.ok) {
+                                          return safeResponse.json();
+                                        }
+                                        throw new Error('所有尝试都失败');
+                                      });
+                                    }
+                                    throw new Error('获取模块摘要失败');
+                                  });
+                                }
+                                throw new Error('获取模块摘要失败');
+                              })
+                              .then(data => {
+                                console.log('获取到模块摘要数据', data);
+                                setFullSummary(data);
+                              })
+                              .catch(error => {
+                                console.error('获取模块摘要失败:', error);
+                                alert('获取模块摘要失败，请检查控制台日志');
+                              });
+                          }
+                        }}
+                        style={{
+                          padding: '5px 10px',
+                          background: '#4a6bff',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        刷新模块摘要
+                      </button>
+                    </div>
+                  )}
+                </SectionContent>
+              </DetailSection>
+            )}
+            
+            {selectedType === 'module' && selectedItem && (
+              <DetailSection>
+                <SectionTitle>模块摘要测试组件</SectionTitle>
+                <SectionContent>
+                  <ModuleSummaryTest moduleName={(selectedItem as Module).name} />
+                </SectionContent>
+              </DetailSection>
+            )}
           </>
         )}
         

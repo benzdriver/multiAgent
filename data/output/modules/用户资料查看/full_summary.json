@@ -1,0 +1,20 @@
+{
+  "id": "module_4",
+  "name": "用户资料查看模块",
+  "description": "提供用户查看其个人信息的功能",
+  "responsibilities": [
+    "检索用户资料",
+    "格式化输出"
+  ],
+  "dependencies": [
+    "module_2"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "用户资料查看",
+  "target_path": "/profile",
+  "layer": "未指定",
+  "domain": "未指定"
+}

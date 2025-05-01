@@ -21,5 +21,7 @@
     "减少页面组件的复杂度，增强代码的可重用性",
     "确保页面组件与后端服务的松耦合，便于独立开发和测试"
   ],
-  "target_path": "src/pages"
+  "target_path": "src/pages",
+  "name": "Pages - Maintainability",
+  "description": "Pages - Maintainability模块"
 }

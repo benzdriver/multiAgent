@@ -21,5 +21,7 @@
     "易于扩展和维护的组件设计，以便于未来功能的添加",
     "确保UI的响应式设计，适应不同设备的屏幕尺寸"
   ],
-  "target_path": "src/components/WorkspaceUI"
+  "target_path": "src/components/WorkspaceUI",
+  "name": "UI Components - Workspace",
+  "description": "UI Components - Workspace模块"
 }

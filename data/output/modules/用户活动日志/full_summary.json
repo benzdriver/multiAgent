@@ -1,0 +1,20 @@
+{
+  "id": "module_44",
+  "name": "用户活动日志模块",
+  "description": "记录用户在系统中的活动日志",
+  "responsibilities": [
+    "活动记录",
+    "日志分析"
+  ],
+  "dependencies": [
+    "module_22"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "用户活动日志",
+  "target_path": "/logs/activity",
+  "layer": "未指定",
+  "domain": "未指定"
+}

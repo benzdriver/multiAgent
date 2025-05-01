@@ -20,5 +20,7 @@
     "提供动态内容的即时更新",
     "集成性能监控工具以追踪关键指标"
   ],
-  "target_path": "src/pages/performance"
+  "target_path": "src/pages/performance",
+  "name": "Pages - Performance",
+  "description": "Pages - Performance模块"
 }

@@ -21,5 +21,7 @@
     "实现用户行为跟踪和可用性分析",
     "确保用户数据的安全性和隐私"
   ],
-  "target_path": "src/business/services/usability"
+  "target_path": "src/business/services/usability",
+  "name": "Services - Usability",
+  "description": "Services - Usability模块"
 }

@@ -20,5 +20,7 @@
     "与业务逻辑层的服务安全稳固地集成，以获取和展示动态数据",
     "遵循设计系统以保持与其他页面的一致性"
   ],
-  "target_path": "src/components/layout/WorkspaceLayout"
+  "target_path": "src/components/layout/WorkspaceLayout",
+  "name": "Layout Components - Workspace",
+  "description": "Layout Components - Workspace模块"
 }

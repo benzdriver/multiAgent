@@ -21,5 +21,7 @@
     "允许用户根据类型和状态筛选文档",
     "提供用户友好的错误处理和反馈机制"
   ],
-  "target_path": "src/components/documents"
+  "target_path": "src/components/documents",
+  "name": "UI Components - Documents",
+  "description": "UI Components - Documents模块"
 }
