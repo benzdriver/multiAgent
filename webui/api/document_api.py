@@ -267,9 +267,23 @@ async def analyze_documents(
                     module_dir = modules_dir / str(module_name)
                     module_dir.mkdir(parents=True, exist_ok=True)
                     
-                    with open(module_dir / "full_summary.json", "w", encoding="utf-8") as f:
-                        json.dump(module_data, f, ensure_ascii=False, indent=2)
-                    print(f"✅ 创建了模块目录和摘要: {module_dir}")
+                    try:
+                        with open(module_dir / "full_summary.json", "w", encoding="utf-8") as f:
+                            json.dump(module_data, f, ensure_ascii=False, indent=2)
+                        print(f"✅ 创建了模块目录和摘要: {module_dir}")
+                    except Exception as e:
+                        print(f"❌ 创建模块摘要文件失败: {str(e)}")
+                        safe_module_name = ''.join(c for c in module_name if c.isalnum() or c in ['-', '_'])
+                        if safe_module_name and safe_module_name != module_name:
+                            try:
+                                safe_module_dir = modules_dir / safe_module_name
+                                safe_module_dir.mkdir(parents=True, exist_ok=True)
+                                with open(safe_module_dir / "full_summary.json", "w", encoding="utf-8") as f:
+                                    json.dump(module_data, f, ensure_ascii=False, indent=2)
+                                print(f"✅ 使用安全名称创建了模块目录和摘要: {safe_module_dir}")
+                                module_data["safe_module_name"] = safe_module_name
+                            except Exception as e2:
+                                print(f"❌ 即使使用安全名称也无法创建模块摘要文件: {str(e2)}")
             
             output_dir = Path("data/output")
             output_dir.mkdir(parents=True, exist_ok=True)

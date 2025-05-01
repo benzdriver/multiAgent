@@ -333,17 +333,29 @@ class ArchitectureManager:
         module_name = module_spec.get("name")
         if module_name:
             print(f"🔄 [LOOP-TRACE] {call_id} - 为模块 '{module_name}' 创建目录和摘要文件")
-            module_dir = Path("data/output/modules") / str(module_name)
-            module_dir.mkdir(parents=True, exist_ok=True)
-            
-            summary_path = module_dir / "full_summary.json"
             try:
+                module_dir = Path("data/output/modules") / str(module_name)
+                module_dir.mkdir(parents=True, exist_ok=True)
+                
+                summary_path = module_dir / "full_summary.json"
                 with open(summary_path, "w", encoding="utf-8") as f:
                     json.dump(module_spec, f, ensure_ascii=False, indent=2)
                 print(f"🔄 [LOOP-TRACE] {call_id} - 成功创建摘要文件: {summary_path}")
+                
+                safe_module_name = ''.join(c for c in module_name if c.isalnum() or c in ['-', '_', ' '])
+                if safe_module_name and safe_module_name != module_name:
+                    safe_module_dir = Path("data/output/modules") / safe_module_name
+                    safe_module_dir.mkdir(parents=True, exist_ok=True)
+                    safe_summary_path = safe_module_dir / "full_summary.json"
+                    with open(safe_summary_path, "w", encoding="utf-8") as f:
+                        module_data_with_safe_name = dict(module_spec)
+                        module_data_with_safe_name["safe_module_name"] = safe_module_name
+                        json.dump(module_data_with_safe_name, f, ensure_ascii=False, indent=2)
+                    print(f"🔄 [LOOP-TRACE] {call_id} - 同时创建了安全名称摘要文件: {safe_summary_path}")
             except Exception as e:
                 print(f"❌ [LOOP-TRACE] {call_id} - 创建摘要文件失败: {str(e)}")
-                pass
+                import traceback
+                print(traceback.format_exc())
         else:
             print(f"⚠️ [LOOP-TRACE] {call_id} - 模块缺少名称，无法创建目录")
         
@@ -389,4 +401,4 @@ class ArchitectureManager:
         
         state_file = self.output_path / "architecture_state.json"
         with open(state_file, 'w', encoding='utf-8') as f:
-            json.dump(state, f, ensure_ascii=False, indent=2)              
+            json.dump(state, f, ensure_ascii=False, indent=2)                
