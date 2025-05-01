@@ -41,7 +41,7 @@ app.add_middleware(
 )
 
 # 注册API路由
-app.include_router(state_router, prefix="/api", tags=["状态管理"])
+app.include_router(state_router, prefix="/api/state", tags=["状态管理"])
 app.include_router(chat_router, prefix="/api", tags=["聊天"])
 app.include_router(document_router, prefix="/api", tags=["文档"])
 app.include_router(deep_reasoning_router, prefix="/api", tags=["深度推理"])
@@ -85,7 +85,6 @@ async def startup_event():
             with open(full_analysis_path, "r", encoding="utf-8") as f:
                 json_data = json.load(f)
                 await state_service.update_global_state_from_json(json_data)
-                print(f"✅ 从{full_analysis_path}加载了分析结果")
                 
                 req_count = len(json_data.get('requirements', {}))
                 module_count = len(json_data.get('modules', {}))
@@ -96,18 +95,9 @@ async def startup_event():
         except Exception as e:
             print(f"❌ 加载分析结果失败: {str(e)}")
     
-    uploaded_files = state_service.get_uploaded_files()
-    if uploaded_files:
-        print(f"✅ 检测到 {len(uploaded_files)} 个文件，自动开始分析")
-        from webui.api.document_api import analyze_documents
-        try:
-            await analyze_documents(state_service=state_service)
-            print("✅ 文档分析完成")
-        except Exception as e:
-            print(f"❌ 文档分析失败: {str(e)}")
     
 
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                  
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                          

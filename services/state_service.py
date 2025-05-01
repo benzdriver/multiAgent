@@ -146,6 +146,7 @@ class StateService:
         """从磁盘加载模块数据"""
         modules_dir = Path("data/output/modules")
         if not modules_dir.exists():
+            print(f"❌ 模块目录不存在: {modules_dir}")
             return
         
         modules = []
@@ -154,12 +155,16 @@ class StateService:
         module_count = 0
         error_count = 0
         
-        for module_dir in modules_dir.iterdir():
+        module_dirs = list(modules_dir.iterdir())
+        print(f"🔍 发现 {len(module_dirs)} 个模块目录")
+        
+        for module_dir in module_dirs:
             if not module_dir.is_dir():
                 continue
             
             summary_file = module_dir / "full_summary.json"
             if not summary_file.exists():
+                print(f"⚠️ 模块 {module_dir.name} 缺少full_summary.json文件")
                 error_count += 1
                 continue
             
@@ -172,12 +177,20 @@ class StateService:
                 module_data["name"] = module_dir.name  # 确保模块名称与目录名一致
                 modules.append(module_data)
                 module_count += 1
+                print(f"✅ 成功加载模块: {module_dir.name}")
             except Exception as e:
+                print(f"❌ 加载模块 {module_dir.name} 失败: {str(e)}")
                 error_count += 1
         
         print(f"✅ 总共加载了 {module_count} 个模块，{error_count} 个错误")
         
         self.global_state["modules"] = modules
+        print(f"🔄 全局状态现在包含 {len(self.global_state['modules'])} 个模块")
+        
+        if modules and len(modules) > 0:
+            first_module = modules[0]
+            print(f"🔍 第一个模块示例: {first_module.get('name', '未知')} (ID: {first_module.get('id', '未知')})")
+            print(f"🔍 模块属性: {', '.join(first_module.keys())}")
     
     async def update_global_state_from_json(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """从JSON数据更新全局状态，并使用现有架构管理器执行验证"""

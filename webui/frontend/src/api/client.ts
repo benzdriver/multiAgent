@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { ApiResponse } from '../types';
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: '',  // 移除'/api'前缀，因为服务端点已包含前缀
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -10,13 +10,6 @@ const apiClient: AxiosInstance = axios.create({
   timeout: 30000, // 30秒超时
 });
 
-apiClient.interceptors.request.use((config) => {
-  if (config.url === '/get_global_state') {
-    config.url = '/state/get_global_state';
-    console.log('修改全局状态请求URL为:', config.url);
-  }
-  return config;
-});
 
 apiClient.interceptors.request.use(
   (config) => {
