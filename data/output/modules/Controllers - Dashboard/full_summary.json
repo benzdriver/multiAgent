@@ -20,5 +20,7 @@
     "确保用户仪表盘数据的安全访问",
     "快速响应用户请求以提高用户体验"
   ],
-  "target_path": "src/business/controllers/dashboard"
+  "target_path": "src/business/controllers/dashboard",
+  "name": "Controllers - Dashboard",
+  "description": "Controllers - Dashboard模块"
 }

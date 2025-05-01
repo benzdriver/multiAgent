@@ -1,0 +1,29 @@
+{
+  "module_name": "UI Components - Forms",
+  "responsibilities": [
+    "提供用户友好的表单界面以收集用户信息",
+    "使用React Hook Form和Zod进行表单验证和处理",
+    "支持多种表单布局和样式以适应不同的数据收集需求",
+    "提供表单元素的可重用组件，如输入框、选择器、按钮等",
+    "与业务层交互以提交和接收表单数据的验证结果"
+  ],
+  "layer": "Presentation",
+  "domain": "Forms",
+  "dependencies": [
+    "React Hook Form",
+    "Zod",
+    "React Query",
+    "业务层的表单处理服务"
+  ],
+  "requirements": [
+    "支持动态表单字段生成和验证",
+    "用户输入的实时验证和提示",
+    "多语言支持，通过next-i18next实现国际化",
+    "与业务层服务的无缝集成以处理表单数据",
+    "高性能和响应式设计以适应不同设备"
+  ],
+  "target_path": "src/components/forms",
+  "name": "UI Components - Forms",
+  "description": "UI Components - Forms模块",
+  "safe_module_name": "UI_Components_-_Forms"
+}

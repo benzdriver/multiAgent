@@ -22,5 +22,7 @@
     "支持多语言环境，确保国际用户的可用性",
     "确保身份验证界面的安全性，防止常见的安全漏洞"
   ],
-  "target_path": "src/components/auth"
+  "target_path": "src/components/auth",
+  "name": "UI Components - Authentication",
+  "description": "UI Components - Authentication模块"
 }

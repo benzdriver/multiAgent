@@ -1,0 +1,20 @@
+{
+  "id": "module_40",
+  "name": "用户注册日志模块",
+  "description": "记录用户注册过程中的日志",
+  "responsibilities": [
+    "日志记录",
+    "日志查询"
+  ],
+  "dependencies": [
+    "module_1"
+  ],
+  "technologies": [
+    "Node.js",
+    "Winston"
+  ],
+  "module_name": "用户注册日志",
+  "target_path": "/logs/register",
+  "layer": "未指定",
+  "domain": "未指定"
+}

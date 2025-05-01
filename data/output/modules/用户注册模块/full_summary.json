@@ -1,0 +1,18 @@
+{
+  "id": "module_1",
+  "name": "用户注册模块",
+  "description": "处理用户注册的业务逻辑",
+  "responsibilities": [
+    "用户注册",
+    "数据验证"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "Express"
+  ],
+  "module_name": "用户注册",
+  "target_path": "/auth/register",
+  "layer": "未指定",
+  "domain": "未指定"
+}

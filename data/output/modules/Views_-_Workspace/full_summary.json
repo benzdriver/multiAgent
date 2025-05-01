@@ -1,0 +1,28 @@
+{
+  "module_name": "Views - Workspace",
+  "responsibilities": [
+    "提供客户和顾问之间的协作界面",
+    "展示共享文档和消息历史",
+    "显示任务列表和协作进度",
+    "支持用户友好的交互体验"
+  ],
+  "layer": "Presentation",
+  "domain": "Workspace",
+  "dependencies": [
+    "API Gateway for data retrieval",
+    "Authentication service for access control",
+    "Business layer services for workspace data",
+    "UI components from the React library",
+    "State management using React Query and Context API"
+  ],
+  "requirements": [
+    "用户可以查看和编辑共享文档",
+    "用户可以查看消息历史和发送新消息",
+    "用户可以看到任务列表并更新任务状态",
+    "界面需支持实时更新和响应式布局"
+  ],
+  "target_path": "src/components/views/Workspace",
+  "name": "Views - Workspace",
+  "description": "Views - Workspace模块",
+  "safe_module_name": "Views_-_Workspace"
+}

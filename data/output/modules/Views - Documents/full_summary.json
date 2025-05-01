@@ -20,5 +20,7 @@
     "界面要直观并易于导航，支持不同设备的响应式设计",
     "支持实时反馈和错误处理以提升用户交互体验"
   ],
-  "target_path": "src/components/views/Documents"
+  "target_path": "src/components/views/Documents",
+  "name": "Views - Documents",
+  "description": "Views - Documents模块"
 }

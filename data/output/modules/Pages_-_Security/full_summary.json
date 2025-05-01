@@ -1,0 +1,23 @@
+{
+  "module_name": "Pages - Security",
+  "responsibilities": [
+    "提供用户认证和授权的界面",
+    "支持用户登录、注册和密码重置的交互",
+    "确保通过UI组件实现安全的用户信息输入和展示"
+  ],
+  "layer": "Presentation",
+  "domain": "Security",
+  "dependencies": [
+    "API Gateway",
+    "Cognito认证"
+  ],
+  "requirements": [
+    "支持用户通过UI进行安全登录",
+    "提供密码重置和注册功能的页面",
+    "与后端认证服务的无缝集成"
+  ],
+  "target_path": "src/pages/security",
+  "name": "Pages - Security",
+  "description": "Pages - Security模块",
+  "safe_module_name": "Pages_-_Security"
+}

@@ -1,0 +1,30 @@
+{
+  "module_name": "Layout Components - Performance",
+  "responsibilities": [
+    "优化页面加载时间，确保布局组件快速渲染",
+    "通过懒加载技术优化大型组件的加载",
+    "确保跨页面的一致性和响应式设计",
+    "管理全局状态以减少不必要的重新渲染",
+    "实现导航栏、侧边栏和页脚等组件的性能优化"
+  ],
+  "layer": "Presentation",
+  "domain": "Performance",
+  "dependencies": [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "React Query",
+    "Context API",
+    "Zustand"
+  ],
+  "requirements": [
+    "提高用户界面的响应速度和流畅度",
+    "减少页面组件的首次渲染时间",
+    "提供无缝的用户体验，即使在低带宽环境下",
+    "确保组件的状态管理高效且不影响性能"
+  ],
+  "target_path": "src/components/layout",
+  "name": "Layout Components - Performance",
+  "description": "Layout Components - Performance模块",
+  "safe_module_name": "Layout_Components_-_Performance"
+}

@@ -20,5 +20,6 @@
     "Node.js",
     "MongoDB"
   ],
-  "name": "AssessmentService"
+  "name": "AssessmentService",
+  "description": "AssessmentService模块"
 }

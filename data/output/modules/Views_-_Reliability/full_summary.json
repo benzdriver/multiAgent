@@ -1,0 +1,25 @@
+{
+  "module_name": "Views - Reliability",
+  "responsibilities": [
+    "提供可靠性相关信息的用户界面",
+    "实现用户界面的可用性和稳定性",
+    "确保界面的响应一致性和错误处理",
+    "展示用户操作的实时反馈"
+  ],
+  "layer": "Presentation",
+  "domain": "Reliability",
+  "dependencies": [
+    "Business层的服务接口",
+    "UI组件库（如React组件库）",
+    "状态管理工具（如React Query或Zustand）"
+  ],
+  "requirements": [
+    "用户界面应在高负载下保持稳定",
+    "界面应能处理并反馈后台服务的错误",
+    "界面应提供实时的操作状态反馈"
+  ],
+  "target_path": "src/presentation/views/reliability",
+  "name": "Views - Reliability",
+  "description": "Views - Reliability模块",
+  "safe_module_name": "Views_-_Reliability"
+}

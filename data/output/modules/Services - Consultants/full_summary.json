@@ -21,5 +21,7 @@
     "确保用户和顾问之间的互动流畅且高效",
     "提供对顾问匹配和预约状态的实时反馈"
   ],
-  "target_path": "src/business/services/consultants"
+  "target_path": "src/business/services/consultants",
+  "name": "Services - Consultants",
+  "description": "Services - Consultants模块"
 }

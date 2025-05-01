@@ -21,5 +21,7 @@
     "确保颜色对比度符合无障碍标准",
     "提供文本替代和可视反馈"
   ],
-  "target_path": "src/components/layout/accessibility"
+  "target_path": "src/components/layout/accessibility",
+  "name": "Layout Components - Accessibility",
+  "description": "Layout Components - Accessibility模块"
 }

@@ -19,5 +19,7 @@
     "确保用户资料的完整性和准确性",
     "允许用户无缝切换资料收集模式"
   ],
-  "target_path": "services/profile"
+  "target_path": "services/profile",
+  "name": "Services - Profile",
+  "description": "Services - Profile模块"
 }

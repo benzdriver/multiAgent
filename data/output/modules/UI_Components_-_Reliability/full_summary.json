@@ -1,0 +1,31 @@
+{
+  "module_name": "UI Components - Reliability",
+  "responsibilities": [
+    "设计和实现用户界面组件以确保应用的高可靠性",
+    "使用React组件库创建可重用和一致的UI元素，如按钮、表单和卡片",
+    "集成Tailwind CSS以保持样式的简洁性和一致性",
+    "与业务层服务集成以确保数据的即时和准确展示",
+    "提供用户友好的错误处理和反馈机制以提高用户体验",
+    "确保UI组件在异常情况下的稳定性和响应能力"
+  ],
+  "layer": "Presentation",
+  "domain": "Reliability",
+  "dependencies": [
+    "Business层的服务接口以获取和展示数据",
+    "React组件库",
+    "Tailwind CSS用于样式",
+    "React Query用于服务器状态管理",
+    "Context API用于应用状态管理"
+  ],
+  "requirements": [
+    "UI组件必须在不同的浏览器和设备上保持一致性",
+    "确保在网络波动或服务中断时用户界面不崩溃",
+    "提供实时的用户反馈和错误报告机制",
+    "实现高响应性和低延迟的用户交互",
+    "组件应支持国际化以满足不同语言用户的需求"
+  ],
+  "target_path": "src/components/reliability/",
+  "name": "UI Components - Reliability",
+  "description": "UI Components - Reliability模块",
+  "safe_module_name": "UI_Components_-_Reliability"
+}

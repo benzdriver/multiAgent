@@ -20,5 +20,7 @@
     "确保无障碍功能的平滑交互体验",
     "提供用户界面无障碍选项的配置和控制"
   ],
-  "target_path": "src/presentation/views/accessibility"
+  "target_path": "src/presentation/views/accessibility",
+  "name": "Views - Accessibility",
+  "description": "Views - Accessibility模块"
 }

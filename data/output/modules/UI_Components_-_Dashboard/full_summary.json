@@ -1,0 +1,26 @@
+{
+  "module_name": "UI Components - Dashboard",
+  "responsibilities": [
+    "展示用户的概览信息，包括个人资料完整度、评估状态、待办任务和通知",
+    "提供用户与系统交互的入口，例如查看详细信息、操作待办任务和接收通知",
+    "渲染动态数据，确保信息的实时更新",
+    "统一的UI风格和一致的用户体验"
+  ],
+  "layer": "Presentation",
+  "domain": "Dashboard",
+  "dependencies": [
+    "API Gateway for data fetching",
+    "Authentication Service (Cognito/Auth0) for user verification",
+    "Serverless Functions for retrieving user dashboard data"
+  ],
+  "requirements": [
+    "确保界面响应迅速，支持多种设备和浏览器",
+    "通过直观的视觉设计和用户导航提高用户体验",
+    "支持国际化和本地化功能",
+    "无缝集成状态管理，确保UI状态与应用状态同步"
+  ],
+  "target_path": "src/components/dashboard",
+  "name": "UI Components - Dashboard",
+  "description": "UI Components - Dashboard模块",
+  "safe_module_name": "UI_Components_-_Dashboard"
+}

@@ -23,5 +23,7 @@
     "确保顾问匹配和预约过程的安全性和数据隐私",
     "提供顾问推荐和预约的高可用性和响应速度"
   ],
-  "target_path": "src/business/controllers/consultants"
+  "target_path": "src/business/controllers/consultants",
+  "name": "Controllers - Consultants",
+  "description": "Controllers - Consultants模块"
 }

@@ -1,0 +1,20 @@
+{
+  "id": "module_39",
+  "name": "实时通信模块",
+  "description": "提供用户和顾问之间的实时通信",
+  "responsibilities": [
+    "消息传递",
+    "视频通话"
+  ],
+  "dependencies": [
+    "module_12"
+  ],
+  "technologies": [
+    "WebRTC",
+    "Socket.io"
+  ],
+  "module_name": "实时通信",
+  "target_path": "/realtime",
+  "layer": "未指定",
+  "domain": "未指定"
+}

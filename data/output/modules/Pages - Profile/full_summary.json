@@ -20,5 +20,7 @@
     "确保用户资料的完整性检查和更新反馈",
     "实现模式切换功能以提高用户体验"
   ],
-  "target_path": "src/pages/profile"
+  "target_path": "src/pages/profile",
+  "name": "Pages - Profile",
+  "description": "Pages - Profile模块"
 }

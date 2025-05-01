@@ -1,0 +1,17 @@
+{
+  "id": "module_23",
+  "name": "API网关模块",
+  "description": "处理系统API请求的入口",
+  "responsibilities": [
+    "请求路由",
+    "负载均衡"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "AWS API Gateway"
+  ],
+  "module_name": "API网关",
+  "target_path": "/api",
+  "layer": "未指定",
+  "domain": "未指定"
+}

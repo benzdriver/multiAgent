@@ -1,0 +1,27 @@
+{
+  "module_name": "Layout Components - Profile",
+  "responsibilities": [
+    "提供用户友好的布局组件，用于展示和管理用户个人资料页面",
+    "实现响应式设计，确保在不同设备上的良好显示效果",
+    "整合导航栏、页脚和其他公共组件，提供一致的用户体验",
+    "支持主题和样式的切换，以适应用户偏好和品牌需求"
+  ],
+  "layer": "Presentation",
+  "domain": "Profile",
+  "dependencies": [
+    "React组件库",
+    "Tailwind CSS",
+    "Next.js路由",
+    "Context API（用于状态管理）"
+  ],
+  "requirements": [
+    "用户能够轻松访问并编辑个人资料",
+    "组件应与系统的设计系统保持一致，包括颜色、排版和组件样式",
+    "导航组件应提供快速访问其他相关页面的入口",
+    "确保高效的加载性能，支持渐进式增强"
+  ],
+  "target_path": "src/components/layouts/profile",
+  "name": "Layout Components - Profile",
+  "description": "Layout Components - Profile模块",
+  "safe_module_name": "Layout_Components_-_Profile"
+}

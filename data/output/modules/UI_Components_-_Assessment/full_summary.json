@@ -1,0 +1,29 @@
+{
+  "module_name": "UI Components - Assessment",
+  "responsibilities": [
+    "渲染评估启动页面，让用户能够轻松开始评估流程",
+    "提供多步骤评估界面，支持用户逐步完成评估",
+    "展示评估结果，包含对用户的移民路径建议",
+    "管理用户界面的交互体验，确保流畅的用户体验",
+    "提供切换和导航功能，帮助用户在评估步骤间移动"
+  ],
+  "layer": "Presentation",
+  "domain": "Assessment",
+  "dependencies": [
+    "API Gateway - 用于获取和提交评估数据",
+    "Authentication模块 - 确保用户身份验证状态",
+    "React组件库 - 用于构建UI组件",
+    "Tailwind CSS - 用于样式和布局"
+  ],
+  "requirements": [
+    "确保用户界面易于使用，支持多步骤评估流程",
+    "与后端API集成，动态获取和提交评估数据",
+    "支持响应式设计，适应不同设备和屏幕尺寸",
+    "提供清晰的用户反馈和错误提示",
+    "实现高效的状态管理，减少不必要的渲染"
+  ],
+  "target_path": "src/components/assessment",
+  "name": "UI Components - Assessment",
+  "description": "UI Components - Assessment模块",
+  "safe_module_name": "UI_Components_-_Assessment"
+}

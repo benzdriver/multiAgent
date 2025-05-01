@@ -1,0 +1,20 @@
+{
+  "id": "module_9",
+  "name": "文档管理模块",
+  "description": "允许用户管理其上传的文档",
+  "responsibilities": [
+    "文档检索",
+    "文档删除"
+  ],
+  "dependencies": [
+    "module_8"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "文档管理",
+  "target_path": "/documents",
+  "layer": "未指定",
+  "domain": "未指定"
+}

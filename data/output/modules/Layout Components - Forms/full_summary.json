@@ -18,5 +18,7 @@
     "确保表格生成和预览页面的统一性和一致性",
     "支持多语言，通过国际化组件实现语言切换"
   ],
-  "target_path": "src/components/layouts/forms"
+  "target_path": "src/components/layouts/forms",
+  "name": "Layout Components - Forms",
+  "description": "Layout Components - Forms模块"
 }

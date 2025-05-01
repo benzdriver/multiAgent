@@ -1,0 +1,27 @@
+{
+  "module_name": "Layout Components - Workspace",
+  "responsibilities": [
+    "提供一致的用户界面布局，用于客户和顾问之间的协作空间",
+    "管理工作区页面的导航结构，包括导航栏和侧边栏",
+    "确保工作区页面中的内容布局符合设计系统的规范",
+    "提供页脚以显示标准应用信息及链接"
+  ],
+  "layer": "Presentation",
+  "domain": "Workspace",
+  "dependencies": [
+    "API Gateway（用于从后台服务获取数据）",
+    "Authentication Service（用于验证用户身份）",
+    "React组件库（用于构建用户界面）",
+    "Tailwind CSS（用于样式设计）"
+  ],
+  "requirements": [
+    "支持响应式设计以适应不同屏幕尺寸",
+    "确保导航组件的可访问性和易用性",
+    "与业务逻辑层的服务安全稳固地集成，以获取和展示动态数据",
+    "遵循设计系统以保持与其他页面的一致性"
+  ],
+  "target_path": "src/components/layout/WorkspaceLayout",
+  "name": "Layout Components - Workspace",
+  "description": "Layout Components - Workspace模块",
+  "safe_module_name": "Layout_Components_-_Workspace"
+}

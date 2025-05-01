@@ -1,0 +1,18 @@
+{
+  "id": "module_24",
+  "name": "用户反馈模块",
+  "description": "收集和管理用户反馈",
+  "responsibilities": [
+    "反馈收集",
+    "反馈处理"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "用户反馈",
+  "target_path": "/feedback",
+  "layer": "未指定",
+  "domain": "未指定"
+}

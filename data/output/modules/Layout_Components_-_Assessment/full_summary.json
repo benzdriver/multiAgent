@@ -1,0 +1,27 @@
+{
+  "module_name": "Layout Components - Assessment",
+  "responsibilities": [
+    "提供Assessment相关页面的一致布局，包括导航栏、侧边栏和页脚",
+    "确保评估过程中的页面导航顺畅",
+    "提供视觉和交互一致性，以增强用户体验",
+    "支持不同评估页面（如初始评估页、评估步骤页、评估结果页）的通用布局"
+  ],
+  "layer": "Presentation",
+  "domain": "Assessment",
+  "dependencies": [
+    "Next.js框架",
+    "React组件库",
+    "业务层服务（通过API调用获取评估数据）",
+    "Tailwind CSS用于样式"
+  ],
+  "requirements": [
+    "在不同屏幕尺寸上提供响应式设计",
+    "支持动态内容加载和页面状态管理",
+    "与身份验证服务集成以确保安全访问",
+    "良好的可访问性和可用性设计"
+  ],
+  "target_path": "src/components/Layout/Assessment",
+  "name": "Layout Components - Assessment",
+  "description": "Layout Components - Assessment模块",
+  "safe_module_name": "Layout_Components_-_Assessment"
+}

@@ -20,5 +20,7 @@
     "确保用户界面的响应速度和交互性",
     "支持不同用户角色（客户、顾问、管理员）的特定需求"
   ],
-  "target_path": "src/business/controllers/usability"
+  "target_path": "src/business/controllers/usability",
+  "name": "Controllers - Usability",
+  "description": "Controllers - Usability模块"
 }

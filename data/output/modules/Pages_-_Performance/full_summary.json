@@ -1,0 +1,27 @@
+{
+  "module_name": "Pages - Performance",
+  "responsibilities": [
+    "优化页面加载速度和响应时间",
+    "实现和管理页面缓存策略",
+    "监控和分析页面性能指标",
+    "确保页面在不同设备和网络条件下的性能一致性"
+  ],
+  "layer": "Presentation",
+  "domain": "Performance",
+  "dependencies": [
+    "React Components",
+    "Next.js Optimization Features",
+    "React Query for Data Fetching",
+    "Tailwind CSS for Styling"
+  ],
+  "requirements": [
+    "页面加载时间不超过3秒",
+    "支持离线模式并保证数据一致性",
+    "提供动态内容的即时更新",
+    "集成性能监控工具以追踪关键指标"
+  ],
+  "target_path": "src/pages/performance",
+  "name": "Pages - Performance",
+  "description": "Pages - Performance模块",
+  "safe_module_name": "Pages_-_Performance"
+}

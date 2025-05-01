@@ -23,5 +23,7 @@
     "提供无缝的用户体验，即使在低带宽环境下",
     "确保组件的状态管理高效且不影响性能"
   ],
-  "target_path": "src/components/layout"
+  "target_path": "src/components/layout",
+  "name": "Layout Components - Performance",
+  "description": "Layout Components - Performance模块"
 }

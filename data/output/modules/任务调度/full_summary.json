@@ -1,0 +1,18 @@
+{
+  "id": "module_48",
+  "name": "任务调度模块",
+  "description": "调度和管理系统中的任务",
+  "responsibilities": [
+    "任务调度",
+    "任务监控"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "Bull"
+  ],
+  "module_name": "任务调度",
+  "target_path": "/scheduler",
+  "layer": "未指定",
+  "domain": "未指定"
+}

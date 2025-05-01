@@ -22,5 +22,6 @@
     "Express",
     "JWT"
   ],
-  "name": "AuthenticationController"
+  "name": "AuthenticationController",
+  "description": "AuthenticationController模块"
 }

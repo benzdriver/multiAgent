@@ -1,0 +1,18 @@
+{
+  "id": "module_50",
+  "name": "用户支持模块",
+  "description": "提供用户支持和帮助功能",
+  "responsibilities": [
+    "用户支持",
+    "问题解决"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "Zendesk"
+  ],
+  "module_name": "用户支持",
+  "target_path": "/support",
+  "layer": "未指定",
+  "domain": "未指定"
+}

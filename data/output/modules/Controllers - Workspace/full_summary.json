@@ -20,5 +20,7 @@
     "提供任务管理和跟踪功能",
     "支持跨平台的无缝集成"
   ],
-  "target_path": "src/business/controllers/workspace"
+  "target_path": "src/business/controllers/workspace",
+  "name": "Controllers - Workspace",
+  "description": "Controllers - Workspace模块"
 }

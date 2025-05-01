@@ -1,0 +1,29 @@
+{
+  "module_name": "Controllers - Documents",
+  "responsibilities": [
+    "处理文档上传请求，确保文件的存储和分类",
+    "获取用户上传的所有文档并返回给客户端",
+    "触发文档的深度分析并返回分析结果",
+    "协调与文档相关的业务逻辑和规则",
+    "管理文档相关的用户请求和响应"
+  ],
+  "layer": "Business",
+  "domain": "Documents",
+  "dependencies": [
+    "documents/uploadDocument Function",
+    "documents/getUserDocuments Function",
+    "documents/analyzeDocument Function",
+    "Infrastructure Layer for storage services (e.g., S3/Blob Storage)",
+    "Data Layer for accessing DocumentRepository"
+  ],
+  "requirements": [
+    "支持文档上传并确保文件存储的可靠性",
+    "提供用户文档的有效管理和查询功能",
+    "支持对文档的深度分析以提取有用信息",
+    "确保文档上传和管理过程的安全性和完整性"
+  ],
+  "target_path": "src/business/controllers/documents",
+  "name": "Controllers - Documents",
+  "description": "Controllers - Documents模块",
+  "safe_module_name": "Controllers_-_Documents"
+}

@@ -1,0 +1,25 @@
+{
+  "module_name": "Services - Accessibility",
+  "responsibilities": [
+    "实现无障碍访问功能的业务逻辑和规则",
+    "确保系统内所有功能和页面可以被不同能力的用户访问",
+    "协调与无障碍相关的数据流，包括用户界面的更新和反馈机制"
+  ],
+  "layer": "Business",
+  "domain": "Accessibility",
+  "dependencies": [
+    "Infrastructure层的API Gateway",
+    "Data层的UserRepository",
+    "Infrastructure层的Cognito认证"
+  ],
+  "requirements": [
+    "支持屏幕阅读器的访问",
+    "提供键盘导航支持",
+    "确保文本对比度符合标准",
+    "提供可调整的字体大小和颜色选项"
+  ],
+  "target_path": "src/business/services/accessibility",
+  "name": "Services - Accessibility",
+  "description": "Services - Accessibility模块",
+  "safe_module_name": "Services_-_Accessibility"
+}

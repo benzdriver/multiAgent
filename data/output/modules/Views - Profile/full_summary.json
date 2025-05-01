@@ -19,5 +19,7 @@
     "提供切换数据收集模式的功能",
     "确保与后端的无缝数据同步"
   ],
-  "target_path": "src/views/profile"
+  "target_path": "src/views/profile",
+  "name": "Views - Profile",
+  "description": "Views - Profile模块"
 }

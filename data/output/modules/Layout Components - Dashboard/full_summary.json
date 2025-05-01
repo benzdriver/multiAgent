@@ -20,5 +20,7 @@
     "支持多语言和国际化功能",
     "实现与Dashboard业务逻辑服务的无缝集成"
   ],
-  "target_path": "src/components/layout/dashboard"
+  "target_path": "src/components/layout/dashboard",
+  "name": "Layout Components - Dashboard",
+  "description": "Layout Components - Dashboard模块"
 }

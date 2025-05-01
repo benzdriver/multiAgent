@@ -1,0 +1,18 @@
+{
+  "id": "module_8",
+  "name": "文档上传模块",
+  "description": "处理用户文档的上传",
+  "responsibilities": [
+    "文件存储",
+    "格式验证"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "AWS S3"
+  ],
+  "module_name": "文档上传",
+  "target_path": "/documents/upload",
+  "layer": "未指定",
+  "domain": "未指定"
+}

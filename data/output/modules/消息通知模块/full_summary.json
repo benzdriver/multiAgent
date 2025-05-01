@@ -1,0 +1,18 @@
+{
+  "id": "module_12",
+  "name": "消息通知模块",
+  "description": "处理系统中的消息和通知",
+  "responsibilities": [
+    "消息发送",
+    "通知管理"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "Firebase"
+  ],
+  "module_name": "消息通知",
+  "target_path": "/notifications",
+  "layer": "未指定",
+  "domain": "未指定"
+}

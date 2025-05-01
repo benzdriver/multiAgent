@@ -18,5 +18,7 @@
     "支持无缝的用户导航和交互",
     "兼容多种浏览器和设备"
   ],
-  "target_path": "src/components/layout"
+  "target_path": "src/components/layout",
+  "name": "Layout Components - Reliability",
+  "description": "Layout Components - Reliability模块"
 }

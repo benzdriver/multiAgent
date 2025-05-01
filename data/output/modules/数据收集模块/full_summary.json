@@ -1,0 +1,20 @@
+{
+  "id": "module_3",
+  "name": "数据收集模块",
+  "description": "通过对话形式与用户交互以收集所需信息",
+  "responsibilities": [
+    "对话式数据收集",
+    "数据解析"
+  ],
+  "dependencies": [
+    "module_1"
+  ],
+  "technologies": [
+    "Node.js",
+    "OpenAI API"
+  ],
+  "module_name": "数据收集模块",
+  "target_path": "src/modules/data-collection",
+  "layer": "未指定",
+  "domain": "未指定"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "module_46",
+  "name": "错误处理模块",
+  "description": "统一处理系统中的错误",
+  "responsibilities": [
+    "错误捕获",
+    "错误报告"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "Sentry"
+  ],
+  "module_name": "错误处理",
+  "target_path": "/errors",
+  "layer": "未指定",
+  "domain": "未指定"
+}

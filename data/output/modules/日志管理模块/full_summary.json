@@ -1,0 +1,18 @@
+{
+  "id": "module_13",
+  "name": "日志管理模块",
+  "description": "管理系统运行日志",
+  "responsibilities": [
+    "日志记录",
+    "日志查询"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "Winston"
+  ],
+  "module_name": "日志管理",
+  "target_path": "/logs",
+  "layer": "未指定",
+  "domain": "未指定"
+}

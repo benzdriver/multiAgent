@@ -1,0 +1,20 @@
+{
+  "id": "module_30",
+  "name": "用户通知偏好模块",
+  "description": "管理用户的通知偏好设置",
+  "responsibilities": [
+    "偏好设置",
+    "通知管理"
+  ],
+  "dependencies": [
+    "module_12"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "用户通知偏好",
+  "target_path": "/notifications/preferences",
+  "layer": "未指定",
+  "domain": "未指定"
+}

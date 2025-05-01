@@ -23,5 +23,7 @@
     "提供灵活的定制选项以适应不同的品牌需求",
     "确保在各种现代浏览器和设备上兼容"
   ],
-  "target_path": "src/components/layout"
+  "target_path": "src/components/layout",
+  "name": "Layout Components - Usability",
+  "description": "Layout Components - Usability模块"
 }

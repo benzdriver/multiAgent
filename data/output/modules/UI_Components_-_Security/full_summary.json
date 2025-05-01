@@ -1,0 +1,27 @@
+{
+  "module_name": "UI Components - Security",
+  "responsibilities": [
+    "提供用户登录、注册和密码重置的UI界面",
+    "确保UI组件的安全性，防止常见的UI漏洞，如XSS",
+    "集成并展示身份验证的反馈信息（如错误提示和成功消息）",
+    "在UI中处理身份验证状态的显示和用户角色的管理"
+  ],
+  "layer": "Presentation",
+  "domain": "Security",
+  "dependencies": [
+    "Business层的Auth服务",
+    "React组件库",
+    "国际化支持库（如next-i18next）",
+    "表单验证库（如React Hook Form + Zod）"
+  ],
+  "requirements": [
+    "提供流畅的用户体验，支持多语言切换",
+    "确保所有安全相关的交互都有明确的用户反馈",
+    "UI组件应支持响应式设计，适应不同设备和屏幕尺寸",
+    "与后端认证服务的无缝集成"
+  ],
+  "target_path": "src/components/security",
+  "name": "UI Components - Security",
+  "description": "UI Components - Security模块",
+  "safe_module_name": "UI_Components_-_Security"
+}

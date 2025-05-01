@@ -21,5 +21,7 @@
     "支持动态更新和实时通知显示",
     "确保用户数据的安全和私密性"
   ],
-  "target_path": "src/pages/dashboard/index.js"
+  "target_path": "src/pages/dashboard/index.js",
+  "name": "Pages - Dashboard",
+  "description": "Pages - Dashboard模块"
 }

@@ -22,5 +22,7 @@
     "支持新的业务需求和功能的快速集成",
     "提升代码的可读性和可测试性"
   ],
-  "target_path": "src/business/controllers"
+  "target_path": "src/business/controllers",
+  "name": "Controllers - Maintainability",
+  "description": "Controllers - Maintainability模块"
 }

@@ -19,5 +19,7 @@
     "用户能够查看评估结果和推荐路径",
     "用户能够在对话式和表单式收集模式之间无缝切换"
   ],
-  "target_path": "src/views/assessment"
+  "target_path": "src/views/assessment",
+  "name": "Views - Assessment",
+  "description": "Views - Assessment模块"
 }

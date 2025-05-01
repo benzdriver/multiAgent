@@ -23,5 +23,7 @@
     "支持用户根据偏好筛选顾问",
     "确保页面响应性和可访问性"
   ],
-  "target_path": "src/pages/consultants"
+  "target_path": "src/pages/consultants",
+  "name": "Pages - Consultants",
+  "description": "Pages - Consultants模块"
 }

@@ -1,0 +1,20 @@
+{
+  "id": "module_14",
+  "name": "安全模块",
+  "description": "提供系统安全相关功能",
+  "responsibilities": [
+    "数据加密",
+    "身份验证"
+  ],
+  "dependencies": [
+    "module_2"
+  ],
+  "technologies": [
+    "Node.js",
+    "JWT"
+  ],
+  "module_name": "安全模块",
+  "target_path": "/security",
+  "layer": "未指定",
+  "domain": "未指定"
+}

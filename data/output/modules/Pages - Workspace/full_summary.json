@@ -21,5 +21,7 @@
     "界面响应迅速并且易于使用",
     "与后端API的无缝集成以获取实时数据"
   ],
-  "target_path": "src/pages/workspace/[id]"
+  "target_path": "src/pages/workspace/[id]",
+  "name": "Pages - Workspace",
+  "description": "Pages - Workspace模块"
 }

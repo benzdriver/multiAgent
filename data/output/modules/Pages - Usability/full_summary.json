@@ -19,5 +19,7 @@
     "响应式设计，兼容多种设备和屏幕尺寸",
     "快速加载时间以提高用户体验"
   ],
-  "target_path": "src/pages/usability"
+  "target_path": "src/pages/usability",
+  "name": "Pages - Usability",
+  "description": "Pages - Usability模块"
 }

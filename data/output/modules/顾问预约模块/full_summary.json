@@ -1,0 +1,20 @@
+{
+  "id": "module_11",
+  "name": "顾问预约模块",
+  "description": "处理用户与顾问的预约",
+  "responsibilities": [
+    "预约安排",
+    "时间管理"
+  ],
+  "dependencies": [
+    "module_2"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "顾问预约",
+  "target_path": "/appointments",
+  "layer": "未指定",
+  "domain": "未指定"
+}

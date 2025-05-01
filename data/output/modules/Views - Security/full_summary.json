@@ -17,5 +17,7 @@
     "确保密码重置流程的用户友好性",
     "与后端认证服务的无缝集成"
   ],
-  "target_path": "src/views/security"
+  "target_path": "src/views/security",
+  "name": "Views - Security",
+  "description": "Views - Security模块"
 }

@@ -1,0 +1,20 @@
+{
+  "id": "module_38",
+  "name": "报表生成模块",
+  "description": "生成系统内的各种报表",
+  "responsibilities": [
+    "报表生成",
+    "报表导出"
+  ],
+  "dependencies": [
+    "module_17"
+  ],
+  "technologies": [
+    "Node.js",
+    "ExcelJS"
+  ],
+  "module_name": "报表生成",
+  "target_path": "/reports",
+  "layer": "未指定",
+  "domain": "未指定"
+}

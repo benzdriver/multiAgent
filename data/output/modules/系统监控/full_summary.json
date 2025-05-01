@@ -1,0 +1,17 @@
+{
+  "id": "module_25",
+  "name": "系统监控模块",
+  "description": "监控系统运行状态和性能",
+  "responsibilities": [
+    "性能监控",
+    "异常报警"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "AWS CloudWatch"
+  ],
+  "module_name": "系统监控",
+  "target_path": "/monitoring",
+  "layer": "未指定",
+  "domain": "未指定"
+}

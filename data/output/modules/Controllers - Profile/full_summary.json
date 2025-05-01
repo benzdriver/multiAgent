@@ -22,5 +22,7 @@
     "支持用户在对话式和表单式模式之间的无缝切换",
     "确保资料收集过程中的数据有效性和安全性"
   ],
-  "target_path": "business/controllers/profile"
+  "target_path": "business/controllers/profile",
+  "name": "Controllers - Profile",
+  "description": "Controllers - Profile模块"
 }

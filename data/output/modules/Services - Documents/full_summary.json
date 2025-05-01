@@ -22,5 +22,7 @@
     "集成AI分析，以从文档中提取有价值的数据",
     "提供用户友好的文档管理接口"
   ],
-  "target_path": "src/business/services/documents"
+  "target_path": "src/business/services/documents",
+  "name": "Services - Documents",
+  "description": "Services - Documents模块"
 }

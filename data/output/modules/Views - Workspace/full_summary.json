@@ -21,5 +21,7 @@
     "用户可以看到任务列表并更新任务状态",
     "界面需支持实时更新和响应式布局"
   ],
-  "target_path": "src/components/views/Workspace"
+  "target_path": "src/components/views/Workspace",
+  "name": "Views - Workspace",
+  "description": "Views - Workspace模块"
 }

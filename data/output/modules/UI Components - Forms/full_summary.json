@@ -22,5 +22,7 @@
     "与业务层服务的无缝集成以处理表单数据",
     "高性能和响应式设计以适应不同设备"
   ],
-  "target_path": "src/components/forms"
+  "target_path": "src/components/forms",
+  "name": "UI Components - Forms",
+  "description": "UI Components - Forms模块"
 }

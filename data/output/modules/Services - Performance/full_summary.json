@@ -23,5 +23,7 @@
     "缓存命中率达到90%以上",
     "支持实时性能指标监控和报告"
   ],
-  "target_path": "src/business/services/performance"
+  "target_path": "src/business/services/performance",
+  "name": "Services - Performance",
+  "description": "Services - Performance模块"
 }

@@ -1,0 +1,24 @@
+{
+  "module_name": "Views - Security",
+  "responsibilities": [
+    "提供用户认证界面的视觉组件",
+    "实现用户登录、注册和密码重置的交互体验",
+    "确保用户界面与安全认证流程的无缝集成"
+  ],
+  "layer": "Presentation",
+  "domain": "Security",
+  "dependencies": [
+    "API Gateway",
+    "Cognito认证"
+  ],
+  "requirements": [
+    "提供直观的用户登录界面",
+    "支持多种认证方式（如社交登录）",
+    "确保密码重置流程的用户友好性",
+    "与后端认证服务的无缝集成"
+  ],
+  "target_path": "src/views/security",
+  "name": "Views - Security",
+  "description": "Views - Security模块",
+  "safe_module_name": "Views_-_Security"
+}

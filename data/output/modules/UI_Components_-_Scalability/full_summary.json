@@ -1,0 +1,28 @@
+{
+  "module_name": "UI Components - Scalability",
+  "responsibilities": [
+    "提供可重用的UI组件，如按钮、表单和卡片，以支持不同页面和功能的构建",
+    "确保UI组件在不同设备和屏幕尺寸上具有响应性和适应性",
+    "通过使用Next.js和React优化UI组件的性能，支持动态加载和代码拆分",
+    "与业务层的服务交互以获取和展示数据，同时保持组件的独立性和可测试性"
+  ],
+  "layer": "Presentation",
+  "domain": "Scalability",
+  "dependencies": [
+    "Business层服务（通过API）",
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "状态管理工具（React Query, Context API, Zustand）"
+  ],
+  "requirements": [
+    "组件在高流量情况下保持性能和响应速度",
+    "支持组件的可扩展性和可维护性，以适应未来功能的增加",
+    "通过设计系统的应用，确保一致的用户体验和品牌一致性",
+    "能够快速集成和部署新的UI组件以支持业务需求"
+  ],
+  "target_path": "src/components/ui",
+  "name": "UI Components - Scalability",
+  "description": "UI Components - Scalability模块",
+  "safe_module_name": "UI_Components_-_Scalability"
+}

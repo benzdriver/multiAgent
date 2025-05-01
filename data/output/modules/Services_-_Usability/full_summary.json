@@ -1,0 +1,28 @@
+{
+  "module_name": "Services - Usability",
+  "responsibilities": [
+    "提升用户体验，通过优化服务交互流程和界面来提高用户的操作效率和满意度",
+    "实现业务逻辑的封装，确保在用户交互过程中提供一致且高效的服务",
+    "提供用户行为分析和反馈机制，以便不断改进和优化系统的可用性"
+  ],
+  "layer": "Business",
+  "domain": "Usability",
+  "dependencies": [
+    "ProfileService",
+    "AssessmentService",
+    "DocumentsService",
+    "ConsultantsService",
+    "OpenAI API for conversational interfaces",
+    "UserRepository for accessing user data"
+  ],
+  "requirements": [
+    "提供无缝的用户界面和后台服务交互",
+    "支持多模式数据收集（例如：对话式和表单式）",
+    "实现用户行为跟踪和可用性分析",
+    "确保用户数据的安全性和隐私"
+  ],
+  "target_path": "src/business/services/usability",
+  "name": "Services - Usability",
+  "description": "Services - Usability模块",
+  "safe_module_name": "Services_-_Usability"
+}

@@ -19,5 +19,7 @@
     "支持国际化和本地化功能",
     "无缝集成状态管理，确保UI状态与应用状态同步"
   ],
-  "target_path": "src/components/dashboard"
+  "target_path": "src/components/dashboard",
+  "name": "UI Components - Dashboard",
+  "description": "UI Components - Dashboard模块"
 }

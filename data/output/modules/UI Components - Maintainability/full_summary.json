@@ -23,5 +23,7 @@
     "组件应提供良好的文档以支持开发者",
     "组件应支持国际化和无障碍访问"
   ],
-  "target_path": "src/components/ui"
+  "target_path": "src/components/ui",
+  "name": "UI Components - Maintainability",
+  "description": "UI Components - Maintainability模块"
 }
