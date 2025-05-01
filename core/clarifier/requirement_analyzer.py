@@ -552,120 +552,359 @@ class RequirementAnalyzer:
         else:
             print("🔍 正在提取细粒度模块...")
         
-        layers_prompt = ""
+        business_domains = [
+            {
+                "name": "Auth",
+                "chinese_name": "认证域",
+                "description": "处理用户认证、注册和密码管理",
+                "functions": ["登录", "注册", "密码重置"]
+            },
+            {
+                "name": "Profile",
+                "chinese_name": "用户资料域",
+                "description": "管理用户个人资料和数据收集",
+                "functions": ["获取资料", "更新资料", "对话式收集", "表单式收集", "收集模式切换"]
+            },
+            {
+                "name": "Assessment",
+                "chinese_name": "评估域",
+                "description": "处理用户评估流程和结果",
+                "functions": ["开始评估", "处理评估步骤", "获取评估结果"]
+            },
+            {
+                "name": "Documents",
+                "chinese_name": "文档域",
+                "description": "管理用户文档上传、存储和分析",
+                "functions": ["上传文档", "获取用户文档", "分析文档"]
+            },
+            {
+                "name": "Forms",
+                "chinese_name": "表格域",
+                "description": "生成和管理官方表格",
+                "functions": ["生成表格", "获取表格", "更新表格字段"]
+            },
+            {
+                "name": "Consultants",
+                "chinese_name": "顾问域",
+                "description": "管理顾问匹配和预约",
+                "functions": ["匹配顾问", "预约顾问", "获取顾问客户列表"]
+            },
+            {
+                "name": "Workspace",
+                "chinese_name": "工作区域",
+                "description": "管理客户-顾问协作工作区",
+                "functions": ["获取工作区", "创建任务", "发送消息"]
+            }
+        ]
+        
+        layer_module_types = {
+            "表现层": [
+                {"type": "Page", "description": "页面组件，负责整体页面布局和组织"},
+                {"type": "Component", "description": "UI组件，负责特定功能的界面展示"},
+                {"type": "Layout", "description": "布局组件，负责页面结构组织"},
+                {"type": "View", "description": "视图组件，负责数据可视化"}
+            ],
+            "业务层": [
+                {"type": "Service", "description": "服务组件，负责业务逻辑处理"},
+                {"type": "Controller", "description": "控制器组件，负责请求处理和路由"},
+                {"type": "Validator", "description": "验证器组件，负责数据验证"},
+                {"type": "Middleware", "description": "中间件组件，负责请求拦截和处理"}
+            ],
+            "数据层": [
+                {"type": "Model", "description": "模型组件，负责数据结构定义"},
+                {"type": "Repository", "description": "仓储组件，负责数据访问和持久化"},
+                {"type": "DTO", "description": "数据传输对象，负责数据传输格式定义"},
+                {"type": "DAO", "description": "数据访问对象，负责底层数据操作"}
+            ],
+            "基础设施层": [
+                {"type": "Client", "description": "客户端组件，负责外部服务调用"},
+                {"type": "Auth", "description": "认证组件，负责身份验证"},
+                {"type": "Storage", "description": "存储组件，负责数据存储"},
+                {"type": "Logger", "description": "日志组件，负责日志记录"}
+            ]
+        }
+        
+        import re
+        domain_sections = {}
+        
+        for domain in business_domains:
+            pattern = rf"### \d+\.\d+ {domain['chinese_name']} \({domain['name']}\)(.*?)(?=### \d+\.\d+|$)"
+            match = re.search(pattern, content, re.DOTALL)
+            if match:
+                domain_sections[domain['name']] = match.group(1).strip()
+            else:
+                if self.logger:
+                    self.logger.log(f"⚠️ 未找到 {domain['chinese_name']} 的文档部分", role="warning")
+                else:
+                    print(f"⚠️ 未找到 {domain['chinese_name']} 的文档部分")
+                domain_sections[domain['name']] = f"{domain['description']}，包括{', '.join(domain['functions'])}等功能。"
+        
         if architecture_layers:
-            layers_prompt = "请基于以下架构层级提取模块：\n"
-            for layer in architecture_layers:
-                layers_prompt += f"- {layer}\n"
+            layers = architecture_layers
         else:
-            layers_prompt = """请基于以下常见架构层级提取模块：
-- 表现层 (Presentation)：UI组件、页面、视图等
-- 业务层 (Business)：服务、控制器、用例等
-- 数据层 (Data)：模型、仓储、数据访问等
-- 基础设施层 (Infrastructure)：工具、配置、中间件等
-"""
+            layers = [
+                "表现层 (Presentation)",
+                "业务层 (Business)",
+                "数据层 (Data)",
+                "基础设施层 (Infrastructure)"
+            ]
+        
+        all_modules = []
+        
+        for domain in business_domains:
+            domain_name = domain['name']
+            domain_content = domain_sections.get(domain_name, "")
+            
+            if self.logger:
+                self.logger.log(f"🔍 正在处理 {domain['chinese_name']} ({domain_name})...", role="system")
+            else:
+                print(f"🔍 正在处理 {domain['chinese_name']} ({domain_name})...")
+            
+            domain_modules = await self._generate_domain_modules(
+                domain=domain,
+                domain_content=domain_content,
+                layers=layers,
+                layer_module_types=layer_module_types,
+                llm_call=llm_call
+            )
+            
+            all_modules.extend(domain_modules)
+            
+            if self.logger:
+                self.logger.log(f"✓ 已为 {domain['chinese_name']} 生成 {len(domain_modules)} 个模块", role="system")
+            else:
+                print(f"✓ 已为 {domain['chinese_name']} 生成 {len(domain_modules)} 个模块")
+        
+        infra_modules = await self._generate_infrastructure_modules(llm_call)
+        all_modules.extend(infra_modules)
+        
+        if self.logger:
+            self.logger.log(f"✓ 已生成 {len(all_modules)} 个细粒度模块", role="system")
+        else:
+            print(f"✓ 已生成 {len(all_modules)} 个细粒度模块")
+        
+        for module in all_modules:
+            self._validate_and_fix_module_name(module)
+        
+        self._save_granular_modules(all_modules)
+        
+        return all_modules
+    
+    async def _generate_domain_modules(self, domain: Dict, domain_content: str, layers: List[str], 
+                                      layer_module_types: Dict, llm_call: Callable) -> List[Dict]:
+        """为特定业务域生成完整的模块集
+        
+        Args:
+            domain: 业务域信息
+            domain_content: 该业务域的文档内容
+            layers: 架构层级列表
+            layer_module_types: 每个层级应包含的模块类型
+            llm_call: 调用LLM的函数
+            
+        Returns:
+            该业务域的模块列表
+        """
+        domain_modules = []
         
         naming_conventions = """
-请严格遵循以下模块命名规范：
+请严格遵循以下模块命名规范，所有模块名称必须使用英文：
 
 1. 表现层 (Presentation) 模块命名规范：
-   - UI组件 (UI Components): 使用 "{功能}UI" 或 "{功能}Component"，例如：LoginUI, UserProfileComponent
-   - 页面 (Pages): 使用 "{功能}Page"，例如：DashboardPage, SettingsPage
-   - 视图 (Views): 使用 "{功能}View"，例如：ProductView, OrderView
-   - 布局组件 (Layout Components): 使用 "{功能}Layout"，例如：MainLayout, SidebarLayout
+   - UI组件: 使用 "{功能}Component"，例如：LoginComponent, UserProfileComponent
+   - 页面: 使用 "{功能}Page"，例如：DashboardPage, SettingsPage
+   - 视图: 使用 "{功能}View"，例如：ProductView, OrderView
+   - 布局组件: 使用 "{功能}Layout"，例如：MainLayout, SidebarLayout
 
 2. 业务层 (Business) 模块命名规范：
-   - 服务 (Services): 使用 "{功能}Service"，例如：AuthenticationService, NotificationService
-   - 控制器 (Controllers): 使用 "{功能}Controller"，例如：UserController, ProductController
-   - 验证器 (Validators): 使用 "{功能}Validator"，例如：InputValidator, FormValidator
-   - 中间件 (Middleware): 使用 "{功能}Middleware"，例如：AuthMiddleware, LoggingMiddleware
+   - 服务: 使用 "{功能}Service"，例如：AuthenticationService, NotificationService
+   - 控制器: 使用 "{功能}Controller"，例如：UserController, ProductController
+   - 验证器: 使用 "{功能}Validator"，例如：InputValidator, FormValidator
+   - 中间件: 使用 "{功能}Middleware"，例如：AuthMiddleware, LoggingMiddleware
 
 3. 数据层 (Data) 模块命名规范：
-   - 模型 (Models): 使用 "{实体}Model"，例如：UserModel, ProductModel
-   - 仓储 (Repositories): 使用 "{实体}Repository"，例如：UserRepository, OrderRepository
-   - 数据访问对象 (Data Access Objects): 使用 "{实体}DAO"，例如：UserDAO, ProductDAO
-   - 数据传输对象 (Data Transfer Objects): 使用 "{实体}DTO"，例如：UserDTO, ProductDTO
+   - 模型: 使用 "{实体}Model"，例如：UserModel, ProductModel
+   - 仓储: 使用 "{实体}Repository"，例如：UserRepository, OrderRepository
+   - 数据访问对象: 使用 "{实体}DAO"，例如：UserDAO, ProductDAO
+   - 数据传输对象: 使用 "{实体}DTO"，例如：UserDTO, ProductDTO
 
 4. 基础设施层 (Infrastructure) 模块命名规范：
-   - API客户端 (API Clients): 使用 "{服务}Client"，例如：PaymentClient, EmailClient
-   - 存储服务 (Storage Services): 使用 "{功能}Storage"，例如：FileStorage, CacheStorage
-   - 认证服务 (Authentication Services): 使用 "{功能}Auth"，例如：JwtAuth, OAuthProvider
-   - 日志服务 (Logging Services): 使用 "{功能}Logger"，例如：SystemLogger, EventLogger
+   - API客户端: 使用 "{服务}Client"，例如：PaymentClient, EmailClient
+   - 存储服务: 使用 "{功能}Storage"，例如：FileStorage, CacheStorage
+   - 认证服务: 使用 "{功能}Auth"，例如：JwtAuth, OAuthProvider
+   - 日志服务: 使用 "{功能}Logger"，例如：SystemLogger, EventLogger
 
 请确保每个模块的命名都遵循上述规范，并且名称能够清晰表达模块的功能和类型。
 """
         
-        prompt = f"""
-        请分析以下文档内容，提取细粒度的架构模块：
+        for layer_full in layers:
+            layer = layer_full.split(" (")[0]
+            
+            if layer not in layer_module_types:
+                continue
+                
+            module_types = layer_module_types[layer]
+            
+            prompt = f"""
+请为 {domain['chinese_name']} ({domain['name']}) 生成 {layer} 层的模块。
 
-        {content}
+业务域描述：
+{domain['description']}
 
-        {layers_prompt}
+该业务域包含以下功能：
+{', '.join(domain['functions'])}
+
+该业务域的详细文档内容：
+{domain_content}
+
+请为该业务域的 {layer} 层生成以下类型的模块：
+{', '.join([t['type'] for t in module_types])}
+
+{naming_conventions}
+
+对于每个模块，请提供以下信息：
+1. 模块名称：按照上述命名规范，使用英文命名，清晰、具体的名称
+2. 模块类型：{', '.join([t['type'] for t in module_types])}
+3. 模块职责：该模块的主要职责和功能
+4. 所属层级：{layer}
+5. 所属领域：{domain['name']}
+6. 依赖关系：该模块依赖的其他模块
+7. 相关需求：与该模块相关的需求
+8. 技术栈：实现该模块可能使用的技术
+
+请以JSON格式返回，结构如下：
+[
+    {{
+        "module_name": "模块名称",
+        "module_type": "模块类型",
+        "responsibilities": ["职责1", "职责2", ...],
+        "layer": "{layer}",
+        "domain": "{domain['name']}",
+        "dependencies": ["依赖1", "依赖2", ...],
+        "requirements": ["需求1", "需求2", ...],
+        "technology_stack": ["技术1", "技术2", ...]
+    }},
+    ...
+]
+
+请确保：
+1. 每个模块名称必须使用英文，不要使用中文
+2. 每个模块都应当有明确的职责和边界
+3. 模块之间的依赖关系应当合理
+4. 模块应当覆盖该业务域的所有功能
+5. 每个模块类型至少生成一个模块
+"""
+            
+            try:
+                result = await llm_call(prompt, parse_response=clean_code_output)
+                
+                layer_modules = self._parse_llm_result(result)
+                
+                if layer_modules:
+                    domain_modules.extend(layer_modules)
+                    
+                    if self.logger:
+                        self.logger.log(f"✓ 已为 {domain['chinese_name']} 的 {layer} 层生成 {len(layer_modules)} 个模块", role="system")
+                    else:
+                        print(f"✓ 已为 {domain['chinese_name']} 的 {layer} 层生成 {len(layer_modules)} 个模块")
+                else:
+                    if self.logger:
+                        self.logger.log(f"⚠️ 未能为 {domain['chinese_name']} 的 {layer} 层生成模块", role="warning")
+                    else:
+                        print(f"⚠️ 未能为 {domain['chinese_name']} 的 {layer} 层生成模块")
+            
+            except Exception as e:
+                if self.logger:
+                    self.logger.log(f"❌ 为 {domain['chinese_name']} 的 {layer} 层生成模块时出错: {str(e)}", role="error")
+                else:
+                    print(f"❌ 为 {domain['chinese_name']} 的 {layer} 层生成模块时出错: {str(e)}")
         
-        {naming_conventions}
-
-        对于每个识别出的模块，请提供以下信息：
-        1. 模块名称：按照上述命名规范，清晰、具体的名称
-        2. 模块类型：UI组件、页面、服务、控制器、模型、仓储等
-        3. 模块职责：该模块的主要职责和功能
-        4. 所属层级：表现层、业务层、数据层、基础设施层等
-        5. 所属领域：认证、用户管理、评估、报告等
-        6. 依赖关系：该模块依赖的其他模块
-        7. 相关需求：与该模块相关的需求
-        8. 技术栈：实现该模块可能使用的技术
-
-        请以JSON格式返回，结构如下：
-        [
-            {{
-                "module_name": "模块名称",
-                "module_type": "模块类型",
-                "responsibilities": ["职责1", "职责2", ...],
-                "layer": "所属层级",
-                "domain": "所属领域",
-                "dependencies": ["依赖1", "依赖2", ...],
-                "requirements": ["需求1", "需求2", ...],
-                "technology_stack": ["技术1", "技术2", ...]
-            }},
-            ...
-        ]
-
-        请确保：
-        1. 提取的模块粒度适中，既不过于宏观也不过于微观
-        2. 模块名称必须严格遵循上述命名规范
-        3. 模块之间的依赖关系应当合理
-        4. 每个模块都应当有明确的职责和边界
-        5. 模块应当覆盖文档中提到的所有功能和需求
-        6. 每个层级都应该有多种类型的模块，不要只生成Service类型的模块
+        return domain_modules
+    
+    async def _generate_infrastructure_modules(self, llm_call: Callable) -> List[Dict]:
+        """生成基础设施层的通用模块
+        
+        Args:
+            llm_call: 调用LLM的函数
+            
+        Returns:
+            基础设施层的通用模块列表
         """
+        prompt = """
+请生成以下基础设施层的通用模块：
+
+1. JwtAuth - JWT认证服务
+2. OpenAIClient - OpenAI API客户端
+3. S3StorageService - S3/Blob存储服务
+4. PaymentService - 支付服务
+5. NotificationService - 通知服务
+6. LoggingService - 日志服务
+7. ConfigService - 配置服务
+
+对于每个模块，请提供以下信息：
+1. 模块名称：使用英文命名
+2. 模块类型：基础设施组件
+3. 模块职责：该模块的主要职责和功能
+4. 所属层级：基础设施层
+5. 所属领域：Infrastructure
+6. 依赖关系：该模块依赖的其他模块
+7. 相关需求：与该模块相关的需求
+8. 技术栈：实现该模块可能使用的技术
+
+请以JSON格式返回，结构如下：
+[
+    {
+        "module_name": "模块名称",
+        "module_type": "模块类型",
+        "responsibilities": ["职责1", "职责2", ...],
+        "layer": "基础设施层",
+        "domain": "Infrastructure",
+        "dependencies": ["依赖1", "依赖2", ...],
+        "requirements": ["需求1", "需求2", ...],
+        "technology_stack": ["技术1", "技术2", ...]
+    },
+    ...
+]
+"""
         
         try:
-            # 使用传入的LLM调用函数
             result = await llm_call(prompt, parse_response=clean_code_output)
             
-            if self.logger:
-                self.logger.log(f"LLM响应：{str(result)[:200]}...", role="llm_response")
+            infra_modules = self._parse_llm_result(result)
             
-            # 如果返回的是字符串，尝试解析为JSON
-            if isinstance(result, str):
-                import re
-                json_array_match = re.search(r'\[\s*{.*}\s*\]', result, re.DOTALL)
+            if self.logger:
+                self.logger.log(f"✓ 已生成 {len(infra_modules)} 个基础设施层通用模块", role="system")
+            else:
+                print(f"✓ 已生成 {len(infra_modules)} 个基础设施层通用模块")
                 
-                if json_array_match:
-                    json_str = json_array_match.group(0)
-                    try:
-                        result = json.loads(json_str)
-                    except json.JSONDecodeError:
-                        try:
-                            result = json.loads(result)
-                        except json.JSONDecodeError:
-                            if self.logger:
-                                self.logger.log("⚠️ LLM返回的结果不是有效的JSON格式", role="error")
-                                self.logger.log(f"尝试解析的内容: {result[:200]}...", role="debug")
-                            else:
-                                print("⚠️ LLM返回的结果不是有效的JSON格式")
-                            # 创建一个基本的结构
-                            result = []
-                else:
+            return infra_modules
+            
+        except Exception as e:
+            if self.logger:
+                self.logger.log(f"❌ 生成基础设施层通用模块时出错: {str(e)}", role="error")
+            else:
+                print(f"❌ 生成基础设施层通用模块时出错: {str(e)}")
+            
+            return []
+    
+    def _parse_llm_result(self, result: Any) -> List[Dict]:
+        """解析LLM返回的结果
+        
+        Args:
+            result: LLM返回的结果
+            
+        Returns:
+            解析后的模块列表
+        """
+        # 如果返回的是字符串，尝试解析为JSON
+        if isinstance(result, str):
+            import re
+            json_array_match = re.search(r'\[\s*{.*}\s*\]', result, re.DOTALL)
+            
+            if json_array_match:
+                json_str = json_array_match.group(0)
+                try:
+                    result = json.loads(json_str)
+                except json.JSONDecodeError:
                     try:
                         result = json.loads(result)
                     except json.JSONDecodeError:
@@ -676,32 +915,26 @@ class RequirementAnalyzer:
                             print("⚠️ LLM返回的结果不是有效的JSON格式")
                         # 创建一个基本的结构
                         result = []
-            
-            if not isinstance(result, list):
-                if self.logger:
-                    self.logger.log("⚠️ LLM返回的结果不是有效的模块列表", role="error")
-                else:
-                    print("⚠️ LLM返回的结果不是有效的模块列表")
-                result = []
-            
-            for module in result:
-                self._validate_and_fix_module_name(module)
-            
-            if self.logger:
-                self.logger.log(f"✓ 已提取 {len(result)} 个细粒度模块", role="system")
             else:
-                print(f"✓ 已提取 {len(result)} 个细粒度模块")
-            
-            self._save_granular_modules(result)
-            
-            return result
-            
-        except Exception as e:
+                try:
+                    result = json.loads(result)
+                except json.JSONDecodeError:
+                    if self.logger:
+                        self.logger.log("⚠️ LLM返回的结果不是有效的JSON格式", role="error")
+                        self.logger.log(f"尝试解析的内容: {result[:200]}...", role="debug")
+                    else:
+                        print("⚠️ LLM返回的结果不是有效的JSON格式")
+                    # 创建一个基本的结构
+                    result = []
+        
+        if not isinstance(result, list):
             if self.logger:
-                self.logger.log(f"❌ 提取细粒度模块时出错: {str(e)}", role="error")
+                self.logger.log("⚠️ LLM返回的结果不是有效的模块列表", role="error")
             else:
-                print(f"❌ 提取细粒度模块时出错: {str(e)}")
-            return []
+                print("⚠️ LLM返回的结果不是有效的模块列表")
+            result = []
+        
+        return result
     
     def _save_granular_modules(self, modules: List[Dict[str, Any]]) -> None:
         """保存提取的细粒度模块
@@ -761,4 +994,4 @@ class RequirementAnalyzer:
             if self.logger:
                 self.logger.log(f"❌ 保存细粒度模块时出错: {str(e)}", role="error")
             else:
-                print(f"❌ 保存细粒度模块时出错: {str(e)}")          
+                print(f"❌ 保存细粒度模块时出错: {str(e)}")            
