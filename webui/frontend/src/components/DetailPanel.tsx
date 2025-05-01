@@ -168,14 +168,42 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
           console.log('获取到模块摘要数据', data);
           console.log('设置fullSummary状态', data);
           setFullSummary(data);
-          
-          setTimeout(() => {
-            console.log('检查fullSummary是否已设置', { fullSummary: data });
-          }, 100);
         } else {
           const errorText = await response.text();
           console.error('模块摘要API错误', { status: response.status, error: errorText });
-          console.log('尝试直接访问URL:', url);
+          
+          const altModuleName = selectedModule.name
+            .split(' ').join('_')  // 替换空格为下划线
+            .replace(/[^\w\s\-_]/g, ''); // 移除非字母数字字符
+          
+          if (altModuleName !== moduleName) {
+            console.log('尝试使用替代名称获取摘要', { altModuleName });
+            const altUrl = `/api/module_summary/${encodeURIComponent(altModuleName)}`;
+            const altResponse = await fetch(altUrl);
+            
+            if (altResponse.ok) {
+              const data = await altResponse.json();
+              console.log('使用替代名称获取到数据', data);
+              setFullSummary(data);
+            } else {
+              console.error('替代名称也无法获取模块摘要');
+              
+              const moduleWithSafeName = selectedModule as any;
+              if (moduleWithSafeName.safe_module_name) {
+                console.log('尝试使用safe_module_name获取摘要', { safe_module_name: moduleWithSafeName.safe_module_name });
+                const safeUrl = `/api/module_summary/${encodeURIComponent(moduleWithSafeName.safe_module_name)}`;
+                const safeResponse = await fetch(safeUrl);
+                
+                if (safeResponse.ok) {
+                  const data = await safeResponse.json();
+                  console.log('使用safe_module_name获取到数据', data);
+                  setFullSummary(data);
+                } else {
+                  console.error('所有尝试都失败，无法获取模块摘要');
+                }
+              }
+            }
+          }
         }
       } catch (error) {
         console.error('获取模块摘要失败:', error);
@@ -330,15 +358,53 @@ const DetailPanel: React.FC<DetailPanelProps> = ({
                         onClick={() => {
                           const selectedModule = state.modules.find(mod => mod.id === selectedId);
                           if (selectedModule && selectedModule.name) {
+                            console.log('手动刷新模块摘要');
+                            
                             const url = `/api/module_summary/${encodeURIComponent(selectedModule.name)}`;
-                            console.log('手动刷新模块摘要', { url });
+                            console.log('尝试原始名称', { url });
+                            
                             fetch(url)
-                              .then(response => response.json())
+                              .then(response => {
+                                if (response.ok) {
+                                  return response.json();
+                                }
+                                
+                                const altModuleName = selectedModule.name
+                                  .split(' ').join('_')
+                                  .replace(/[^\w\s\-_]/g, '');
+                                
+                                if (altModuleName !== selectedModule.name) {
+                                  console.log('尝试替代名称', { altModuleName });
+                                  const altUrl = `/api/module_summary/${encodeURIComponent(altModuleName)}`;
+                                  return fetch(altUrl).then(altResponse => {
+                                    if (altResponse.ok) {
+                                      return altResponse.json();
+                                    }
+                                    
+                                    const moduleWithSafeName = selectedModule as any;
+                                    if (moduleWithSafeName.safe_module_name) {
+                                      console.log('尝试safe_module_name', { safe_module_name: moduleWithSafeName.safe_module_name });
+                                      const safeUrl = `/api/module_summary/${encodeURIComponent(moduleWithSafeName.safe_module_name)}`;
+                                      return fetch(safeUrl).then(safeResponse => {
+                                        if (safeResponse.ok) {
+                                          return safeResponse.json();
+                                        }
+                                        throw new Error('所有尝试都失败');
+                                      });
+                                    }
+                                    throw new Error('获取模块摘要失败');
+                                  });
+                                }
+                                throw new Error('获取模块摘要失败');
+                              })
                               .then(data => {
                                 console.log('获取到模块摘要数据', data);
                                 setFullSummary(data);
                               })
-                              .catch(error => console.error('获取模块摘要失败:', error));
+                              .catch(error => {
+                                console.error('获取模块摘要失败:', error);
+                                alert('获取模块摘要失败，请检查控制台日志');
+                              });
                           }
                         }}
                         style={{

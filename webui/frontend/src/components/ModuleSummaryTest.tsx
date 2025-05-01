@@ -45,11 +45,35 @@ const ModuleSummaryTest: React.FC<ModuleSummaryTestProps> = ({ moduleName }) => 
     
     try {
       console.log(`测试获取模块摘要: ${moduleName}`);
+      
       const url = `/api/module_summary/${encodeURIComponent(moduleName)}`;
       console.log(`请求URL: ${url}`);
       
-      const response = await fetch(url);
+      let response = await fetch(url);
       console.log(`响应状态: ${response.status}`);
+      
+      if (!response.ok) {
+        console.log('原始模块名称请求失败，尝试替代名称');
+        
+        const altModuleName = moduleName
+          .split(' ').join('_')  // 替换空格为下划线
+          .replace(/[^\w\s\-_]/g, ''); // 移除非字母数字字符
+        
+        if (altModuleName !== moduleName) {
+          console.log(`尝试替代名称: ${altModuleName}`);
+          const altUrl = `/api/module_summary/${encodeURIComponent(altModuleName)}`;
+          
+          const altResponse = await fetch(altUrl);
+          console.log(`替代名称响应状态: ${altResponse.status}`);
+          
+          if (altResponse.ok) {
+            response = altResponse;
+            console.log('使用替代名称成功获取数据');
+          } else {
+            console.log('替代名称也失败，保持原始响应');
+          }
+        }
+      }
       
       if (response.ok) {
         const data = await response.json();
@@ -59,6 +83,13 @@ const ModuleSummaryTest: React.FC<ModuleSummaryTestProps> = ({ moduleName }) => 
         const errorText = await response.text();
         console.error(`获取模块摘要失败: ${errorText}`);
         setError(`获取失败: ${response.status} - ${errorText}`);
+        
+        if (response.status === 404) {
+          setError(`未找到模块 "${moduleName}" 的摘要文件。可能原因：
+1. 模块名称包含特殊字符
+2. 模块摘要文件尚未生成
+3. 模块目录路径不正确`);
+        }
       }
     } catch (err) {
       console.error('获取模块摘要出错:', err);
