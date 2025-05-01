@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import { useGlobalStore } from './store/globalStore';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
-import DetailPanel from './components/DetailPanel';
 import Loading from './components/common/Loading';
 import ChatContainer from './components/ChatContainer';
-import FileUpload from './components/FileUpload';
 
 const queryClient = new QueryClient();
 
@@ -46,8 +44,7 @@ const ContentArea = styled.div`
 
 const BottomSection = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: 1fr;
   padding: 16px;
   background-color: #f5f5f5;
   border-top: 1px solid var(--border-color);
@@ -83,17 +80,18 @@ const AppContent: React.FC = () => {
           selectedId={selectedId}
         />
         <ContentArea>
-          <MainContent />
+          <MainContent 
+            selectedType={selectedType}
+            selectedId={selectedId}
+            onSelectItem={handleSelectItem}
+          />
           <BottomSection>
-            <ChatContainer title="需求澄清助手" />
-            <FileUpload title="上传需求文档" />
+            <ChatContainer 
+              title="需求澄清助手" 
+              acceptFileUpload={true}
+            />
           </BottomSection>
         </ContentArea>
-        <DetailPanel 
-          selectedType={selectedType}
-          selectedId={selectedId}
-          onSelectItem={handleSelectItem}
-        />
       </MainLayout>
     </AppContainer>
   );
