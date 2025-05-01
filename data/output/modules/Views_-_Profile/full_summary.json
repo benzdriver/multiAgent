@@ -1,0 +1,26 @@
+{
+  "module_name": "Views - Profile",
+  "responsibilities": [
+    "提供用户个人资料的可视化展示",
+    "实现用户资料的查看和编辑界面",
+    "支持用户资料的表单式和对话式收集模式切换",
+    "确保用户交互体验的一致性和流畅性"
+  ],
+  "layer": "Presentation",
+  "domain": "Profile",
+  "dependencies": [
+    "API Gateway for serverless functions interaction",
+    "Profile domain services in the Business layer",
+    "Authentication services for user verification"
+  ],
+  "requirements": [
+    "支持用户查看和编辑个人资料的功能",
+    "实现多语言支持以提高用户体验",
+    "提供切换数据收集模式的功能",
+    "确保与后端的无缝数据同步"
+  ],
+  "target_path": "src/views/profile",
+  "name": "Views - Profile",
+  "description": "Views - Profile模块",
+  "safe_module_name": "Views_-_Profile"
+}

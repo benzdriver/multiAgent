@@ -1,0 +1,19 @@
+{
+  "id": "module_27",
+  "name": "表单验证模块",
+  "description": "对用户提交的表单进行验证",
+  "responsibilities": [
+    "数据验证",
+    "错误提示"
+  ],
+  "dependencies": [
+    "module_7"
+  ],
+  "technologies": [
+    "Node.js"
+  ],
+  "module_name": "表单验证",
+  "target_path": "/forms/validate",
+  "layer": "未指定",
+  "domain": "未指定"
+}

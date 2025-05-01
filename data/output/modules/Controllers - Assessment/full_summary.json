@@ -20,5 +20,7 @@
     "能够获取评估结果",
     "确保评估流程的无缝进行"
   ],
-  "target_path": "business/controllers/assessment"
+  "target_path": "business/controllers/assessment",
+  "name": "Controllers - Assessment",
+  "description": "Controllers - Assessment模块"
 }

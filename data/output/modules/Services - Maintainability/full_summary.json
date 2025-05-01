@@ -22,5 +22,7 @@
     "允许通过单元测试对业务逻辑进行验证",
     "支持业务逻辑的快速迭代和扩展"
   ],
-  "target_path": "src/business/services/maintainability"
+  "target_path": "src/business/services/maintainability",
+  "name": "Services - Maintainability",
+  "description": "Services - Maintainability模块"
 }

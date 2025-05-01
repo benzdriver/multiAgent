@@ -1,0 +1,27 @@
+{
+  "module_name": "Controllers - Usability",
+  "responsibilities": [
+    "处理用户界面交互请求，确保用户体验顺畅",
+    "协调与Profile、Assessment和Documents模块的交互，提供一致的用户信息更新和获取",
+    "实现用户反馈机制，收集用户体验数据以便于后续优化",
+    "确保在服务器无状态和事件驱动的架构中，支持无缝的用户体验"
+  ],
+  "layer": "Business",
+  "domain": "Usability",
+  "dependencies": [
+    "Profile Domain Functions",
+    "Assessment Domain Functions",
+    "Documents Domain Functions",
+    "OpenAI API for conversational interfaces"
+  ],
+  "requirements": [
+    "支持用户信息和评估数据的实时更新和获取",
+    "支持用户文档的上传、管理和分析",
+    "确保用户界面的响应速度和交互性",
+    "支持不同用户角色（客户、顾问、管理员）的特定需求"
+  ],
+  "target_path": "src/business/controllers/usability",
+  "name": "Controllers - Usability",
+  "description": "Controllers - Usability模块",
+  "safe_module_name": "Controllers_-_Usability"
+}

@@ -22,5 +22,7 @@
     "提供实时安全监控和报警",
     "满足行业标准的安全合规性"
   ],
-  "target_path": "src/business/services/security"
+  "target_path": "src/business/services/security",
+  "name": "Services - Security",
+  "description": "Services - Security模块"
 }

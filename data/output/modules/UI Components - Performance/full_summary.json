@@ -22,5 +22,7 @@
     "确保UI组件的可维护性和可扩展性",
     "支持多种设备和浏览器的性能优化"
   ],
-  "target_path": "src/components/ui/performance"
+  "target_path": "src/components/ui/performance",
+  "name": "UI Components - Performance",
+  "description": "UI Components - Performance模块"
 }

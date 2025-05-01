@@ -1,0 +1,20 @@
+{
+  "id": "module_33",
+  "name": "用户推荐模块",
+  "description": "根据用户资料推荐合适的移民路径",
+  "responsibilities": [
+    "路径推荐",
+    "推荐分析"
+  ],
+  "dependencies": [
+    "module_5"
+  ],
+  "technologies": [
+    "Node.js",
+    "OpenAI API"
+  ],
+  "module_name": "用户推荐",
+  "target_path": "/recommendations",
+  "layer": "未指定",
+  "domain": "未指定"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "module_1",
+  "name": "认证模块",
+  "description": "处理用户的注册、登录、登出和认证管理",
+  "responsibilities": [
+    "用户注册",
+    "用户登录",
+    "令牌管理"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "JWT"
+  ],
+  "module_name": "认证模块",
+  "target_path": "src/modules/auth",
+  "layer": "未指定",
+  "domain": "未指定"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "module_26",
+  "name": "AI模型管理模块",
+  "description": "管理和更新AI模型",
+  "responsibilities": [
+    "模型部署",
+    "模型更新"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "OpenAI API"
+  ],
+  "module_name": "AI模型管理",
+  "target_path": "/ai/models",
+  "layer": "未指定",
+  "domain": "未指定"
+}

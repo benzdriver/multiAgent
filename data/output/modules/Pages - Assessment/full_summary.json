@@ -19,5 +19,7 @@
     "提供可视化的评估结果和建议路径",
     "支持与后台服务的无缝集成以获取和展示评估数据"
   ],
-  "target_path": "src/pages/assessment"
+  "target_path": "src/pages/assessment",
+  "name": "Pages - Assessment",
+  "description": "Pages - Assessment模块"
 }

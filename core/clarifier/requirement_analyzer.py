@@ -440,6 +440,101 @@ class RequirementAnalyzer:
         
         return doc      
         
+    def _validate_and_fix_module_name(self, module: Dict[str, Any]) -> None:
+        """验证并修复模块名称，确保符合命名规范
+        
+        Args:
+            module: 模块信息字典
+        """
+        module_name = module.get("module_name", "")
+        module_type = module.get("module_type", "")
+        layer = module.get("layer", "")
+        domain = module.get("domain", "")
+        
+        naming_conventions = {
+            "表现层": {
+                "UI组件": "{}UI",
+                "页面": "{}Page",
+                "视图": "{}View",
+                "布局组件": "{}Layout",
+                "组件": "{}Component"
+            },
+            "业务层": {
+                "服务": "{}Service",
+                "控制器": "{}Controller",
+                "验证器": "{}Validator",
+                "中间件": "{}Middleware",
+                "管理器": "{}Manager",
+                "处理器": "{}Processor"
+            },
+            "数据层": {
+                "模型": "{}Model",
+                "仓储": "{}Repository",
+                "数据访问对象": "{}DAO",
+                "数据传输对象": "{}DTO",
+                "实体": "{}Entity"
+            },
+            "基础设施层": {
+                "API客户端": "{}Client",
+                "存储服务": "{}Storage",
+                "认证服务": "{}Auth",
+                "日志服务": "{}Logger",
+                "配置": "{}Config",
+                "工具": "{}Util"
+            }
+        }
+        
+        english_layer_map = {
+            "表现层": "Presentation",
+            "业务层": "Business",
+            "数据层": "Data",
+            "基础设施层": "Infrastructure"
+        }
+        
+        english_type_map = {
+            "UI组件": "UIComponent",
+            "页面": "Page",
+            "视图": "View",
+            "布局组件": "Layout",
+            "组件": "Component",
+            "服务": "Service",
+            "控制器": "Controller",
+            "验证器": "Validator",
+            "中间件": "Middleware",
+            "管理器": "Manager",
+            "处理器": "Processor",
+            "模型": "Model",
+            "仓储": "Repository",
+            "数据访问对象": "DAO",
+            "数据传输对象": "DTO",
+            "实体": "Entity",
+            "API客户端": "Client",
+            "存储服务": "Storage",
+            "认证服务": "Auth",
+            "日志服务": "Logger",
+            "配置": "Config",
+            "工具": "Util"
+        }
+        
+        if layer in naming_conventions and module_type in naming_conventions[layer]:
+            functionality = module_name
+            for suffix in english_type_map.values():
+                if module_name.endswith(suffix):
+                    functionality = module_name[:-len(suffix)]
+                    break
+            
+            pattern = naming_conventions[layer][module_type]
+            new_name = pattern.format(functionality)
+            
+            module["module_name"] = new_name
+            
+            if self.logger:
+                if new_name != module_name:
+                    self.logger.log(f"✓ 修复模块名称: {module_name} -> {new_name}", role="system")
+            else:
+                if new_name != module_name:
+                    print(f"✓ 修复模块名称: {module_name} -> {new_name}")
+    
     async def analyze_granular_modules(self, content: str, llm_call: Callable, architecture_layers: Optional[List[str]] = None) -> List[Dict[str, Any]]:
         """分析文档内容，提取细粒度模块
         
@@ -470,15 +565,47 @@ class RequirementAnalyzer:
 - 基础设施层 (Infrastructure)：工具、配置、中间件等
 """
         
+        naming_conventions = """
+请严格遵循以下模块命名规范：
+
+1. 表现层 (Presentation) 模块命名规范：
+   - UI组件 (UI Components): 使用 "{功能}UI" 或 "{功能}Component"，例如：LoginUI, UserProfileComponent
+   - 页面 (Pages): 使用 "{功能}Page"，例如：DashboardPage, SettingsPage
+   - 视图 (Views): 使用 "{功能}View"，例如：ProductView, OrderView
+   - 布局组件 (Layout Components): 使用 "{功能}Layout"，例如：MainLayout, SidebarLayout
+
+2. 业务层 (Business) 模块命名规范：
+   - 服务 (Services): 使用 "{功能}Service"，例如：AuthenticationService, NotificationService
+   - 控制器 (Controllers): 使用 "{功能}Controller"，例如：UserController, ProductController
+   - 验证器 (Validators): 使用 "{功能}Validator"，例如：InputValidator, FormValidator
+   - 中间件 (Middleware): 使用 "{功能}Middleware"，例如：AuthMiddleware, LoggingMiddleware
+
+3. 数据层 (Data) 模块命名规范：
+   - 模型 (Models): 使用 "{实体}Model"，例如：UserModel, ProductModel
+   - 仓储 (Repositories): 使用 "{实体}Repository"，例如：UserRepository, OrderRepository
+   - 数据访问对象 (Data Access Objects): 使用 "{实体}DAO"，例如：UserDAO, ProductDAO
+   - 数据传输对象 (Data Transfer Objects): 使用 "{实体}DTO"，例如：UserDTO, ProductDTO
+
+4. 基础设施层 (Infrastructure) 模块命名规范：
+   - API客户端 (API Clients): 使用 "{服务}Client"，例如：PaymentClient, EmailClient
+   - 存储服务 (Storage Services): 使用 "{功能}Storage"，例如：FileStorage, CacheStorage
+   - 认证服务 (Authentication Services): 使用 "{功能}Auth"，例如：JwtAuth, OAuthProvider
+   - 日志服务 (Logging Services): 使用 "{功能}Logger"，例如：SystemLogger, EventLogger
+
+请确保每个模块的命名都遵循上述规范，并且名称能够清晰表达模块的功能和类型。
+"""
+        
         prompt = f"""
         请分析以下文档内容，提取细粒度的架构模块：
 
         {content}
 
         {layers_prompt}
+        
+        {naming_conventions}
 
         对于每个识别出的模块，请提供以下信息：
-        1. 模块名称：清晰、具体的名称
+        1. 模块名称：按照上述命名规范，清晰、具体的名称
         2. 模块类型：UI组件、页面、服务、控制器、模型、仓储等
         3. 模块职责：该模块的主要职责和功能
         4. 所属层级：表现层、业务层、数据层、基础设施层等
@@ -504,10 +631,11 @@ class RequirementAnalyzer:
 
         请确保：
         1. 提取的模块粒度适中，既不过于宏观也不过于微观
-        2. 模块名称应当清晰表达其功能和职责
+        2. 模块名称必须严格遵循上述命名规范
         3. 模块之间的依赖关系应当合理
         4. 每个模块都应当有明确的职责和边界
         5. 模块应当覆盖文档中提到的所有功能和需求
+        6. 每个层级都应该有多种类型的模块，不要只生成Service类型的模块
         """
         
         try:
@@ -555,6 +683,9 @@ class RequirementAnalyzer:
                 else:
                     print("⚠️ LLM返回的结果不是有效的模块列表")
                 result = []
+            
+            for module in result:
+                self._validate_and_fix_module_name(module)
             
             if self.logger:
                 self.logger.log(f"✓ 已提取 {len(result)} 个细粒度模块", role="system")
@@ -630,4 +761,4 @@ class RequirementAnalyzer:
             if self.logger:
                 self.logger.log(f"❌ 保存细粒度模块时出错: {str(e)}", role="error")
             else:
-                print(f"❌ 保存细粒度模块时出错: {str(e)}")      
+                print(f"❌ 保存细粒度模块时出错: {str(e)}")          

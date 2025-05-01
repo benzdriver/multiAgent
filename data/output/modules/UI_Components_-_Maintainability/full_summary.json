@@ -1,0 +1,30 @@
+{
+  "module_name": "UI Components - Maintainability",
+  "responsibilities": [
+    "提供可重用的UI组件以提高开发效率",
+    "确保UI组件的可维护性和可扩展性",
+    "实现一致的设计系统以保持UI一致性",
+    "支持响应式设计以适应不同设备",
+    "集成状态管理以简化数据流管理"
+  ],
+  "layer": "Presentation",
+  "domain": "Maintainability",
+  "dependencies": [
+    "React组件库",
+    "Tailwind CSS",
+    "React Query",
+    "Context API",
+    "Zustand"
+  ],
+  "requirements": [
+    "组件应遵循设计系统的标准",
+    "组件应易于测试和调试",
+    "组件应易于扩展以适应未来需求",
+    "组件应提供良好的文档以支持开发者",
+    "组件应支持国际化和无障碍访问"
+  ],
+  "target_path": "src/components/ui",
+  "name": "UI Components - Maintainability",
+  "description": "UI Components - Maintainability模块",
+  "safe_module_name": "UI_Components_-_Maintainability"
+}

@@ -22,5 +22,7 @@
     "支持对文档的深度分析以提取有用信息",
     "确保文档上传和管理过程的安全性和完整性"
   ],
-  "target_path": "src/business/controllers/documents"
+  "target_path": "src/business/controllers/documents",
+  "name": "Controllers - Documents",
+  "description": "Controllers - Documents模块"
 }

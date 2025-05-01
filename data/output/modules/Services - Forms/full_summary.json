@@ -20,5 +20,7 @@
     "支持对生成表格的字段进行更新和修改",
     "集成存储服务以存储和检索已生成的表格"
   ],
-  "target_path": "src/business/services/forms"
+  "target_path": "src/business/services/forms",
+  "name": "Services - Forms",
+  "description": "Services - Forms模块"
 }

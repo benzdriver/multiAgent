@@ -1,0 +1,27 @@
+{
+  "module_name": "Controllers - Assessment",
+  "responsibilities": [
+    "处理评估相关的API请求",
+    "协调评估流程的业务逻辑",
+    "调用Assessment域的Serverless函数",
+    "管理评估数据的流动和处理",
+    "根据需求转换和返回响应数据"
+  ],
+  "layer": "Business",
+  "domain": "Assessment",
+  "dependencies": [
+    "AssessmentRepository",
+    "OpenAI API",
+    "API Gateway"
+  ],
+  "requirements": [
+    "能够创建新的评估会话",
+    "能够处理评估步骤",
+    "能够获取评估结果",
+    "确保评估流程的无缝进行"
+  ],
+  "target_path": "business/controllers/assessment",
+  "name": "Controllers - Assessment",
+  "description": "Controllers - Assessment模块",
+  "safe_module_name": "Controllers_-_Assessment"
+}

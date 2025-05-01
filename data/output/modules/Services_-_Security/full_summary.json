@@ -1,0 +1,29 @@
+{
+  "module_name": "Services - Security",
+  "responsibilities": [
+    "实施和管理用户身份验证和授权流程",
+    "确保数据传输和存储的安全性",
+    "管理和验证安全令牌和会话",
+    "监控和响应安全事件",
+    "执行安全策略和合规要求"
+  ],
+  "layer": "Business",
+  "domain": "Security",
+  "dependencies": [
+    "Cognito认证服务",
+    "UserRepository",
+    "Infrastructure层的安全模块",
+    "Logging和监控服务"
+  ],
+  "requirements": [
+    "提供强大的身份验证机制",
+    "支持多因子身份验证",
+    "确保用户数据的加密传输和存储",
+    "提供实时安全监控和报警",
+    "满足行业标准的安全合规性"
+  ],
+  "target_path": "src/business/services/security",
+  "name": "Services - Security",
+  "description": "Services - Security模块",
+  "safe_module_name": "Services_-_Security"
+}

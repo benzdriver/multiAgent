@@ -21,5 +21,7 @@
     "支持表格数据的动态更新和验证",
     "支持表格的预览和下载功能"
   ],
-  "target_path": "src/business/controllers/forms"
+  "target_path": "src/business/controllers/forms",
+  "name": "Controllers - Forms",
+  "description": "Controllers - Forms模块"
 }

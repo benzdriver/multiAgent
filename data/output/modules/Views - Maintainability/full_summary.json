@@ -24,5 +24,7 @@
     "确保组件易于调试和测试",
     "支持多语言和文化的用户界面"
   ],
-  "target_path": "src/views"
+  "target_path": "src/views",
+  "name": "Views - Maintainability",
+  "description": "Views - Maintainability模块"
 }

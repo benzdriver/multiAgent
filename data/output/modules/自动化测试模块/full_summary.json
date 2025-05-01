@@ -1,0 +1,18 @@
+{
+  "id": "module_45",
+  "name": "自动化测试模块",
+  "description": "执行系统的自动化测试",
+  "responsibilities": [
+    "测试执行",
+    "结果报告"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Selenium",
+    "Jest"
+  ],
+  "module_name": "自动化测试",
+  "target_path": "/tests/automation",
+  "layer": "未指定",
+  "domain": "未指定"
+}

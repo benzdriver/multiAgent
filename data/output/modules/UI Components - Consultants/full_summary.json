@@ -20,5 +20,7 @@
     "用户界面需具备响应式设计，以适应不同设备",
     "提供无缝的用户体验，确保界面易于导航和使用"
   ],
-  "target_path": "src/components/Consultants"
+  "target_path": "src/components/Consultants",
+  "name": "UI Components - Consultants",
+  "description": "UI Components - Consultants模块"
 }

@@ -23,5 +23,7 @@
     "确保用户输入的数据在提交前经过验证",
     "支持用户在表格生成和预览页面之间无缝切换"
   ],
-  "target_path": "src/components/views/forms"
+  "target_path": "src/components/views/forms",
+  "name": "Views - Forms",
+  "description": "Views - Forms模块"
 }

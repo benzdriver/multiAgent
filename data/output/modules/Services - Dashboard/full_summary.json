@@ -21,5 +21,7 @@
     "支持仪表盘数据的可扩展性以适应用户增长",
     "实现与前端的无缝数据交互"
   ],
-  "target_path": "src/services/dashboard"
+  "target_path": "src/services/dashboard",
+  "name": "Services - Dashboard",
+  "description": "Services - Dashboard模块"
 }

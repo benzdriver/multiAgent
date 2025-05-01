@@ -1,0 +1,17 @@
+{
+  "id": "module_29",
+  "name": "国际化模块",
+  "description": "提供系统多语言支持",
+  "responsibilities": [
+    "语言翻译",
+    "语言切换"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "i18next"
+  ],
+  "module_name": "国际化",
+  "target_path": "/i18n",
+  "layer": "未指定",
+  "domain": "未指定"
+}

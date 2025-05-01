@@ -1,0 +1,26 @@
+{
+  "module_name": "Controllers - Performance",
+  "responsibilities": [
+    "处理与性能监控相关的请求和响应",
+    "协调与性能相关的数据收集和分析服务",
+    "确保系统性能指标的获取和报告",
+    "管理性能相关的警报和通知机制"
+  ],
+  "layer": "Business",
+  "domain": "Performance",
+  "dependencies": [
+    "Infrastructure/MonitoringService",
+    "Data/PerformanceMetricsRepository",
+    "Infrastructure/AlertingService"
+  ],
+  "requirements": [
+    "提供实时性能指标的访问",
+    "支持性能数据的历史分析",
+    "实现性能警报和通知",
+    "确保与其他模块的顺畅集成以获取系统性能数据"
+  ],
+  "target_path": "src/business/controllers/performance",
+  "name": "Controllers - Performance",
+  "description": "Controllers - Performance模块",
+  "safe_module_name": "Controllers_-_Performance"
+}

@@ -1,0 +1,27 @@
+{
+  "module_name": "Views - Accessibility",
+  "responsibilities": [
+    "提供无障碍访问功能的用户界面",
+    "确保视图组件在不同设备和屏幕阅读器上的兼容性",
+    "支持键盘导航和语音控制",
+    "提供高对比度的视觉选项",
+    "实现无障碍相关的ARIA属性和标签"
+  ],
+  "layer": "Presentation",
+  "domain": "Accessibility",
+  "dependencies": [
+    "Business层的服务，如用户设置和配置",
+    "React组件库",
+    "Tailwind CSS用于样式定制"
+  ],
+  "requirements": [
+    "支持屏幕阅读器的语义化HTML结构",
+    "实现WCAG (Web Content Accessibility Guidelines) 标准",
+    "确保无障碍功能的平滑交互体验",
+    "提供用户界面无障碍选项的配置和控制"
+  ],
+  "target_path": "src/presentation/views/accessibility",
+  "name": "Views - Accessibility",
+  "description": "Views - Accessibility模块",
+  "safe_module_name": "Views_-_Accessibility"
+}

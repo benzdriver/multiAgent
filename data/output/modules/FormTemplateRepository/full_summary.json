@@ -15,5 +15,6 @@
   "technology_stack": [
     "MongoDB"
   ],
-  "name": "FormTemplateRepository"
+  "name": "FormTemplateRepository",
+  "description": "FormTemplateRepository模块"
 }

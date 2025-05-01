@@ -1,0 +1,18 @@
+{
+  "id": "module_20",
+  "name": "顾问管理模块",
+  "description": "管理系统中的顾问信息",
+  "responsibilities": [
+    "顾问信息管理",
+    "顾问状态更新"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "顾问管理",
+  "target_path": "/consultants",
+  "layer": "未指定",
+  "domain": "未指定"
+}

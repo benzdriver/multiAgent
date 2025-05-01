@@ -20,5 +20,7 @@
     "UI组件应支持响应式设计，适应不同设备和屏幕尺寸",
     "与后端认证服务的无缝集成"
   ],
-  "target_path": "src/components/security"
+  "target_path": "src/components/security",
+  "name": "UI Components - Security",
+  "description": "UI Components - Security模块"
 }

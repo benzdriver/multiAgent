@@ -22,5 +22,7 @@
     "支持任务列表的创建、更新和管理",
     "确保协作空间的数据安全和访问控制"
   ],
-  "target_path": "src/business/services/workspace"
+  "target_path": "src/business/services/workspace",
+  "name": "Services - Workspace",
+  "description": "Services - Workspace模块"
 }

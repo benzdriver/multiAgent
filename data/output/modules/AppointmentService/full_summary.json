@@ -18,5 +18,6 @@
     "Node.js",
     "MongoDB"
   ],
-  "name": "AppointmentService"
+  "name": "AppointmentService",
+  "description": "AppointmentService模块"
 }

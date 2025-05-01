@@ -1,0 +1,20 @@
+{
+  "id": "module_21",
+  "name": "预约提醒模块",
+  "description": "为用户和顾问提供预约提醒",
+  "responsibilities": [
+    "提醒发送",
+    "提醒管理"
+  ],
+  "dependencies": [
+    "module_11"
+  ],
+  "technologies": [
+    "Node.js",
+    "Firebase"
+  ],
+  "module_name": "预约提醒",
+  "target_path": "/reminders",
+  "layer": "未指定",
+  "domain": "未指定"
+}

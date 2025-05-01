@@ -1,0 +1,17 @@
+{
+  "id": "module_36",
+  "name": "搜索功能模块",
+  "description": "提供全局搜索功能",
+  "responsibilities": [
+    "搜索索引",
+    "结果排序"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Elasticsearch"
+  ],
+  "module_name": "搜索功能",
+  "target_path": "/search",
+  "layer": "未指定",
+  "domain": "未指定"
+}

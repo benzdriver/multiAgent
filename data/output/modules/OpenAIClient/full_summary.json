@@ -17,5 +17,6 @@
     "Node.js",
     "OpenAI API"
   ],
-  "name": "OpenAIClient"
+  "name": "OpenAIClient",
+  "description": "OpenAIClient模块"
 }

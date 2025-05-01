@@ -20,5 +20,7 @@
     "支持国际用户和不同语言的展示",
     "无缝集成认证和授权机制"
   ],
-  "target_path": "src/pages/scalability"
+  "target_path": "src/pages/scalability",
+  "name": "Pages - Scalability",
+  "description": "Pages - Scalability模块"
 }

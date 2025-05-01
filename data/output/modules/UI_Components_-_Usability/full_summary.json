@@ -1,0 +1,31 @@
+{
+  "module_name": "UI Components - Usability",
+  "responsibilities": [
+    "提供一致、直观的用户界面体验",
+    "创建可重用的UI组件以提高开发效率",
+    "确保UI组件的响应性和兼容性",
+    "通过直观的交互设计提升用户的操作便捷性"
+  ],
+  "layer": "Presentation",
+  "domain": "Usability",
+  "dependencies": [
+    "React框架",
+    "Tailwind CSS",
+    "React Query用于数据状态管理",
+    "Context API用于应用状态管理",
+    "Zustand用于复杂状态管理",
+    "React Hook Form用于表单处理",
+    "next-i18next用于国际化支持"
+  ],
+  "requirements": [
+    "支持多语言和地区的用户界面",
+    "通过组件库实现的快速界面开发",
+    "响应式设计以适应不同设备和屏幕大小",
+    "提升用户操作的简易性和可达性",
+    "与业务逻辑层的无缝集成以实现动态数据交互"
+  ],
+  "target_path": "src/components/ui",
+  "name": "UI Components - Usability",
+  "description": "UI Components - Usability模块",
+  "safe_module_name": "UI_Components_-_Usability"
+}

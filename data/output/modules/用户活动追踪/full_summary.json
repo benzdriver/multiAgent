@@ -1,0 +1,18 @@
+{
+  "id": "module_22",
+  "name": "用户活动追踪模块",
+  "description": "追踪用户在系统中的活动",
+  "responsibilities": [
+    "活动记录",
+    "活动分析"
+  ],
+  "dependencies": [],
+  "technologies": [
+    "Node.js",
+    "Google Analytics"
+  ],
+  "module_name": "用户活动追踪",
+  "target_path": "/activity",
+  "layer": "未指定",
+  "domain": "未指定"
+}

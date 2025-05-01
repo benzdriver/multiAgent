@@ -1,0 +1,20 @@
+{
+  "id": "module_2",
+  "name": "表格管理模块",
+  "description": "负责生成、管理和提交移民表格",
+  "responsibilities": [
+    "表格生成",
+    "表格提交"
+  ],
+  "dependencies": [
+    "module_1"
+  ],
+  "technologies": [
+    "Node.js",
+    "PDFKit"
+  ],
+  "module_name": "表格管理模块",
+  "target_path": "src/modules/forms",
+  "layer": "未指定",
+  "domain": "未指定"
+}

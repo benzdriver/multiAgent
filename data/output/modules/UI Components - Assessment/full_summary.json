@@ -22,5 +22,7 @@
     "提供清晰的用户反馈和错误提示",
     "实现高效的状态管理，减少不必要的渲染"
   ],
-  "target_path": "src/components/assessment"
+  "target_path": "src/components/assessment",
+  "name": "UI Components - Assessment",
+  "description": "UI Components - Assessment模块"
 }

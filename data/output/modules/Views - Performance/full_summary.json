@@ -21,5 +21,7 @@
     "降低初始页面加载时间",
     "提供即时反馈和无缝用户体验"
   ],
-  "target_path": "src/views/performance"
+  "target_path": "src/views/performance",
+  "name": "Views - Performance",
+  "description": "Views - Performance模块"
 }

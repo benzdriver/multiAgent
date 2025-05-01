@@ -1,0 +1,30 @@
+{
+  "module_name": "Pages - Consultants",
+  "responsibilities": [
+    "显示顾问匹配列表",
+    "支持用户选择和预约顾问",
+    "展示顾问的详细信息和评价",
+    "提供预约确认和支付链接",
+    "与用户交互以收集匹配偏好和预约信息"
+  ],
+  "layer": "Presentation",
+  "domain": "Consultants",
+  "dependencies": [
+    "API Gateway for accessing consultants/matchConsultants",
+    "API Gateway for accessing consultants/bookAppointment",
+    "React components for UI rendering",
+    "Tailwind CSS for styling",
+    "React Query for data fetching and caching"
+  ],
+  "requirements": [
+    "提供用户友好的顾问匹配和预约界面",
+    "确保顾问信息的准确展示",
+    "集成预约支付流程",
+    "支持用户根据偏好筛选顾问",
+    "确保页面响应性和可访问性"
+  ],
+  "target_path": "src/pages/consultants",
+  "name": "Pages - Consultants",
+  "description": "Pages - Consultants模块",
+  "safe_module_name": "Pages_-_Consultants"
+}

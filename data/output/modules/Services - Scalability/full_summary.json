@@ -22,5 +22,7 @@
     "确保在扩展过程中数据安全性和一致性不受影响",
     "优化资源使用以降低运营成本"
   ],
-  "target_path": "src/business/scalability"
+  "target_path": "src/business/scalability",
+  "name": "Services - Scalability",
+  "description": "Services - Scalability模块"
 }

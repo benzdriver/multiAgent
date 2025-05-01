@@ -20,5 +20,7 @@
     "导航组件应提供快速访问其他相关页面的入口",
     "确保高效的加载性能，支持渐进式增强"
   ],
-  "target_path": "src/components/layouts/profile"
+  "target_path": "src/components/layouts/profile",
+  "name": "Layout Components - Profile",
+  "description": "Layout Components - Profile模块"
 }

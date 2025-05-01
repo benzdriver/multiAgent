@@ -19,5 +19,7 @@
     "确保所有交互元素具有键盘可达性",
     "为多语言支持提供无障碍文本"
   ],
-  "target_path": "src/components/accessibility"
+  "target_path": "src/components/accessibility",
+  "name": "UI Components - Accessibility",
+  "description": "UI Components - Accessibility模块"
 }

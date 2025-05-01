@@ -1,0 +1,20 @@
+{
+  "id": "module_37",
+  "name": "用户注册验证模块",
+  "description": "在用户注册时进行验证和确认",
+  "responsibilities": [
+    "邮箱验证",
+    "手机验证"
+  ],
+  "dependencies": [
+    "module_1"
+  ],
+  "technologies": [
+    "Node.js",
+    "Twilio"
+  ],
+  "module_name": "用户注册验证",
+  "target_path": "/auth/verify",
+  "layer": "未指定",
+  "domain": "未指定"
+}

@@ -19,5 +19,7 @@
     "提供无障碍相关的用户指南和帮助",
     "定期无障碍测试和改进，以满足用户需求和法规要求"
   ],
-  "target_path": "src/pages/accessibility"
+  "target_path": "src/pages/accessibility",
+  "name": "Pages - Accessibility",
+  "description": "Pages - Accessibility模块"
 }

@@ -1,0 +1,20 @@
+{
+  "id": "module_41",
+  "name": "API限流模块",
+  "description": "对API请求进行限流控制",
+  "responsibilities": [
+    "请求限流",
+    "流量管理"
+  ],
+  "dependencies": [
+    "module_23"
+  ],
+  "technologies": [
+    "AWS API Gateway",
+    "Redis"
+  ],
+  "module_name": "API限流",
+  "target_path": "/api/rate-limit",
+  "layer": "未指定",
+  "domain": "未指定"
+}

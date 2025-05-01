@@ -18,5 +18,7 @@
     "提供基于用户输入的评估结果和分析",
     "与OpenAI API集成以增强智能分析能力"
   ],
-  "target_path": "src/business/services/assessment"
+  "target_path": "src/business/services/assessment",
+  "name": "Services - Assessment",
+  "description": "Services - Assessment模块"
 }

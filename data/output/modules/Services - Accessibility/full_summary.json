@@ -18,5 +18,7 @@
     "确保文本对比度符合标准",
     "提供可调整的字体大小和颜色选项"
   ],
-  "target_path": "src/business/services/accessibility"
+  "target_path": "src/business/services/accessibility",
+  "name": "Services - Accessibility",
+  "description": "Services - Accessibility模块"
 }

@@ -1,0 +1,20 @@
+{
+  "id": "module_18",
+  "name": "评价管理模块",
+  "description": "管理用户对系统和顾问的评价",
+  "responsibilities": [
+    "收集评价",
+    "评价分析"
+  ],
+  "dependencies": [
+    "module_11"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "评价管理",
+  "target_path": "/reviews",
+  "layer": "未指定",
+  "domain": "未指定"
+}

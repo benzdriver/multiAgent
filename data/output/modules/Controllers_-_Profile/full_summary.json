@@ -1,0 +1,29 @@
+{
+  "module_name": "Controllers - Profile",
+  "responsibilities": [
+    "处理用户资料相关的请求和响应",
+    "协调用户资料的获取和更新操作",
+    "调用对话式和表单式资料收集功能",
+    "管理用户资料收集模式的切换",
+    "确保用户资料数据的完整性和一致性"
+  ],
+  "layer": "Business",
+  "domain": "Profile",
+  "dependencies": [
+    "profile/getUserProfile",
+    "profile/updateProfile",
+    "profile/conversationCollect",
+    "profile/formCollect",
+    "profile/switchCollectionMode"
+  ],
+  "requirements": [
+    "支持用户资料的完整获取和更新",
+    "支持通过对话和表单两种方式进行资料收集",
+    "支持用户在对话式和表单式模式之间的无缝切换",
+    "确保资料收集过程中的数据有效性和安全性"
+  ],
+  "target_path": "business/controllers/profile",
+  "name": "Controllers - Profile",
+  "description": "Controllers - Profile模块",
+  "safe_module_name": "Controllers_-_Profile"
+}

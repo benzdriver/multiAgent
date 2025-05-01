@@ -1,0 +1,20 @@
+{
+  "id": "module_2",
+  "name": "用户登录模块",
+  "description": "处理用户登录的业务逻辑",
+  "responsibilities": [
+    "用户认证",
+    "令牌生成"
+  ],
+  "dependencies": [
+    "module_1"
+  ],
+  "technologies": [
+    "Node.js",
+    "JWT"
+  ],
+  "module_name": "用户登录",
+  "target_path": "/auth/login",
+  "layer": "未指定",
+  "domain": "未指定"
+}

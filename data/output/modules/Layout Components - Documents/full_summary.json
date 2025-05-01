@@ -18,5 +18,7 @@
     "支持多种设备的响应式布局",
     "与业务逻辑层的无缝集成以获取和显示文档数据"
   ],
-  "target_path": "src/components/layout/documents"
+  "target_path": "src/components/layout/documents",
+  "name": "Layout Components - Documents",
+  "description": "Layout Components - Documents模块"
 }

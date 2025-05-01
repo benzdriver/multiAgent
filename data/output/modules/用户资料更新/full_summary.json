@@ -1,0 +1,20 @@
+{
+  "id": "module_5",
+  "name": "用户资料更新模块",
+  "description": "允许用户更新其个人信息",
+  "responsibilities": [
+    "更新用户资料",
+    "数据验证"
+  ],
+  "dependencies": [
+    "module_4"
+  ],
+  "technologies": [
+    "Node.js",
+    "MongoDB"
+  ],
+  "module_name": "用户资料更新",
+  "target_path": "/profile/update",
+  "layer": "未指定",
+  "domain": "未指定"
+}

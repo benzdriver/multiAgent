@@ -1,0 +1,27 @@
+{
+  "module_name": "Services - Reliability",
+  "responsibilities": [
+    "监控服务的健康状态",
+    "处理服务的错误和异常",
+    "实施重试和回退机制以提高服务的可靠性",
+    "记录服务的性能指标和事件日志",
+    "协调与基础设施层的交互以支持高可用性"
+  ],
+  "layer": "Business",
+  "domain": "Reliability",
+  "dependencies": [
+    "Infrastructure - Monitoring",
+    "Data - Logging",
+    "Infrastructure - Retry Mechanisms"
+  ],
+  "requirements": [
+    "服务应具备自动监控和报警的功能",
+    "服务在发生错误时应具备自动重试和回退能力",
+    "服务的健康状态和性能指标应被持续记录和分析",
+    "在高负载或故障情况下，服务应保持高可用性"
+  ],
+  "target_path": "src/business/services/reliability",
+  "name": "Services - Reliability",
+  "description": "Services - Reliability模块",
+  "safe_module_name": "Services_-_Reliability"
+}

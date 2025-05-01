@@ -24,5 +24,7 @@
     "实现高响应性和低延迟的用户交互",
     "组件应支持国际化以满足不同语言用户的需求"
   ],
-  "target_path": "src/components/reliability/"
+  "target_path": "src/components/reliability/",
+  "name": "UI Components - Reliability",
+  "description": "UI Components - Reliability模块"
 }

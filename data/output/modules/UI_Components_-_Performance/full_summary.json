@@ -1,0 +1,29 @@
+{
+  "module_name": "UI Components - Performance",
+  "responsibilities": [
+    "优化UI组件的加载和渲染速度",
+    "实现高效的状态管理以减少不必要的重新渲染",
+    "使用异步数据获取和缓存机制提升用户体验",
+    "使用懒加载技术优化页面初始加载时间",
+    "监控和分析UI组件的性能指标"
+  ],
+  "layer": "Presentation",
+  "domain": "Performance",
+  "dependencies": [
+    "React Query for efficient data fetching and caching",
+    "Context API for application-level state management",
+    "Zustand for managing complex local states",
+    "Next.js for server-side rendering and static generation"
+  ],
+  "requirements": [
+    "快速加载和响应的用户界面",
+    "减少初始页面加载时间",
+    "优化组件渲染以提高性能",
+    "确保UI组件的可维护性和可扩展性",
+    "支持多种设备和浏览器的性能优化"
+  ],
+  "target_path": "src/components/ui/performance",
+  "name": "UI Components - Performance",
+  "description": "UI Components - Performance模块",
+  "safe_module_name": "UI_Components_-_Performance"
+}

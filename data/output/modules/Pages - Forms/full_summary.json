@@ -21,5 +21,7 @@
     "界面应支持用户轻松导航和交互",
     "支持不同类型表格的动态渲染"
   ],
-  "target_path": "src/pages/forms"
+  "target_path": "src/pages/forms",
+  "name": "Pages - Forms",
+  "description": "Pages - Forms模块"
 }
