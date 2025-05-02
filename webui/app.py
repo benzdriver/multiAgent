@@ -4,7 +4,7 @@
 
 from fastapi import FastAPI, Request, HTTPException, WebSocket, WebSocketDisconnect, File, UploadFile, Form
 from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.staticfiles import StaticFiles  # Still needed for frontend assets
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import sys
@@ -41,7 +41,7 @@ app.add_middleware(
 )
 
 # 注册API路由
-app.include_router(state_router, prefix="/api/state", tags=["状态管理"])
+app.include_router(state_router, prefix="/api", tags=["状态管理"])
 app.include_router(chat_router, prefix="/api", tags=["聊天"])
 app.include_router(document_router, prefix="/api", tags=["文档"])
 app.include_router(deep_reasoning_router, prefix="/api", tags=["深度推理"])
@@ -50,8 +50,6 @@ app.include_router(module_router, prefix="/api", tags=["模块"])
 app.include_router(relation_router, prefix="/api", tags=["关系"])
 
 # 静态文件
-app.mount("/static", StaticFiles(directory="webui/static"), name="static")
-
 app.mount("/assets", StaticFiles(directory="webui/frontend/dist/assets"), name="frontend_assets")
 
 
@@ -59,6 +57,7 @@ app.mount("/assets", StaticFiles(directory="webui/frontend/dist/assets"), name="
 @app.get("/", response_class=HTMLResponse)
 async def read_root():
     """返回主页HTML"""
+    print("🔍 提供React前端: webui/frontend/dist/index.html")
     return FileResponse("webui/frontend/dist/index.html")
 
 
@@ -100,4 +99,4 @@ async def startup_event():
 # 主函数
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                          
+    uvicorn.run("webui.app:app", host="0.0.0.0", port=8080, reload=True)                                                                                                                                                                                                                                          

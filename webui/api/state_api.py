@@ -28,6 +28,7 @@ async def get_mode(state_service: StateService = Depends(get_state_service)) -> 
 @router.get("/state/get_global_state")
 async def get_global_state(state_service: StateService = Depends(get_state_service)) -> Dict[str, Any]:
     """获取前端所需的全局状态，格式化为前端需要的结构"""
+    print(f"📢 API请求路径: {'/get_global_state'}")
     try:
         state_service.load_modules_from_disk()
         

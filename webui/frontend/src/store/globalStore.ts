@@ -323,8 +323,11 @@ export const useGlobalStore = create<GlobalStore>((set, get) => {
   if (typeof window !== 'undefined') {
     window.__GLOBAL_STATE__ = initialState;
     
+    console.log('🔄 初始化全局状态:', initialState);
+    
     const updateWindow = () => {
       window.__GLOBAL_STATE__ = get().state;
+      console.log('🔄 更新全局状态:', get().state);
     };
     
     setTimeout(updateWindow, 1000);

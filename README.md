@@ -19,14 +19,28 @@
    pip install -r requirements.txt
    ```
 
-## 运行后端（FastAPI）
+## 使用说明
+
+### 启动应用
+
+始终使用以下命令启动应用以确保使用最新的前端UI:
 
 ```bash
-uvicorn webui.app:app --reload
+python -m webui.app
 ```
 
-- 默认监听 http://127.0.0.1:8000
-- WebUI 静态页面位于 `webui/static/index.html`，可直接浏览器访问或通过 Nginx/VSCode Live Server 代理
+- 默认监听 http://0.0.0.0:8080
+- WebUI 使用React前端实现，位于 `webui/frontend/` 目录，构建后的页面通过 `http://localhost:8080` 访问
+
+### 清除浏览器缓存
+
+如果UI显示不正确或看到旧版UI，请运行:
+
+```bash
+python clear_browser_cache.py
+```
+
+此脚本将引导您清除浏览器缓存并重启应用。
 
 ## 运行 Clarifier CLI
 
@@ -53,4 +67,4 @@ python run_clarifier_new.py
 - 如需自定义 LLM、数据路径等，可修改相关配置文件或源码
 
 ---
-如有问题欢迎提 issue 或联系开发者。  
+如有问题欢迎提 issue 或联系开发者。      

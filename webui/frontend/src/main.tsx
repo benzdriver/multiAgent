@@ -4,6 +4,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import './styles/global.css';
 
+if (typeof window !== 'undefined') {
+  console.log('🧹 清除可能的旧UI缓存...');
+  localStorage.clear();
+  sessionStorage.clear();
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

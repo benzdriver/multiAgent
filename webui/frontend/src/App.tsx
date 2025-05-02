@@ -83,7 +83,12 @@ const AppContent: React.FC = () => {
           selectedId={selectedId}
         />
         <ContentArea>
-          <MainContent />
+          <MainContent 
+            selectedType={selectedType}
+            selectedId={selectedId}
+            onSelectItem={handleSelectItem}
+            version="react-frontend-v2"
+          />
           <BottomSection>
             <ChatContainer title="需求澄清助手" />
             <FileUpload title="上传需求文档" />
